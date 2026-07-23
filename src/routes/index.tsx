@@ -213,10 +213,13 @@ function Nav({
           ))}
         </nav>
         <a
-          href="#contact"
-          className="hidden md:inline-flex btn-primary rounded-full px-5 py-2 text-sm"
+          href="https://drive.google.com/file/d/1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD/view?usp=sharing"
+          target="_blank"
+          rel="noreferrer"
+          className="hidden md:inline-flex btn-primary rounded-full px-5 py-2 text-sm items-center gap-2"
         >
-          Hire Me
+          <Download className="w-4 h-4" />
+          Resume
         </a>
         <button
           className="md:hidden p-2 text-foreground"
