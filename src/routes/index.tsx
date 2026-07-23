@@ -232,8 +232,7 @@ function Nav({
         <div className="hidden md:flex items-center gap-3">
           <a
             href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
+            onClick={downloadResume}
             className="btn-outline rounded-full px-4 py-2 text-sm inline-flex items-center gap-2"
           >
             <Download className="w-4 h-4" /> Resume
