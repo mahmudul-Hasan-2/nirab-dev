@@ -304,8 +304,7 @@ function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={RESUME_URL}
-              target="_blank"
-              rel="noreferrer"
+              onClick={downloadResume}
               className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
