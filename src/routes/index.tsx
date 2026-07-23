@@ -11,7 +11,7 @@ import {
   ArrowRight,
   Code2,
   Server,
-  Wrench,
+  Wrench,npm
   Sparkles,
   MapPin,
 } from "lucide-react";
@@ -36,7 +36,10 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:image", content: "https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png" },
+      {
+        name: "twitter:image",
+        content: "https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png",
+      },
     ],
   }),
   component: Portfolio,
@@ -58,7 +61,8 @@ const PROJECTS: Project[] = [
   {
     name: "DevAgent AI",
     tagline: "Elite agentic AI workspace for technical sourcing & code generation.",
-    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
+    image:
+      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
     stack: [
       "Next.js",
       "TypeScript",
@@ -71,7 +75,9 @@ const PROJECTS: Project[] = [
     description:
       "DevAgent AI is an elite agentic AI workspace that automates technical sourcing, vetting, and code generation. It connects top developers with global scale-ups through secure, intelligent AI agents capable of reasoning, planning, and executing complex coding tasks.",
     live: "https://frontend-sigma-tawny-82.vercel.app/",
-    repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/agentic-ai-app" }],
+    repos: [
+      { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/agentic-ai-app" },
+    ],
     challenges: [
       "Orchestrating reliable multi-step agentic workflows with consistent context memory across sessions.",
       "Implementing enterprise-grade security with Better Auth while maintaining a smooth UX.",
@@ -88,7 +94,8 @@ const PROJECTS: Project[] = [
   {
     name: "DevCraft",
     tagline: "A premium developer marketplace with escrow and vulnerability checks.",
-    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
+    image:
+      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
     stack: [
       "Next.js",
       "TypeScript",
@@ -117,7 +124,8 @@ const PROJECTS: Project[] = [
   {
     name: "IdeaVault",
     tagline: "Collaborative platform to share, discover, and build startup ideas.",
-    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
+    image:
+      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
     stack: [
       "Next.js (Client)",
       "Node.js/Express (Server)",
@@ -191,13 +199,7 @@ function Portfolio() {
   );
 }
 
-function Nav({
-  menuOpen,
-  setMenuOpen,
-}: {
-  menuOpen: boolean;
-  setMenuOpen: (v: boolean) => void;
-}) {
+function Nav({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: boolean) => void }) {
   return (
     <header className="fixed top-0 inset-x-0 z-40 glass">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
@@ -225,10 +227,7 @@ function Nav({
           >
             <Download className="w-4 h-4" /> Resume
           </a>
-          <a
-            href="#contact"
-            className="btn-primary rounded-full px-5 py-2 text-sm"
-          >
+          <a href="#contact" className="btn-primary rounded-full px-5 py-2 text-sm">
             Hire Me
           </a>
         </div>
@@ -293,6 +292,7 @@ function Hero() {
               href={RESUME_URL}
               target="_blank"
               rel="noreferrer"
+              download="Mahmudul_Hasan_Nirab_Resume.pdf"
               className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
@@ -359,7 +359,10 @@ function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
     <div className="mb-12 text-center">
       <div className="text-xs uppercase tracking-[0.2em] text-primary mb-3">{eyebrow}</div>
       <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>
-      <div className="mt-4 mx-auto w-16 h-1 rounded-full" style={{ background: "var(--gradient-primary)" }} />
+      <div
+        className="mt-4 mx-auto w-16 h-1 rounded-full"
+        style={{ background: "var(--gradient-primary)" }}
+      />
     </div>
   );
 }
@@ -373,9 +376,9 @@ function About() {
           <p>
             I'm Mahmudul Hasan Nirab, a passionate Full-Stack Developer who loves transforming
             complex problems into clean, intuitive, and high-performance digital experiences. My
-            journey into programming started out of a deep curiosity for how things work on the
-            web, which quickly evolved into a dedicated pursuit of mastering modern web
-            technologies like Next.js, TypeScript, and MongoDB.
+            journey into programming started out of a deep curiosity for how things work on the web,
+            which quickly evolved into a dedicated pursuit of mastering modern web technologies like
+            Next.js, TypeScript, and MongoDB.
           </p>
           <p>
             Over time, my focus has shifted heavily toward building intelligent, AI-powered
@@ -497,7 +500,11 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative aspect-video bg-muted">
-          <img src={project.image} alt={project.name} className="w-full h-full object-cover object-top" />
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover object-top"
+          />
           <button
             onClick={onClose}
             className="absolute top-4 right-4 w-10 h-10 rounded-full glass grid place-items-center hover:text-primary"
@@ -549,7 +556,9 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div>
-            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">Challenges Faced</h4>
+            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">
+              Challenges Faced
+            </h4>
             <ul className="space-y-2 text-muted-foreground text-sm">
               {project.challenges.map((c) => (
                 <li key={c} className="flex gap-3">
@@ -610,7 +619,12 @@ function Contact() {
               Have a project in mind or want to collaborate? Drop me a message — I'll get back to
               you as soon as possible.
             </p>
-            <ContactRow icon={Mail} label="Email" value="mahmudul5790@gmail.com" href="mailto:mahmudul5790@gmail.com" />
+            <ContactRow
+              icon={Mail}
+              label="Email"
+              value="mahmudul5790@gmail.com"
+              href="mailto:mahmudul5790@gmail.com"
+            />
             <ContactRow
               icon={Linkedin}
               label="LinkedIn"
@@ -626,9 +640,20 @@ function Contact() {
             <ContactRow icon={MapPin} label="Location" value="Available worldwide (Remote)" />
           </div>
 
-          <form onSubmit={onSubmit} className="glass rounded-2xl p-6 space-y-4" style={{ boxShadow: "var(--shadow-card)" }}>
+          <form
+            onSubmit={onSubmit}
+            className="glass rounded-2xl p-6 space-y-4"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
             <Field name="name" label="Name" placeholder="Your name" maxLength={100} required />
-            <Field name="email" label="Email" type="email" placeholder="you@example.com" maxLength={255} required />
+            <Field
+              name="email"
+              label="Email"
+              type="email"
+              placeholder="you@example.com"
+              maxLength={255}
+              required
+            />
             <div>
               <label className="text-sm text-muted-foreground mb-1.5 block">Message</label>
               <textarea
@@ -645,7 +670,11 @@ function Contact() {
               disabled={status === "sending"}
               className="btn-primary rounded-full px-6 py-3 w-full inline-flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              {status === "sent" ? "Message ready — check your mail app" : status === "sending" ? "Opening..." : "Send Message"}
+              {status === "sent"
+                ? "Message ready — check your mail app"
+                : status === "sending"
+                  ? "Opening..."
+                  : "Send Message"}
               {status === "idle" && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
@@ -698,7 +727,10 @@ function ContactRow({
 }) {
   const inner = (
     <div className="flex items-center gap-4 glass rounded-xl p-4 hover:border-primary transition-colors">
-      <div className="w-11 h-11 rounded-lg grid place-items-center shrink-0" style={{ background: "var(--gradient-primary)" }}>
+      <div
+        className="w-11 h-11 rounded-lg grid place-items-center shrink-0"
+        style={{ background: "var(--gradient-primary)" }}
+      >
         <Icon className="w-5 h-5 text-primary-foreground" />
       </div>
       <div className="min-w-0">
