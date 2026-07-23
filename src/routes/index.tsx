@@ -293,7 +293,6 @@ function Hero() {
               href={RESUME_URL}
               target="_blank"
               rel="noreferrer"
-              download
               className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
