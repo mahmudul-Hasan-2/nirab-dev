@@ -270,8 +270,9 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="/resume.pdf"
-              download
+              href="https://drive.google.com/file/d/1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
               className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
