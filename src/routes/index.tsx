@@ -267,9 +267,10 @@ function Nav({
           ))}
           <a
             href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setMenuOpen(false)}
+            onClick={(e) => {
+              downloadResume(e);
+              setMenuOpen(false);
+            }}
             className="btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 mt-2"
           >
             <Download className="w-4 h-4" /> Download Resume
