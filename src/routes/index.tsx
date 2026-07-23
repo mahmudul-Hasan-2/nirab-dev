@@ -200,8 +200,8 @@ function Nav({
 }) {
   return (
     <header className="fixed top-0 inset-x-0 z-40 glass">
-      <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
-        <a href="#home" className="font-display font-bold text-lg">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <a href="#home" className="font-display font-bold text-lg shrink-0">
           <span className="text-gradient">Nirab</span>
           <span className="text-muted-foreground">.dev</span>
         </a>
@@ -216,26 +216,33 @@ function Nav({
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
-          className="hidden md:inline-flex btn-primary rounded-full px-5 py-2 text-sm"
-        >
-          Hire Me
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-outline rounded-full px-4 py-2 text-sm inline-flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" /> Resume
+          </a>
+          <a
+            href="#contact"
+            className="btn-primary rounded-full px-5 py-2 text-sm"
+          >
+            Hire Me
+          </a>
+        </div>
         <button
-          className="md:hidden p-2 text-foreground"
+          className="md:hidden w-10 h-10 grid place-items-center rounded-lg border border-border text-foreground hover:border-primary hover:text-primary transition"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
-          <div className="space-y-1.5">
-            <span className="block w-6 h-0.5 bg-foreground" />
-            <span className="block w-6 h-0.5 bg-foreground" />
-            <span className="block w-4 h-0.5 bg-foreground ml-auto" />
-          </div>
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
       {menuOpen && (
-        <nav className="md:hidden border-t border-border px-6 py-4 flex flex-col gap-4 glass">
+        <nav className="md:hidden border-t border-border px-6 py-5 flex flex-col gap-4 glass">
           {NAV.map((n) => (
             <a
               key={n.id}
@@ -246,6 +253,15 @@ function Nav({
               {n.label}
             </a>
           ))}
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 mt-2"
+          >
+            <Download className="w-4 h-4" /> Download Resume
+          </a>
         </nav>
       )}
     </header>
