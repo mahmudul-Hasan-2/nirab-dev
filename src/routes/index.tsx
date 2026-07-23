@@ -1,24 +1,735 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Download,
+  ExternalLink,
+  X,
+  ArrowRight,
+  Code2,
+  Server,
+  Wrench,
+  Sparkles,
+  MapPin,
+} from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Mahmudul Hasan Nirab — Full Stack Developer & AI Enthusiast" },
+      {
+        name: "description",
+        content:
+          "Portfolio of Mahmudul Hasan Nirab — Full Stack Developer building intelligent, AI-powered web applications with Next.js, TypeScript, and MongoDB.",
+      },
+      { property: "og:title", content: "Mahmudul Hasan Nirab — Full Stack Developer" },
+      {
+        property: "og:description",
+        content: "Full Stack Developer & AI Enthusiast crafting modern web experiences.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png" },
+    ],
+  }),
+  component: Portfolio,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+type Project = {
+  name: string;
+  tagline: string;
+  image: string;
+  stack: string[];
+  description: string;
+  live: string;
+  repos: { label: string; url: string }[];
+  challenges: string[];
+  improvements: string[];
+};
+
+const PROJECTS: Project[] = [
+  {
+    name: "DevAgent AI",
+    tagline: "Elite agentic AI workspace for technical sourcing & code generation.",
+    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Gemini 1.5 Flash (LLM)",
+      "Better Auth",
+      "MongoDB",
+      "Agentic AI Workflows",
+    ],
+    description:
+      "DevAgent AI is an elite agentic AI workspace that automates technical sourcing, vetting, and code generation. It connects top developers with global scale-ups through secure, intelligent AI agents capable of reasoning, planning, and executing complex coding tasks.",
+    live: "https://frontend-sigma-tawny-82.vercel.app/",
+    repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/agentic-ai-app" }],
+    challenges: [
+      "Orchestrating reliable multi-step agentic workflows with consistent context memory across sessions.",
+      "Implementing enterprise-grade security with Better Auth while maintaining a smooth UX.",
+      "Optimizing LLM response times and token usage for large code generation tasks.",
+      "Designing a robust MongoDB schema that supports dynamic AI-generated content and versioning.",
+    ],
+    improvements: [
+      "Add support for multiple LLM providers (Claude, GPT-4o, etc.).",
+      "Introduce team collaboration features and shared workspaces.",
+      "Implement advanced analytics dashboard for usage and performance tracking.",
+      "Expand to full autonomous project scaffolding and deployment pipelines.",
+    ],
+  },
+  {
+    name: "DevCraft",
+    tagline: "A premium developer marketplace with escrow and vulnerability checks.",
+    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "MongoDB",
+      "Secure Escrow System",
+      "Static Code Analysis Tools",
+    ],
+    description:
+      "DevCraft is a premium developer marketplace where engineers can list, audit, buy, and sell production-grade code modules, templates, microservices, and digital assets in a trusted ecosystem with built-in escrow protection and automated vulnerability checks.",
+    live: "https://dev-craft-lime.vercel.app/",
+    repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/devCraft" }],
+    challenges: [
+      "Building a secure multi-party escrow system with clear release conditions.",
+      "Integrating reliable static code analysis for automatic vulnerability detection.",
+      "Creating an intuitive asset listing and review workflow.",
+      "Ensuring smooth handling of large codebase uploads and version control.",
+    ],
+    improvements: [
+      "Add blockchain-based smart contract escrow for greater transparency.",
+      "Implement AI-powered code quality scoring and improvement suggestions.",
+      "Expand categories to include more specialized assets (mobile, desktop, DevOps).",
+      "Introduce subscription tiers for priority listing and advanced analytics.",
+    ],
+  },
+  {
+    name: "IdeaVault",
+    tagline: "Collaborative platform to share, discover, and build startup ideas.",
+    image: "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
+    stack: [
+      "Next.js (Client)",
+      "Node.js/Express (Server)",
+      "MongoDB",
+      "TypeScript",
+      "Tailwind CSS",
+    ],
+    description:
+      "IdeaVault is a collaborative platform where entrepreneurs, developers, and creators can share, discover, discuss, and collaborate on startup ideas. It features trending ideas, community engagement, and tools to turn concepts into actionable projects.",
+    live: "https://ideavault-client-psi.vercel.app/",
+    repos: [
+      { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/ideaVault-client" },
+      { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/ideaVault-server" },
+    ],
+    challenges: [
+      "Building real-time collaboration features and smooth idea discovery.",
+      "Designing an engaging feed with proper categorization and trending logic.",
+      "Managing user-generated content moderation and quality control.",
+      "Ensuring synchronization between the separate client and server repositories.",
+    ],
+    improvements: [
+      "Add real-time chat and collaborative editing for idea teams.",
+      "Implement voting, feedback, and progress tracking systems.",
+      "Introduce AI-assisted idea validation and market research tools.",
+      "Add project roadmap builder and integration with task management tools.",
+    ],
+  },
+];
+
+const SKILLS = [
+  {
+    title: "Frontend",
+    icon: Code2,
+    items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    title: "Backend",
+    icon: Server,
+    items: ["Node.js", "MongoDB", "BetterAuth"],
+  },
+  {
+    title: "Tools & Others",
+    icon: Wrench,
+    items: ["Git", "GitHub"],
+  },
+];
+
+const NAV = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+];
+
+function Portfolio() {
+  const [active, setActive] = useState<Project | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen">
+      <Nav menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Hero />
+      <About />
+      <Skills />
+      <Projects onSelect={setActive} />
+      <Contact />
+      <Footer />
+      {active && <ProjectModal project={active} onClose={() => setActive(null)} />}
+    </div>
+  );
+}
+
+function Nav({
+  menuOpen,
+  setMenuOpen,
+}: {
+  menuOpen: boolean;
+  setMenuOpen: (v: boolean) => void;
+}) {
+  return (
+    <header className="fixed top-0 inset-x-0 z-40 glass">
+      <div className="mx-auto max-w-6xl px-6 h-16 flex items-center justify-between">
+        <a href="#home" className="font-display font-bold text-lg">
+          <span className="text-gradient">Nirab</span>
+          <span className="text-muted-foreground">.dev</span>
+        </a>
+        <nav className="hidden md:flex items-center gap-8 text-sm">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <a
+          href="#contact"
+          className="hidden md:inline-flex btn-primary rounded-full px-5 py-2 text-sm"
+        >
+          Hire Me
+        </a>
+        <button
+          className="md:hidden p-2 text-foreground"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          <div className="space-y-1.5">
+            <span className="block w-6 h-0.5 bg-foreground" />
+            <span className="block w-6 h-0.5 bg-foreground" />
+            <span className="block w-4 h-0.5 bg-foreground ml-auto" />
+          </div>
+        </button>
+      </div>
+      {menuOpen && (
+        <nav className="md:hidden border-t border-border px-6 py-4 flex flex-col gap-4 glass">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              onClick={() => setMenuOpen(false)}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+      )}
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="home" className="pt-32 pb-20 px-6">
+      <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
+        <div className="animate-fade-up order-2 md:order-1">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-muted-foreground mb-6">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            Available for new opportunities
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
+            Mahmudul Hasan <span className="text-gradient">Nirab</span>
+          </h1>
+          <p className="mt-4 text-lg sm:text-xl text-muted-foreground flex items-center gap-2 flex-wrap">
+            <Sparkles className="w-5 h-5 text-primary shrink-0" />
+            Full Stack Developer & AI Enthusiast
+          </p>
+          <p className="mt-6 text-muted-foreground max-w-lg">
+            I build intelligent, AI-powered web experiences — from robust backends to polished,
+            responsive interfaces with Next.js, TypeScript, and MongoDB.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="/resume.pdf"
+              download
+              className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </a>
+            <a
+              href="#projects"
+              className="btn-outline rounded-full px-6 py-3 inline-flex items-center gap-2"
+            >
+              View Projects <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+          <div className="mt-8 flex items-center gap-4">
+            <a
+              href="https://github.com/mahmudul-hasan-2"
+              target="_blank"
+              rel="noreferrer"
+              className="w-10 h-10 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+              aria-label="GitHub"
+            >
+              <Github className="w-5 h-5" />
+            </a>
+            <a
+              href="https://linkedin.com/in/mahmudul-hasan-dev"
+              target="_blank"
+              rel="noreferrer"
+              className="w-10 h-10 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-5 h-5" />
+            </a>
+            <a
+              href="mailto:mahmudul5790@gmail.com"
+              className="w-10 h-10 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+              aria-label="Email"
+            >
+              <Mail className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        <div className="order-1 md:order-2 flex justify-center md:justify-end">
+          <div className="relative animate-float">
+            <div
+              className="absolute inset-0 rounded-full blur-3xl opacity-60"
+              style={{ background: "var(--gradient-primary)" }}
+            />
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-2 border-border glass">
+              <img
+                src="https://i.ibb.co.com/RpxfvFRT/nirab-s-professional-2.png"
+                alt="Mahmudul Hasan Nirab"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="mb-12 text-center">
+      <div className="text-xs uppercase tracking-[0.2em] text-primary mb-3">{eyebrow}</div>
+      <h2 className="text-3xl sm:text-4xl font-bold">{title}</h2>
+      <div className="mt-4 mx-auto w-16 h-1 rounded-full" style={{ background: "var(--gradient-primary)" }} />
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <section id="about" className="py-24 px-6">
+      <div className="mx-auto max-w-4xl">
+        <SectionHeader eyebrow="About Me" title="A curious builder of the modern web" />
+        <div className="space-y-5 text-muted-foreground leading-relaxed text-[1.05rem]">
+          <p>
+            I'm Mahmudul Hasan Nirab, a passionate Full-Stack Developer who loves transforming
+            complex problems into clean, intuitive, and high-performance digital experiences. My
+            journey into programming started out of a deep curiosity for how things work on the
+            web, which quickly evolved into a dedicated pursuit of mastering modern web
+            technologies like Next.js, TypeScript, and MongoDB.
+          </p>
+          <p>
+            Over time, my focus has shifted heavily toward building intelligent, AI-powered
+            applications that bridge the gap between creative design and advanced functionality. I
+            enjoy the entire development lifecycle—from conceptualizing an idea and architecting a
+            robust backend to crafting a polished, responsive user interface.
+          </p>
+          <p>
+            Beyond writing code and exploring AI integrations, I believe in continuous growth,
+            paying attention to the smallest details, and keeping a balanced lifestyle. Whether I'm
+            debugging a tricky piece of code or exploring new technologies, I approach every
+            challenge with curiosity and a drive to build things that truly matter.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Skills() {
+  return (
+    <section id="skills" className="py-24 px-6">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Skills" title="Tools I build with" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {SKILLS.map((cat) => (
+            <div
+              key={cat.title}
+              className="glass rounded-2xl p-6 hover:border-primary transition-colors"
+              style={{ boxShadow: "var(--shadow-card)" }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl grid place-items-center mb-5"
+                style={{ background: "var(--gradient-primary)" }}
+              >
+                <cat.icon className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-4">{cat.title}</h3>
+              <div className="flex flex-wrap gap-2">
+                {cat.items.map((s) => (
+                  <span
+                    key={s}
+                    className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground bg-card/50"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
+  return (
+    <section id="projects" className="py-24 px-6">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Projects" title="Selected work" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {PROJECTS.map((p) => (
+            <article
+              key={p.name}
+              className="glass rounded-2xl overflow-hidden group flex flex-col"
+              style={{ boxShadow: "var(--shadow-card)" }}
+            >
+              <div className="aspect-video overflow-hidden bg-muted relative">
+                <img
+                  src={p.image}
+                  alt={`${p.name} homepage`}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h3 className="text-xl font-semibold">{p.name}</h3>
+                <p className="mt-2 text-sm text-muted-foreground flex-1">{p.tagline}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {p.stack.slice(0, 3).map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                  {p.stack.length > 3 && (
+                    <span className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground">
+                      +{p.stack.length - 3}
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={() => onSelect(p)}
+                  className="mt-6 btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 self-start"
+                >
+                  View More / Details <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   return (
     <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+      className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm px-4 py-8 overflow-y-auto animate-fade-up"
+      onClick={onClose}
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+      <div
+        className="mx-auto max-w-3xl glass rounded-2xl overflow-hidden"
+        style={{ boxShadow: "var(--shadow-card)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="relative aspect-video bg-muted">
+          <img src={project.image} alt={project.name} className="w-full h-full object-cover object-top" />
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full glass grid place-items-center hover:text-primary"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-8 space-y-6">
+          <div>
+            <h3 className="text-3xl font-bold">{project.name}</h3>
+            <p className="mt-3 text-muted-foreground leading-relaxed">{project.description}</p>
+          </div>
+
+          <div>
+            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">Tech Stack</h4>
+            <div className="flex flex-wrap gap-2">
+              {project.stack.map((s) => (
+                <span
+                  key={s}
+                  className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground bg-card/50"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2"
+            >
+              <ExternalLink className="w-4 h-4" /> Live Project
+            </a>
+            {project.repos.map((r) => (
+              <a
+                key={r.url}
+                href={r.url}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-outline rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2"
+              >
+                <Github className="w-4 h-4" /> {r.label}
+              </a>
+            ))}
+          </div>
+
+          <div>
+            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">Challenges Faced</h4>
+            <ul className="space-y-2 text-muted-foreground text-sm">
+              {project.challenges.map((c) => (
+                <li key={c} className="flex gap-3">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">
+              Potential Improvements & Future Plans
+            </h4>
+            <ul className="space-y-2 text-muted-foreground text-sm">
+              {project.improvements.map((c) => (
+                <li key={c} className="flex gap-3">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Contact() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const message = String(data.get("message") || "").trim();
+    if (!name || !email || !message) return;
+    setStatus("sending");
+    const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+    window.location.href = `mailto:mahmudul5790@gmail.com?subject=${subject}&body=${body}`;
+    setTimeout(() => {
+      setStatus("sent");
+      form.reset();
+    }, 400);
+  };
+
+  return (
+    <section id="contact" className="py-24 px-6">
+      <div className="mx-auto max-w-5xl">
+        <SectionHeader eyebrow="Contact" title="Let's build something together" />
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-5">
+            <p className="text-muted-foreground">
+              Have a project in mind or want to collaborate? Drop me a message — I'll get back to
+              you as soon as possible.
+            </p>
+            <ContactRow icon={Mail} label="Email" value="mahmudul5790@gmail.com" href="mailto:mahmudul5790@gmail.com" />
+            <ContactRow
+              icon={Linkedin}
+              label="LinkedIn"
+              value="linkedin.com/in/mahmudul-hasan-dev"
+              href="https://linkedin.com/in/mahmudul-hasan-dev"
+            />
+            <ContactRow
+              icon={Github}
+              label="GitHub"
+              value="github.com/mahmudul-hasan-2"
+              href="https://github.com/mahmudul-hasan-2"
+            />
+            <ContactRow icon={MapPin} label="Location" value="Available worldwide (Remote)" />
+          </div>
+
+          <form onSubmit={onSubmit} className="glass rounded-2xl p-6 space-y-4" style={{ boxShadow: "var(--shadow-card)" }}>
+            <Field name="name" label="Name" placeholder="Your name" maxLength={100} required />
+            <Field name="email" label="Email" type="email" placeholder="you@example.com" maxLength={255} required />
+            <div>
+              <label className="text-sm text-muted-foreground mb-1.5 block">Message</label>
+              <textarea
+                name="message"
+                required
+                maxLength={1000}
+                rows={5}
+                placeholder="Tell me about your project..."
+                className="w-full rounded-xl bg-card/50 border border-border px-4 py-3 text-sm outline-none focus:border-primary transition resize-none"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="btn-primary rounded-full px-6 py-3 w-full inline-flex items-center justify-center gap-2 disabled:opacity-60"
+            >
+              {status === "sent" ? "Message ready — check your mail app" : status === "sending" ? "Opening..." : "Send Message"}
+              {status === "idle" && <ArrowRight className="w-4 h-4" />}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({
+  name,
+  label,
+  type = "text",
+  placeholder,
+  maxLength,
+  required,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  placeholder?: string;
+  maxLength?: number;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label className="text-sm text-muted-foreground mb-1.5 block">{label}</label>
+      <input
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        required={required}
+        className="w-full rounded-xl bg-card/50 border border-border px-4 py-3 text-sm outline-none focus:border-primary transition"
       />
     </div>
+  );
+}
+
+function ContactRow({
+  icon: Icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  const inner = (
+    <div className="flex items-center gap-4 glass rounded-xl p-4 hover:border-primary transition-colors">
+      <div className="w-11 h-11 rounded-lg grid place-items-center shrink-0" style={{ background: "var(--gradient-primary)" }}>
+        <Icon className="w-5 h-5 text-primary-foreground" />
+      </div>
+      <div className="min-w-0">
+        <div className="text-xs uppercase tracking-widest text-muted-foreground">{label}</div>
+        <div className="text-sm text-foreground truncate">{value}</div>
+      </div>
+    </div>
+  );
+  return href ? (
+    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+      {inner}
+    </a>
+  ) : (
+    inner
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border py-10 px-6">
+      <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="text-sm text-muted-foreground">
+          © {new Date().getFullYear()} Mahmudul Hasan Nirab. Crafted with curiosity.
+        </div>
+        <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/mahmudul-hasan-2"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+          >
+            <Github className="w-4 h-4" />
+          </a>
+          <a
+            href="https://linkedin.com/in/mahmudul-hasan-dev"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+          >
+            <Linkedin className="w-4 h-4" />
+          </a>
+          <a
+            href="mailto:mahmudul5790@gmail.com"
+            aria-label="Email"
+            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+          >
+            <Mail className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </footer>
   );
 }
