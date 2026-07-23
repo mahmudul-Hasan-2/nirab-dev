@@ -16,8 +16,21 @@ import {
   MapPin,
 } from "lucide-react";
 
-const RESUME_URL =
-  "https://drive.google.com/uc?export=download&id=1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
+const RESUME_FILE_ID = "1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
+const RESUME_URL = `https://drive.google.com/uc?export=download&id=${RESUME_FILE_ID}`;
+
+function downloadResume(e?: { preventDefault: () => void }) {
+  e?.preventDefault();
+  // Force browser to trigger a file download without navigating the iframe.
+  const a = document.createElement("a");
+  a.href = RESUME_URL;
+  a.download = "Mahmudul-Hasan-Nirab-Resume.pdf";
+  a.rel = "noopener noreferrer";
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
