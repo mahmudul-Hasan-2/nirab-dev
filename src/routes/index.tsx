@@ -16,8 +16,21 @@ import {
   MapPin,
 } from "lucide-react";
 
-const RESUME_URL =
-  "https://drive.google.com/uc?export=download&id=1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
+const RESUME_FILE_ID = "1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
+const RESUME_URL = `https://drive.google.com/uc?export=download&id=${RESUME_FILE_ID}`;
+
+function downloadResume(e?: { preventDefault: () => void }) {
+  e?.preventDefault();
+  // Force browser to trigger a file download without navigating the iframe.
+  const a = document.createElement("a");
+  a.href = RESUME_URL;
+  a.download = "Mahmudul-Hasan-Nirab-Resume.pdf";
+  a.rel = "noopener noreferrer";
+  a.target = "_blank";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -219,8 +232,7 @@ function Nav({
         <div className="hidden md:flex items-center gap-3">
           <a
             href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
+            onClick={downloadResume}
             className="btn-outline rounded-full px-4 py-2 text-sm inline-flex items-center gap-2"
           >
             <Download className="w-4 h-4" /> Resume
@@ -255,9 +267,10 @@ function Nav({
           ))}
           <a
             href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setMenuOpen(false)}
+            onClick={(e) => {
+              downloadResume(e);
+              setMenuOpen(false);
+            }}
             className="btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 mt-2"
           >
             <Download className="w-4 h-4" /> Download Resume
@@ -291,8 +304,7 @@ function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href={RESUME_URL}
-              target="_blank"
-              rel="noreferrer"
+              onClick={downloadResume}
               className="btn-primary rounded-full px-6 py-3 inline-flex items-center gap-2"
             >
               <Download className="w-4 h-4" />
@@ -717,38 +729,103 @@ function ContactRow({
 }
 
 function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border py-10 px-6">
-      <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Mahmudul Hasan Nirab. Crafted with curiosity.
+    <footer className="border-t border-border pt-16 pb-8 px-6 bg-card/20">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-10 md:grid-cols-4">
+          <div className="md:col-span-2 space-y-4">
+            <a href="#home" className="font-display font-bold text-xl inline-block">
+              <span className="text-gradient">Nirab</span>
+              <span className="text-muted-foreground">.dev</span>
+            </a>
+            <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
+              Full Stack Developer & AI Enthusiast crafting intelligent, modern web experiences
+              with Next.js, TypeScript, and MongoDB.
+            </p>
+            <a
+              href={RESUME_URL}
+              onClick={downloadResume}
+              className="btn-outline rounded-full px-4 py-2 text-sm inline-flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" /> Download Resume
+            </a>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
+              Quick Links
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              {NAV.map((n) => (
+                <li key={n.id}>
+                  <a
+                    href={`#${n.id}`}
+                    className="text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {n.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
+              Get in Touch
+            </h4>
+            <ul className="space-y-2.5 text-sm text-muted-foreground">
+              <li>
+                <a
+                  href="mailto:mahmudul5790@gmail.com"
+                  className="hover:text-primary transition-colors break-all"
+                >
+                  mahmudul5790@gmail.com
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 shrink-0" /> Remote — Worldwide
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                Available for freelance
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="flex items-center gap-3">
-          <a
-            href="https://github.com/mahmudul-hasan-2"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
-          >
-            <Github className="w-4 h-4" />
-          </a>
-          <a
-            href="https://linkedin.com/in/mahmudul-hasan-dev"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
-          >
-            <Linkedin className="w-4 h-4" />
-          </a>
-          <a
-            href="mailto:mahmudul5790@gmail.com"
-            aria-label="Email"
-            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
-          >
-            <Mail className="w-4 h-4" />
-          </a>
+
+        <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-xs text-muted-foreground text-center sm:text-left">
+            © {year} Mahmudul Hasan Nirab. All rights reserved. Built with React, TanStack &
+            Tailwind CSS.
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="https://github.com/mahmudul-hasan-2"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+              className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+            >
+              <Github className="w-4 h-4" />
+            </a>
+            <a
+              href="https://linkedin.com/in/mahmudul-hasan-dev"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+              className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+            >
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a
+              href="mailto:mahmudul5790@gmail.com"
+              aria-label="Email"
+              className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary hover:text-primary transition"
+            >
+              <Mail className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>
