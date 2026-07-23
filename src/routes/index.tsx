@@ -7,6 +7,7 @@ import {
   Download,
   ExternalLink,
   X,
+  Menu,
   ArrowRight,
   Code2,
   Server,
@@ -14,6 +15,9 @@ import {
   Sparkles,
   MapPin,
 } from "lucide-react";
+
+const RESUME_URL =
+  "https://drive.google.com/uc?export=download&id=1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
 
 export const Route = createFileRoute("/")({
   head: () => ({
