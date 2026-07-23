@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 const RESUME_URL =
-  "https://drive.google.com/uc?export=download&id=1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD";
+  "https://drive.google.com/file/d/1gQHWYr6MOkiWKtwaoYzAsQAa-kIlcPdD/view?usp=sharing";
 
 export const Route = createFileRoute("/")({
   head: () => ({
