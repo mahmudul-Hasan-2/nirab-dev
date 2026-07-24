@@ -9,11 +9,16 @@ import {
   X,
   Menu,
   ArrowRight,
-  Code2,
-  Server,
-  Wrench,npm
   Sparkles,
   MapPin,
+  GraduationCap,
+  Briefcase,
+  Cpu,
+  Layers,
+  Wrench,
+  Globe,
+  Database,
+  ShieldCheck,
 } from "lucide-react";
 
 const RESUME_URL =
@@ -63,113 +68,91 @@ const PROJECTS: Project[] = [
     tagline: "Elite agentic AI workspace for technical sourcing & code generation.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
-    stack: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Gemini 1.5 Flash (LLM)",
-      "Better Auth",
-      "MongoDB",
-      "Agentic AI Workflows",
-    ],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini 1.5 Flash", "Better Auth", "MongoDB"],
     description:
-      "DevAgent AI is an elite agentic AI workspace that automates technical sourcing, vetting, and code generation. It connects top developers with global scale-ups through secure, intelligent AI agents capable of reasoning, planning, and executing complex coding tasks.",
+      "DevAgent AI is an elite agentic AI workspace engineered to automate technical sourcing, code vetting, and intelligent code generation. It bridges top engineering talent with global scale-ups through secure, autonomous AI agent workflows.",
     live: "https://frontend-sigma-tawny-82.vercel.app/",
     repos: [
       { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/agentic-ai-app" },
     ],
     challenges: [
-      "Orchestrating reliable multi-step agentic workflows with consistent context memory across sessions.",
-      "Implementing enterprise-grade security with Better Auth while maintaining a smooth UX.",
-      "Optimizing LLM response times and token usage for large code generation tasks.",
-      "Designing a robust MongoDB schema that supports dynamic AI-generated content and versioning.",
+      "Orchestrating robust multi-step agentic execution flows with context persistence across sessions.",
+      "Integrating enterprise-grade authentication using Better Auth without performance friction.",
+      "Optimizing LLM token utilization and latency for large-scale code synthesis tasks.",
+      "Designing a flexible MongoDB schema to handle dynamic structured data versions.",
     ],
     improvements: [
-      "Add support for multiple LLM providers (Claude, GPT-4o, etc.).",
-      "Introduce team collaboration features and shared workspaces.",
-      "Implement advanced analytics dashboard for usage and performance tracking.",
-      "Expand to full autonomous project scaffolding and deployment pipelines.",
+      "Integrate multi-model LLM provider fallback architectures.",
+      "Add real-time team collaboration channels and shared workspace partitions.",
+      "Deploy an advanced analytics dashboard for tracking API usage metrics.",
     ],
   },
   {
     name: "DevCraft",
-    tagline: "A premium developer marketplace with escrow and vulnerability checks.",
+    tagline: "A premium developer marketplace featuring secure escrow & vulnerability analysis.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
-    stack: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "MongoDB",
-      "Secure Escrow System",
-      "Static Code Analysis Tools",
-    ],
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "MongoDB", "Escrow System", "Static Analysis"],
     description:
-      "DevCraft is a premium developer marketplace where engineers can list, audit, buy, and sell production-grade code modules, templates, microservices, and digital assets in a trusted ecosystem with built-in escrow protection and automated vulnerability checks.",
+      "DevCraft is a high-performance marketplace enabling developers to trade verified code modules, templates, and microservices within a trustless environment backed by automated vulnerability scans and escrow security.",
     live: "https://dev-craft-lime.vercel.app/",
     repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/devCraft" }],
     challenges: [
-      "Building a secure multi-party escrow system with clear release conditions.",
-      "Integrating reliable static code analysis for automatic vulnerability detection.",
-      "Creating an intuitive asset listing and review workflow.",
-      "Ensuring smooth handling of large codebase uploads and version control.",
+      "Implementing secure multi-party escrow logic with precise fund release milestones.",
+      "Automating static source code analysis pipelines for threat detection.",
+      "Building a frictionless asset publication and moderation review workflow.",
     ],
     improvements: [
-      "Add blockchain-based smart contract escrow for greater transparency.",
-      "Implement AI-powered code quality scoring and improvement suggestions.",
-      "Expand categories to include more specialized assets (mobile, desktop, DevOps).",
-      "Introduce subscription tiers for priority listing and advanced analytics.",
+      "Incorporate decentralized smart contract escrow protocols.",
+      "Introduce AI-powered code scoring matrix and optimization hints.",
     ],
   },
   {
     name: "IdeaVault",
-    tagline: "Collaborative platform to share, discover, and build startup ideas.",
+    tagline: "Collaborative platform for discovering, validating, and launching tech startups.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
-    stack: [
-      "Next.js (Client)",
-      "Node.js/Express (Server)",
-      "MongoDB",
-      "TypeScript",
-      "Tailwind CSS",
-    ],
+    stack: ["Next.js", "Node.js", "Express", "MongoDB", "TypeScript", "Tailwind CSS"],
     description:
-      "IdeaVault is a collaborative platform where entrepreneurs, developers, and creators can share, discover, discuss, and collaborate on startup ideas. It features trending ideas, community engagement, and tools to turn concepts into actionable projects.",
+      "IdeaVault is a collaborative ecosystem designed for founders and creators to pitch, evaluate, and scale startup concepts. Features comprehensive community feedback loops and project tracking roadmaps.",
     live: "https://ideavault-client-psi.vercel.app/",
     repos: [
       { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/ideaVault-client" },
       { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/ideaVault-server" },
     ],
     challenges: [
-      "Building real-time collaboration features and smooth idea discovery.",
-      "Designing an engaging feed with proper categorization and trending logic.",
-      "Managing user-generated content moderation and quality control.",
-      "Ensuring synchronization between the separate client and server repositories.",
+      "Synchronizing decoupled client-server state and managing CORS authorization policies.",
+      "Designing high-concurrency feeds with optimized pagination and sorting.",
     ],
     improvements: [
-      "Add real-time chat and collaborative editing for idea teams.",
-      "Implement voting, feedback, and progress tracking systems.",
-      "Introduce AI-assisted idea validation and market research tools.",
-      "Add project roadmap builder and integration with task management tools.",
+      "Add real-time communication protocols via WebSockets.",
+      "Implement automated market research insights driven by LLMs.",
     ],
   },
 ];
 
-const SKILLS = [
+const SKILLS_CATEGORIES = [
   {
-    title: "Frontend",
-    icon: Code2,
-    items: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
+    category: "Frontend Architecture",
+    icon: Globe,
+    skills: [
+      "React.js",
+      "Next.js",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Tailwind CSS",
+      "HTML5 / CSS3",
+    ],
   },
   {
-    title: "Backend",
-    icon: Server,
-    items: ["Node.js", "MongoDB", "BetterAuth"],
+    category: "Backend & Database",
+    icon: Database,
+    skills: ["Node.js", "Express.js", "MongoDB", "RESTful APIs", "Better Auth", "JWT Security"],
   },
   {
-    title: "Tools & Others",
+    category: "Tools & DevOps",
     icon: Wrench,
-    items: ["Git", "GitHub"],
+    skills: ["Git & GitHub", "Vercel Deployment", "Postman", "VS Code", "npm / Yarn", "Vite"],
   },
 ];
 
@@ -284,8 +267,8 @@ function Hero() {
             Full Stack Developer & AI Enthusiast
           </p>
           <p className="mt-6 text-muted-foreground max-w-lg">
-            I build intelligent, AI-powered web experiences — from robust backends to polished,
-            responsive interfaces with Next.js, TypeScript, and MongoDB.
+            Engineering scalable, intelligent web applications with modern architectures.
+            Specializing in Next.js, TypeScript, and high-performance backend systems.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
@@ -371,26 +354,66 @@ function About() {
   return (
     <section id="about" className="py-24 px-6">
       <div className="mx-auto max-w-4xl">
-        <SectionHeader eyebrow="About Me" title="A curious builder of the modern web" />
-        <div className="space-y-5 text-muted-foreground leading-relaxed text-[1.05rem]">
+        <SectionHeader
+          eyebrow="Background & Credentials"
+          title="Education & Professional Journey"
+        />
+
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {/* Education Card */}
+          <div
+            className="glass rounded-2xl p-6 border border-border"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div
+              className="w-12 h-12 rounded-xl grid place-items-center mb-4"
+              style={{ background: "var(--gradient-primary)" }}
+            >
+              <GraduationCap className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <h3 className="text-xl font-semibold mb-1">Education</h3>
+            <p className="text-sm text-primary font-medium mb-3">2024 — Present</p>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Currently pursuing secondary education at{" "}
+              <strong className="text-foreground">Talibpur Ahsania High School</strong>. Alongside
+              core academics, maintaining a dedicated focus on software engineering and systems
+              architecture.
+            </p>
+          </div>
+
+          {/* Experience Card */}
+          <div
+            className="glass rounded-2xl p-6 border border-border"
+            style={{ boxShadow: "var(--shadow-card)" }}
+          >
+            <div
+              className="w-12 h-12 rounded-xl grid place-items-center mb-4"
+              style={{ background: "var(--gradient-primary)" }}
+            >
+              <Briefcase className="w-6 h-6 text-primary-foreground" />
+            </div>
+            <h3 className="text-xl font-semibold mb-1">Professional Focus</h3>
+            <p className="text-sm text-primary font-medium mb-3">
+              Independent Full-Stack Developer
+            </p>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Operating independently as a self-taught engineer. Focused on designing
+              production-grade web applications, mastering advanced algorithms, and exploring
+              agentic AI workflows.
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-5 text-muted-foreground leading-relaxed text-[1.05rem] glass p-8 rounded-2xl">
           <p>
-            I'm Mahmudul Hasan Nirab, a passionate Full-Stack Developer who loves transforming
-            complex problems into clean, intuitive, and high-performance digital experiences. My
-            journey into programming started out of a deep curiosity for how things work on the web,
-            which quickly evolved into a dedicated pursuit of mastering modern web technologies like
-            Next.js, TypeScript, and MongoDB.
+            I am Mahmudul Hasan Nirab, a Full-Stack Developer driven by a commitment to building
+            clean, robust, and scalable software solutions. My engineering philosophy centers on
+            code quality, performance optimization, and intuitive user experiences.
           </p>
           <p>
-            Over time, my focus has shifted heavily toward building intelligent, AI-powered
-            applications that bridge the gap between creative design and advanced functionality. I
-            enjoy the entire development lifecycle—from conceptualizing an idea and architecting a
-            robust backend to crafting a polished, responsive user interface.
-          </p>
-          <p>
-            Beyond writing code and exploring AI integrations, I believe in continuous growth,
-            paying attention to the smallest details, and keeping a balanced lifestyle. Whether I'm
-            debugging a tricky piece of code or exploring new technologies, I approach every
-            challenge with curiosity and a drive to build things that truly matter.
+            With deep expertise across the modern JavaScript ecosystem—specifically Next.js,
+            TypeScript, and database optimization—I continuously explore the intersection of
+            traditional web development and artificial intelligence.
           </p>
         </div>
       </div>
@@ -402,33 +425,39 @@ function Skills() {
   return (
     <section id="skills" className="py-24 px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Skills" title="Tools I build with" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {SKILLS.map((cat) => (
-            <div
-              key={cat.title}
-              className="glass rounded-2xl p-6 hover:border-primary transition-colors"
-              style={{ boxShadow: "var(--shadow-card)" }}
-            >
+        <SectionHeader eyebrow="Technical Expertise" title="Core Skills & Proficiencies" />
+        <div className="grid md:grid-cols-3 gap-8">
+          {SKILLS_CATEGORIES.map((group) => {
+            const IconComponent = group.icon;
+            return (
               <div
-                className="w-12 h-12 rounded-xl grid place-items-center mb-5"
-                style={{ background: "var(--gradient-primary)" }}
+                key={group.category}
+                className="glass rounded-2xl p-8 border border-border flex flex-col justify-between hover:border-primary/50 transition-all duration-300"
+                style={{ boxShadow: "var(--shadow-card)" }}
               >
-                <cat.icon className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-4">{cat.title}</h3>
-              <div className="flex flex-wrap gap-2">
-                {cat.items.map((s) => (
-                  <span
-                    key={s}
-                    className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground bg-card/50"
+                <div>
+                  <div
+                    className="w-12 h-12 rounded-xl grid place-items-center mb-6"
+                    style={{ background: "var(--gradient-primary)" }}
                   >
-                    {s}
-                  </span>
-                ))}
+                    <IconComponent className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-foreground mb-6">{group.category}</h3>
+                  <ul className="space-y-3">
+                    {group.skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className="flex items-center gap-3 text-sm text-muted-foreground"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        <span className="font-medium text-foreground/90">{skill}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -439,18 +468,18 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   return (
     <section id="projects" className="py-24 px-6">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Projects" title="Selected work" />
+        <SectionHeader eyebrow="Portfolio" title="Featured Projects" />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PROJECTS.map((p) => (
             <article
               key={p.name}
-              className="glass rounded-2xl overflow-hidden group flex flex-col"
+              className="glass rounded-2xl overflow-hidden group flex flex-col border border-border"
               style={{ boxShadow: "var(--shadow-card)" }}
             >
               <div className="aspect-video overflow-hidden bg-muted relative">
                 <img
                   src={p.image}
-                  alt={`${p.name} homepage`}
+                  alt={`${p.name} preview`}
                   loading="lazy"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                 />
@@ -462,13 +491,13 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
                   {p.stack.slice(0, 3).map((t) => (
                     <span
                       key={t}
-                      className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground"
+                      className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground font-mono"
                     >
                       {t}
                     </span>
                   ))}
                   {p.stack.length > 3 && (
-                    <span className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground">
+                    <span className="text-xs rounded-md bg-muted px-2 py-1 text-muted-foreground font-mono">
                       +{p.stack.length - 3}
                     </span>
                   )}
@@ -477,7 +506,7 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
                   onClick={() => onSelect(p)}
                   className="mt-6 btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center justify-center gap-2 self-start"
                 >
-                  View More / Details <ArrowRight className="w-4 h-4" />
+                  View Details <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </article>
@@ -495,7 +524,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       onClick={onClose}
     >
       <div
-        className="mx-auto max-w-3xl glass rounded-2xl overflow-hidden"
+        className="mx-auto max-w-3xl glass rounded-2xl overflow-hidden border border-border"
         style={{ boxShadow: "var(--shadow-card)" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -507,7 +536,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           />
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full glass grid place-items-center hover:text-primary"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full glass grid place-items-center hover:text-primary transition"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -520,12 +549,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div>
-            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">Tech Stack</h4>
+            <h4 className="text-xs uppercase tracking-widest text-primary mb-3 font-semibold">
+              Tech Stack
+            </h4>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <span
                   key={s}
-                  className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground bg-card/50"
+                  className="rounded-full border border-border px-3 py-1 text-sm text-muted-foreground bg-card/50 font-mono"
                 >
                   {s}
                 </span>
@@ -540,7 +571,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               rel="noreferrer"
               className="btn-primary rounded-full px-5 py-2.5 text-sm inline-flex items-center gap-2"
             >
-              <ExternalLink className="w-4 h-4" /> Live Project
+              <ExternalLink className="w-4 h-4" /> Live Preview
             </a>
             {project.repos.map((r) => (
               <a
@@ -556,8 +587,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div>
-            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">
-              Challenges Faced
+            <h4 className="text-xs uppercase tracking-widest text-primary mb-3 font-semibold">
+              Technical Challenges
             </h4>
             <ul className="space-y-2 text-muted-foreground text-sm">
               {project.challenges.map((c) => (
@@ -570,8 +601,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div>
-            <h4 className="text-sm uppercase tracking-widest text-primary mb-3">
-              Potential Improvements & Future Plans
+            <h4 className="text-xs uppercase tracking-widest text-primary mb-3 font-semibold">
+              Future Improvements
             </h4>
             <ul className="space-y-2 text-muted-foreground text-sm">
               {project.improvements.map((c) => (
@@ -612,12 +643,12 @@ function Contact() {
   return (
     <section id="contact" className="py-24 px-6">
       <div className="mx-auto max-w-5xl">
-        <SectionHeader eyebrow="Contact" title="Let's build something together" />
+        <SectionHeader eyebrow="Get in Touch" title="Let's build something exceptional" />
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-5">
             <p className="text-muted-foreground">
-              Have a project in mind or want to collaborate? Drop me a message — I'll get back to
-              you as soon as possible.
+              Have an inquiry, a project proposal, or want to discuss potential collaborations? Feel
+              free to reach out directly.
             </p>
             <ContactRow
               icon={Mail}
@@ -637,12 +668,12 @@ function Contact() {
               value="github.com/mahmudul-hasan-2"
               href="https://github.com/mahmudul-hasan-2"
             />
-            <ContactRow icon={MapPin} label="Location" value="Available worldwide (Remote)" />
+            <ContactRow icon={MapPin} label="Location" value="Talibpur, Bangladesh (Remote)" />
           </div>
 
           <form
             onSubmit={onSubmit}
-            className="glass rounded-2xl p-6 space-y-4"
+            className="glass rounded-2xl p-6 space-y-4 border border-border"
             style={{ boxShadow: "var(--shadow-card)" }}
           >
             <Field name="name" label="Name" placeholder="Your name" maxLength={100} required />
@@ -661,7 +692,7 @@ function Contact() {
                 required
                 maxLength={1000}
                 rows={5}
-                placeholder="Tell me about your project..."
+                placeholder="Describe your project or inquiry..."
                 className="w-full rounded-xl bg-card/50 border border-border px-4 py-3 text-sm outline-none focus:border-primary transition resize-none"
               />
             </div>
@@ -726,7 +757,7 @@ function ContactRow({
   href?: string;
 }) {
   const inner = (
-    <div className="flex items-center gap-4 glass rounded-xl p-4 hover:border-primary transition-colors">
+    <div className="flex items-center gap-4 glass rounded-xl p-4 hover:border-primary transition-colors border border-border">
       <div
         className="w-11 h-11 rounded-lg grid place-items-center shrink-0"
         style={{ background: "var(--gradient-primary)" }}
@@ -750,12 +781,32 @@ function ContactRow({
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-10 px-6">
-      <div className="mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Mahmudul Hasan Nirab. Crafted with curiosity.
+    <footer className="border-t border-border py-12 px-6">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 items-center justify-between">
+        <div>
+          <a href="#home" className="font-display font-bold text-lg">
+            <span className="text-gradient">Nirab</span>
+            <span className="text-muted-foreground">.dev</span>
+          </a>
+          <p className="text-sm text-muted-foreground mt-2">
+            Engineering scalable web architectures and digital experiences with precision.
+          </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+          <a href="#about" className="hover:text-foreground transition">
+            About
+          </a>
+          <a href="#skills" className="hover:text-foreground transition">
+            Skills
+          </a>
+          <a href="#projects" className="hover:text-foreground transition">
+            Projects
+          </a>
+          <a href="#contact" className="hover:text-foreground transition">
+            Contact
+          </a>
+        </div>
+        <div className="flex items-center justify-end gap-3">
           <a
             href="https://github.com/mahmudul-hasan-2"
             target="_blank"
@@ -782,6 +833,9 @@ function Footer() {
             <Mail className="w-4 h-4" />
           </a>
         </div>
+      </div>
+      <div className="mx-auto max-w-6xl border-t border-border/50 mt-8 pt-6 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Mahmudul Hasan Nirab. All rights reserved.
       </div>
     </footer>
   );
