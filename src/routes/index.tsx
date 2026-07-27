@@ -73,72 +73,127 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    name: "DevAgent AI",
-    tagline: "Agentic AI workspace for technical sourcing & code generation.",
-    image:
-      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Gemini 1.5 Flash", "Better Auth", "MongoDB"],
-    category: "AI",
-    description:
-      "DevAgent AI is an agentic AI workspace engineered to automate technical sourcing, code vetting, and intelligent code generation.",
-    live: "https://frontend-sigma-tawny-82.vercel.app/",
-    repos: [
-      { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/agentic-ai-app" },
-    ],
-    challenges: [
-      "Orchestrating robust multi-step agentic execution flows with context persistence across sessions.",
-      "Integrating enterprise-grade authentication using Better Auth without performance friction.",
-    ],
-    improvements: [
-      "Integrate multi-model LLM provider fallback architectures.",
-      "Add real-time team collaboration channels and shared workspace partitions.",
-    ],
-    badge: "AI Powered",
-  },
+  name: "DevAgent",
+  tagline: "Agentic AI workspace for autonomous project management & intelligent code assistance.",
+  image:
+    "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
+  stack: ["Next.js", "TypeScript", "Express.js", "MongoDB", "Tailwind CSS", "Google Gemini", "Better Auth"],
+  category: "AI",
+  description:
+    "DevAgent is a full-stack agentic AI workspace that generates detailed project descriptions via Gemini, offers an interactive AI co-pilot chat, and provides secure workspace management for developers.",
+  live: "https://frontend-sigma-tawny-82.vercel.app/",
+  repos: [
+    { label: "Full Repository", url: "https://github.com/mahmudul-Hasan-2/DevAgent" },
+  ],
+  challenges: [
+    "Orchestrating multi-step agentic flows with Gemini while maintaining context across sessions.",
+    "Integrating Better Auth with a decoupled Express backend without introducing performance friction.",
+  ],
+  improvements: [
+    "Add multi-model LLM fallback support for higher reliability.",
+    "Introduce real-time team collaboration and shared workspace features.",
+  ],
+  badge: "AI Powered",
+},
+{
+  name: "DevCraft",
+  tagline: "Premium full-stack item discovery & management platform secured with Better Auth.",
+  image:
+    "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
+  stack: ["Next.js", "TypeScript", "Tailwind CSS", "MongoDB", "Better Auth"],
+  category: "Full Stack",
+  description:
+    "DevCraft is a high-performance full-stack platform for discovering, organizing, and managing developer tools and resources with secure authentication and seamless CRUD operations.",
+  live: "https://dev-craft-lime.vercel.app/",
+  repos: [
+    { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/DevCraft" },
+  ],
+  challenges: [
+    "Implementing robust Better Auth sessions that work reliably across local and Vercel environments.",
+    "Building smooth client-side UI synchronization for real-time CRUD feedback.",
+  ],
+  improvements: [
+    "Add advanced filtering, tagging, and search capabilities for large item collections.",
+    "Introduce role-based access control and collaborative collections.",
+  ],
+  badge: "Full Stack",
+},
+{
+  name: "IdeaVault",
+  tagline: "Modern idea-sharing platform for pitching, discovering, and discussing startup concepts.",
+  image:
+    "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
+  stack: ["Next.js", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
+  category: "Full Stack",
+  description:
+    "IdeaVault is a collaborative idea-sharing platform featuring secure JWT authentication, smart discovery search, dynamic user dashboards, nested comments, and a responsive carousel UI.",
+  live: "https://ideavault-client-psi.vercel.app/",
+  repos: [
+    { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/IdeaVault-client" },
+    { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/IdeaVault-Server" },
+  ],
+  challenges: [
+    "Synchronizing decoupled Next.js client and Express server state while handling CORS and JWT auth.",
+    "Designing efficient discovery feeds with pagination, sorting, and nested comment interactions.",
+  ],
+  improvements: [
+    "Add real-time updates via WebSockets for comments and idea interactions.",
+    "Expand into full crowdfunding features with campaign management and funding flows.",
+  ],
+  badge: "Solo",
+},
   {
-    name: "DevCraft",
-    tagline: "A developer marketplace featuring secure escrow & vulnerability analysis.",
+    name: "RecipeHub",
+    tagline: "Modern full-stack platform for discovering, sharing, and managing recipes.",
     image:
-      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "MongoDB", "Escrow System"],
+      "https://res.cloudinary.com/dyyxcyiz9/image/upload/v1785176448/Screenshot_2026-07-28_001916_a864d4.png",
+    stack: [
+      "Next.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind CSS",
+      "HeroUI",
+      "Better Auth",
+      "Framer Motion",
+    ],
     category: "Full Stack",
     description:
-      "DevCraft is a high-performance marketplace enabling developers to trade verified code modules, templates, and microservices.",
-    live: "https://dev-craft-lime.vercel.app/",
-    repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/devCraft" }],
+      "RecipeHub is a sleek, responsive full-stack application that lets food enthusiasts browse, search, share, and manage recipes with secure authentication, smart filters, and smooth animations.",
+    live: "https://recipehub-client.vercel.app/",
+    repos: [
+      { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/RecipeHub-Client" },
+      { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/RecipeHub-Server" },
+    ],
     challenges: [
-      "Implementing secure multi-party escrow logic with precise fund release milestones.",
-      "Automating static source code analysis pipelines for threat detection.",
+      "Integrating Better Auth with a decoupled Express backend while keeping session handling seamless.",
+      "Optimizing data fetching and caching strategies in Next.js App Router for dynamic recipe feeds.",
     ],
     improvements: [
-      "Incorporate decentralized smart contract escrow protocols.",
-      "Introduce AI-powered code scoring matrix and optimization hints.",
+      "Add user-generated recipe submissions with image upload and moderation flow.",
+      "Implement real-time likes and comments using WebSockets or Server-Sent Events.",
     ],
-    badge: "Production",
+    badge: "Full Stack",
   },
   {
-    name: "IdeaVault",
-    tagline: "Collaborative platform for discovering, validating, and launching tech startups.",
+    name: "BookVibe",
+    tagline: "Interactive reading companion for organizing and tracking your favorite books.",
     image:
-      "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
-    stack: ["Next.js", "Node.js", "Express", "MongoDB", "TypeScript", "Tailwind CSS"],
-    category: "Next.js",
+      "https://res.cloudinary.com/dyyxcyiz9/image/upload/v1785176613/Screenshot_2026-07-28_002216_hdg5zy.png",
+    stack: ["React", "Vite", "Tailwind CSS", "DaisyUI", "React Router", "Recharts", "LocalStorage"],
+    category: "Frontend",
     description:
-      "IdeaVault is a collaborative ecosystem designed for founders and creators to pitch, evaluate, and scale startup concepts.",
-    live: "https://ideavault-client-psi.vercel.app/",
-    repos: [
-      { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/ideaVault-client" },
-      { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/IdeaVault-Server" },
-    ],
+      "BookVibe is a modern React application that helps book lovers discover, review, and organize their reads with dynamic bookshelves, detailed views, and interactive progress charts.",
+    live: "https://book-vibe-coral.vercel.app/",
+    repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/Book-Vibe" }],
     challenges: [
-      "Synchronizing decoupled client-server state and managing CORS authorization policies.",
-      "Designing high-concurrency feeds with optimized pagination and sorting.",
+      "Persisting complex bookshelf state across sessions using LocalStorage without data loss.",
+      "Building responsive, interactive charts that accurately reflect reading progress.",
     ],
     improvements: [
-      "Add real-time communication protocols via WebSockets.",
-      "Implement automated market research insights driven by LLMs.",
+      "Migrate data persistence to a backend with user accounts and cloud sync.",
+      "Add social features such as public reviews and reading challenges.",
     ],
-    badge: "Solo",
+    badge: "Frontend",
   },
 ];
 
@@ -146,7 +201,6 @@ const SKILLS_CATEGORIES = [
   {
     category: "Frontend Architecture",
     icon: Globe,
-    accentColor: "from-violet-500/20 to-purple-500/20 border-violet-500/30",
     skills: [
       { name: "React", icon: Code2, level: 95 },
       { name: "Next.js", icon: Layers, level: 90 },
@@ -161,7 +215,6 @@ const SKILLS_CATEGORIES = [
   {
     category: "Backend & Database",
     icon: Database,
-    accentColor: "from-indigo-500/20 to-blue-500/20 border-indigo-500/30",
     skills: [
       { name: "Node.js", icon: Server, level: 85 },
       { name: "Express.js", icon: Cpu, level: 85 },
@@ -173,7 +226,6 @@ const SKILLS_CATEGORIES = [
   {
     category: "Tools & DevOps",
     icon: Wrench,
-    accentColor: "from-fuchsia-500/20 to-pink-500/20 border-fuchsia-500/30",
     skills: [
       { name: "Git & GitHub", icon: GitBranch, level: 90 },
       { name: "Docker", icon: Box, level: 75 },
@@ -223,23 +275,10 @@ const NAV = [
 function Portfolio() {
   const [active, setActive] = useState<Project | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark", !isDark);
-  };
 
   return (
-    <div
-      className={`min-h-screen overflow-x-hidden w-full bg-background text-foreground selection:bg-primary/30 selection:text-primary ${isDark ? "dark" : ""}`}
-    >
-      <Nav
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        isDark={isDark}
-        toggleTheme={toggleTheme}
-      />
+    <div className="min-h-screen overflow-x-hidden w-full bg-background text-foreground selection:bg-primary/35 selection:text-primary">
+      <Nav menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <Hero />
       <About />
       <Skills />
@@ -252,17 +291,7 @@ function Portfolio() {
   );
 }
 
-function Nav({
-  menuOpen,
-  setMenuOpen,
-  isDark,
-  toggleTheme,
-}: {
-  menuOpen: boolean;
-  setMenuOpen: (v: boolean) => void;
-  isDark: boolean;
-  toggleTheme: () => void;
-}) {
+function Nav({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (v: boolean) => void }) {
   return (
     <header className="fixed top-0 inset-x-0 z-40 glass w-full border-b border-border/40 backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
@@ -287,13 +316,6 @@ function Nav({
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="w-9 h-9 rounded-full border border-border grid place-items-center hover:border-primary transition text-muted-foreground hover:text-foreground"
-            aria-label="Toggle theme"
-          >
-            {isDark ? "☀️" : "🌙"}
-          </button>
           <a
             href={RESUME_URL}
             target="_blank"
@@ -310,13 +332,6 @@ function Nav({
           </a>
         </div>
         <div className="flex items-center gap-2 md:hidden">
-          <button
-            onClick={toggleTheme}
-            className="w-10 h-10 grid place-items-center rounded-lg border border-border text-foreground hover:border-primary hover:text-primary transition shrink-0"
-            aria-label="Toggle theme"
-          >
-            {isDark ? "☀️" : "🌙"}
-          </button>
           <button
             className="md:hidden w-10 h-10 grid place-items-center rounded-lg border border-border text-foreground hover:border-primary hover:text-primary transition shrink-0"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -585,7 +600,7 @@ function Skills() {
 }
 
 function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
-  const [filter, setFilter] = useState<"All" | "AI" | "Full Stack" | "Next.js">("All");
+  const [filter, setFilter] = useState<"All" | "AI" | "Full Stack" | "Next.js" | "Frontend">("All");
 
   const filteredProjects = useMemo(() => {
     if (filter === "All") return PROJECTS;
@@ -597,7 +612,6 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Portfolio" title="Featured Projects" />
 
-        {/* Project Filtering Buttons */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {(["All", "AI", "Full Stack", "Next.js"] as const).map((cat) => (
             <button
