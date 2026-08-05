@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Disallow common non-content paths if any appear later
+# Disallow: /api/
+# Disallow: /_next/
+
 Sitemap: https://nirab-s-digital-space.vercel.app/sitemap.xml
