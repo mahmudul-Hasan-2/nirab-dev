@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nirab-s-digital-space.vercel.app/sitemap.xml

@@ -25,7 +25,9 @@
   --font-sans: "Inter", sans-serif;
 }
 
-:root {
+/* ========== DARK (default) ========== */
+:root,
+html.dark {
   --radius: 0.875rem;
   --background: oklch(0.14 0.02 260);
   --foreground: oklch(0.97 0.005 260);
@@ -46,19 +48,60 @@
   --shadow-card: 0 20px 40px -20px oklch(0 0 0 / 0.6);
 }
 
+/* ========== LIGHT ========== */
+html.light {
+  /* Background ebonɡ Foreground (Readability aro barano hoyeche) */
+  --background: oklch(0.99 0.003 260); /* Aro clean clear white */
+  --foreground: oklch(0.12 0.015 260); /* Pure black er kachakachi, text porhte sahajjo korbe */
+
+  /* Cards (Background theke meshbo na, alada thakbe) */
+  --card: oklch(1 0 0); /* Pure white background */
+  --card-foreground: oklch(0.15 0.015 260);
+
+  /* Muted Text & Borders (Softness barano hoyeche) */
+  --muted: oklch(0.96 0.005 260);
+  --muted-foreground: oklch(0.4 0.015 260); /* Content text clear hobe */
+  --border: oklch(0.92 0.008 260); /* Borders dristikotuhal hobe na, khubi soft */
+
+  /* Branding (Primary ebonɡ Accent Colors) */
+  --primary: oklch(0.55 0.16 175);
+  --primary-foreground: oklch(0.99 0.003 260);
+  --accent: oklch(0.55 0.18 300);
+  --accent-foreground: oklch(0.99 0.003 260);
+  --ring: oklch(0.55 0.16 175 / 0.4); /* Focus ring-e transparency thaka bhalo */
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, oklch(0.55 0.16 175), oklch(0.55 0.18 300));
+  --gradient-radial: radial-gradient(ellipse at top, oklch(0.55 0.16 175 / 0.05), transparent 70%);
+
+  /* Shadows (Aro natural ebonɡ modern visual depth) */
+  --shadow-glow: 0 0 50px -10px oklch(0.55 0.16 175 / 0.15); /* Glow shadow-ti aro soft (0.15) */
+  --shadow-card:
+    0 12px 30px -10px oklch(0.12 0.015 260 / 0.06), 0 4px 12px -5px oklch(0.12 0.015 260 / 0.04); /* Double layer shadow */
+}
+
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.78 0.17 175 / 0.12), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 20%, oklch(0.72 0.19 300 / 0.10), transparent);
-    background-attachment: fixed;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
   }
-  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
 }
 
 @utility text-gradient {
@@ -97,13 +140,28 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
-@utility animate-float { animation: float 6s ease-in-out infinite; }
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@utility animate-fade-up { animation: fade-up 0.6s ease-out both; }
+@utility animate-fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
