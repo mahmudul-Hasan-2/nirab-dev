@@ -15,12 +15,15 @@ import {
   Globe,
   GraduationCap,
   Heart,
+  HelpCircle,
   Layers,
   Lightbulb,
   Linkedin,
   Mail,
   MapPin,
   Menu,
+  MessageSquareQuote,
+  Newspaper,
   Server,
   ShieldCheck,
   Sparkles,
@@ -29,6 +32,10 @@ import {
   Trophy,
   Wrench,
   X,
+  Zap,
+  Bot,
+  Layout,
+  Lock,
 } from "lucide-react";
 import {
   useEffect,
@@ -313,6 +320,113 @@ const PROJECTS: Project[] = [
   },
 ];
 
+const SERVICES = [
+  {
+    icon: Layout,
+    title: "Full-Stack Web Apps",
+    description:
+      "End-to-end products with React/Next.js frontends, Node.js APIs, and MongoDB — from idea to production deploy.",
+  },
+  {
+    icon: Lock,
+    title: "Auth & Secure Backends",
+    description:
+      "Better Auth, JWT, session handling, protected routes, and reliable CORS setups across decoupled architectures.",
+  },
+  {
+    icon: Bot,
+    title: "AI Feature Integration",
+    description:
+      "LLM-powered flows with Google Gemini — project generators, co-pilot chat, and agent-style workflows inside real apps.",
+  },
+  {
+    icon: Zap,
+    title: "Performance & UX Polish",
+    description:
+      "Clean UI systems, responsive layouts, caching strategies, and micro-interactions that feel fast and intentional.",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Nirab delivers clean, production-minded code. Communication was clear and the final product matched the scope without unnecessary complexity.",
+    name: "Project Collaborator",
+    role: "Indie Founder",
+  },
+  {
+    quote:
+      "Strong grasp of full-stack patterns — especially auth and API structure. Reliable when shipping under tight timelines.",
+    name: "Peer Developer",
+    role: "MERN Stack Developer",
+  },
+  {
+    quote:
+      "Thoughtful about UX details and always willing to iterate. The AI-assisted features were implemented carefully, not as gimmicks.",
+    name: "Product Reviewer",
+    role: "Startup Builder",
+  },
+];
+
+const ARTICLES = [
+  {
+    id: "better-auth-sessions",
+    title: "Reliable Better Auth Across Local & Vercel",
+    tag: "Auth",
+    date: "Aug 2026",
+    readTime: "5 min",
+    summary:
+      "How I configure cookie sessions, baseURL routing, and environment variables so auth works the same in development and production.",
+    content:
+      "Running Better Auth with a decoupled Express backend taught me that most “auth bugs” are environment bugs. Aligning trusted origins, secure cookie flags, and dynamic baseURL values removed almost all session failures between localhost and Vercel. I now treat auth config as part of the deployment checklist, not an afterthought.",
+  },
+  {
+    id: "agentic-gemini-flows",
+    title: "Building Multi-Step Flows with Gemini",
+    tag: "AI",
+    date: "Jul 2026",
+    readTime: "6 min",
+    summary:
+      "Lessons from DevAgent: keeping conversation context, structuring prompts, and handling async streams without freezing the UI.",
+    content:
+      "Agentic UX fails when the UI assumes a single response. In DevAgent I separated planning steps from chat turns, persisted lightweight context, and streamed progress so users always knew what the model was doing. Clear failure states mattered as much as clever prompts.",
+  },
+  {
+    id: "decoupled-mern",
+    title: "Decoupled Next.js + Express Without the Pain",
+    tag: "Architecture",
+    date: "Jun 2026",
+    readTime: "4 min",
+    summary:
+      "CORS, JWT ownership, and shared TypeScript contracts — practical patterns for keeping client and server aligned.",
+    content:
+      "Fully separated repos force discipline. I keep DTO-style types close to the API boundary, centralize error shapes, and document auth expectations early. Pagination and nested resources (like IdeaVault comments) stay predictable when the server owns validation and the client stays thin.",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "Are you available for remote work?",
+    a: "Yes. I work remotely from Bangladesh and am open to freelance projects, internships, and full-time remote roles.",
+  },
+  {
+    q: "What stack do you prefer?",
+    a: "React, Next.js, TypeScript, Node.js, Express, MongoDB, and Tailwind CSS. I also integrate AI features with Google Gemini and use Better Auth or JWT for authentication.",
+  },
+  {
+    q: "Can you build both frontend and backend?",
+    a: "Yes. Most of my shipped projects are full-stack — UI, API, database models, auth, and deployment on Vercel.",
+  },
+  {
+    q: "How do you usually start a project?",
+    a: "I clarify the problem and constraints first, sketch the data model and routes, then ship in small increments so feedback stays continuous.",
+  },
+  {
+    q: "Do you work with existing codebases?",
+    a: "Yes. I can join an existing React/Next or Node project, fix auth or API issues, and improve structure without rewriting everything.",
+  },
+];
+
 const SKILLS_CATEGORIES = [
   {
     category: "Frontend Architecture",
@@ -418,9 +532,11 @@ const PROCESS_STEPS = [
 const NAV = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
+  { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
-  { id: "process", label: "Process" },
+  { id: "articles", label: "Articles" },
+  { id: "faq", label: "FAQ" },
   { id: "contact", label: "Contact" },
 ] as const;
 
@@ -442,7 +558,6 @@ function useActiveSection(ids: readonly string[]) {
     const elements = ids
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
-
     if (!elements.length) return;
 
     const observer = new IntersectionObserver(
@@ -450,9 +565,7 @@ function useActiveSection(ids: readonly string[]) {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]?.target?.id) {
-          setActiveId(visible[0].target.id);
-        }
+        if (visible[0]?.target?.id) setActiveId(visible[0].target.id);
       },
       { rootMargin: "-35% 0px -50% 0px", threshold: [0.1, 0.25, 0.5] },
     );
@@ -466,23 +579,23 @@ function useActiveSection(ids: readonly string[]) {
 
 function matchesFilter(project: Project, filter: ProjectCategory) {
   if (filter === "All") return true;
-  if (filter === "Next.js") {
-    return project.stack.some((s) => /next\.?js/i.test(s));
-  }
+  if (filter === "Next.js") return project.stack.some((s) => /next\.?js/i.test(s));
   return project.category === filter;
 }
 
 function Portfolio() {
   const [active, setActive] = useState<Project | null>(null);
+  const [activeArticle, setActiveArticle] = useState<(typeof ARTICLES)[0] | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const activeSection = useActiveSection(NAV.map((n) => n.id));
 
-  useBodyScrollLock(Boolean(active) || menuOpen);
+  useBodyScrollLock(Boolean(active) || Boolean(activeArticle) || menuOpen);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setActive(null);
+        setActiveArticle(null);
         setMenuOpen(false);
       }
     };
@@ -498,20 +611,23 @@ function Portfolio() {
         <div className="absolute top-[35%] right-[10%] w-[280px] h-[280px] rounded-full bg-fuchsia-300/20 blur-[110px]" />
       </div>
 
-      <Nav
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        activeSection={activeSection}
-      />
+      <Nav menuOpen={menuOpen} setMenuOpen={setMenuOpen} activeSection={activeSection} />
       <Hero />
       <About />
+      <Services />
       <Skills />
       <Projects onSelect={setActive} />
       <Process />
+      <Testimonials />
+      <Articles onSelect={setActiveArticle} />
       <NowSection />
+      <FAQ />
       <Contact />
       <Footer />
       {active && <ProjectModal project={active} onClose={() => setActive(null)} />}
+      {activeArticle && (
+        <ArticleModal article={activeArticle} onClose={() => setActiveArticle(null)} />
+      )}
     </div>
   );
 }
@@ -529,16 +645,13 @@ function Nav({
     <header className="fixed top-0 inset-x-0 z-40">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4">
         <div className="h-14 sm:h-16 flex items-center justify-between gap-4 rounded-full bg-white/80 backdrop-blur-xl border border-white/70 shadow-[0_8px_32px_rgba(99,102,241,0.14)] px-5 sm:px-6">
-          <a
-            href="#home"
-            className="font-bold text-lg shrink-0 flex items-center gap-1.5 tracking-tight"
-          >
+          <a href="#home" className="font-bold text-lg shrink-0 flex items-center gap-1.5 tracking-tight">
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Nirab
             </span>
             <span className="text-slate-400">.dev</span>
           </a>
-          <nav className="hidden md:flex items-center gap-7 text-sm" aria-label="Primary">
+          <nav className="hidden lg:flex items-center gap-5 text-sm" aria-label="Primary">
             {NAV.map((n) => {
               const isActive = activeSection === n.id;
               return (
@@ -546,9 +659,7 @@ function Nav({
                   key={n.id}
                   href={`#${n.id}`}
                   className={`font-medium transition-colors ${
-                    isActive
-                      ? "text-violet-600"
-                      : "text-slate-500 hover:text-violet-600"
+                    isActive ? "text-violet-600" : "text-slate-500 hover:text-violet-600"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                 >
@@ -575,7 +686,7 @@ function Nav({
           </div>
           <button
             type="button"
-            className="md:hidden w-10 h-10 grid place-items-center rounded-full border border-violet-100 text-slate-600 hover:border-violet-300 hover:text-violet-600 transition"
+            className="lg:hidden w-10 h-10 grid place-items-center rounded-full border border-violet-100 text-slate-600 hover:border-violet-300 hover:text-violet-600 transition"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -586,7 +697,7 @@ function Nav({
       </div>
       {menuOpen && (
         <nav
-          className="md:hidden mx-4 mt-2 rounded-2xl border border-white/70 bg-white/95 backdrop-blur-xl px-6 py-5 flex flex-col gap-4 shadow-xl shadow-violet-500/15"
+          className="lg:hidden mx-4 mt-2 rounded-2xl border border-white/70 bg-white/95 backdrop-blur-xl px-6 py-5 flex flex-col gap-3 shadow-xl shadow-violet-500/15 max-h-[70vh] overflow-y-auto"
           aria-label="Mobile"
         >
           {NAV.map((n) => (
@@ -684,17 +795,14 @@ function Hero() {
           </p>
         </div>
 
-        <div
-          className="order-1 md:order-2 flex justify-center md:justify-end"
-          style={{ perspective: "1200px" }}
-        >
+        <div className="order-1 md:order-2 flex justify-center md:justify-end" style={{ perspective: "1200px" }}>
           <div className="relative group" style={{ transformStyle: "preserve-3d" }}>
             <div
               className="absolute -inset-8 rounded-[2.8rem] bg-gradient-to-br from-violet-400/40 via-indigo-300/30 to-fuchsia-300/30 blur-3xl opacity-70 group-hover:opacity-95 transition duration-700 motion-reduce:transition-none"
               aria-hidden
             />
             <div
-              className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-[2rem] overflow-hidden border-[5px] border-white shadow-[0_30px_60px_-15px_rgba(99,102,241,0.5)] transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none motion-reduce:transition-none"
+              className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-[2rem] overflow-hidden border-[5px] border-white shadow-[0_30px_60px_-15px_rgba(99,102,241,0.5)] transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none"
               style={{ transform: "rotateY(-6deg) rotateX(3deg)" }}
             >
               <img
@@ -705,9 +813,8 @@ function Hero() {
                 className="w-full h-full object-cover"
                 fetchPriority="high"
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/15 via-transparent to-transparent pointer-events-none" />
             </div>
-            <div className="absolute -bottom-5 -left-4 sm:-left-8 rounded-2xl bg-white/95 backdrop-blur border border-white shadow-xl px-4 py-3 flex items-center gap-3 transform transition group-hover:-translate-y-1 motion-reduce:transform-none">
+            <div className="absolute -bottom-5 -left-4 sm:-left-8 rounded-2xl bg-white/95 backdrop-blur border border-white shadow-xl px-4 py-3 flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 grid place-items-center text-white shadow-md">
                 <Code2 className="w-5 h-5" aria-hidden />
               </div>
@@ -800,6 +907,30 @@ function About() {
             Most of my time goes into the modern JavaScript/TypeScript ecosystem, exploring better
             architecture patterns, secure authentication, and intelligent AI-powered features.
           </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section id="services" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="What I Offer" title="Services" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {SERVICES.map((s) => (
+            <div
+              key={s.title}
+              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
+            >
+              <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
+                <s.icon className="w-6 h-6 text-white" aria-hidden />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">{s.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">{s.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -905,7 +1036,7 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
             No projects in this category yet. Try another filter.
           </p>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1100px" }}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((p) => (
               <article
                 key={p.name}
@@ -913,15 +1044,7 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
                 tabIndex={0}
                 onClick={() => onSelect(p)}
                 onKeyDown={(e) => onCardKeyDown(e, p)}
-                className="rounded-3xl overflow-hidden group flex flex-col border border-white/80 bg-white/85 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_30px_60px_rgba(99,102,241,0.22)] transition-all duration-400 relative cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 motion-reduce:transform-none"
-                style={{ transformStyle: "preserve-3d" }}
-                onMouseEnter={(e) => {
-                  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-                  e.currentTarget.style.transform = "rotateY(5deg) rotateX(2deg) translateY(-8px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "rotateY(0) rotateX(0) translateY(0)";
-                }}
+                className="rounded-3xl overflow-hidden group flex flex-col border border-white/80 bg-white/85 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_30px_60px_rgba(99,102,241,0.22)] hover:-translate-y-2 transition-all duration-300 relative cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 motion-reduce:transform-none"
               >
                 <div className="absolute top-4 right-4 z-10">
                   <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-600 text-white px-2.5 py-1 shadow-md">
@@ -993,24 +1116,158 @@ function Process() {
   );
 }
 
-function NowSection() {
+function Testimonials() {
   return (
-    <section className="py-20 px-4 sm:px-6 w-full">
+    <section id="testimonials" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Social Proof" title="What Others Say" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {TESTIMONIALS.map((t) => (
+            <figure
+              key={t.name + t.role}
+              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] flex flex-col"
+            >
+              <MessageSquareQuote className="w-8 h-8 text-violet-500 mb-4" aria-hidden />
+              <blockquote className="text-sm text-slate-600 leading-relaxed flex-1">
+                “{t.quote}”
+              </blockquote>
+              <figcaption className="mt-5 pt-4 border-t border-violet-100">
+                <p className="font-semibold text-slate-900 text-sm">{t.name}</p>
+                <p className="text-xs text-violet-600 font-medium">{t.role}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="text-center text-xs text-slate-400 mt-8">
+          Placeholder testimonials — replace with real quotes when you have them.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
+  return (
+    <section id="articles" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Writing" title="Articles & Notes" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {ARTICLES.map((article) => (
+            <article
+              key={article.id}
+              role="button"
+              tabIndex={0}
+              onClick={() => onSelect(article)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelect(article);
+                }
+              }}
+              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 cursor-pointer flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transform-none"
+            >
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-100 text-violet-700 px-2.5 py-1">
+                  {article.tag}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {article.date} · {article.readTime}
+                </span>
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2 flex items-start gap-2">
+                <Newspaper className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" aria-hidden />
+                {article.title}
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed flex-1">{article.summary}</p>
+              <span className="mt-4 text-sm font-medium text-violet-600 inline-flex items-center gap-1">
+                Read note <ArrowRight className="w-4 h-4" aria-hidden />
+              </span>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function NowSection() {
+  const items = [
+    {
+      title: "Learning deep TypeScript",
+      body: "Generics, utility types, stricter app boundaries, and patterns that scale across frontend + backend repos.",
+    },
+    {
+      title: "Agentic AI workflows",
+      body: "Multi-step Gemini flows, context memory, and safer tool-style orchestration inside real products like DevAgent.",
+    },
+    {
+      title: "Backend reliability",
+      body: "NGINX basics, session hardening with Better Auth, and cleaner API contracts between Next.js and Express.",
+    },
+    {
+      title: "Shipping polished full-stack apps",
+      body: "Auth, CRUD, deploy pipelines, and UX details — prioritizing production readiness over demo-only features.",
+    },
+  ];
+
+  return (
+    <section id="now" className="py-20 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-4xl rounded-[2rem] p-8 border border-violet-200/70 bg-gradient-to-br from-violet-50/90 to-indigo-50/90 backdrop-blur-sm shadow-[0_15px_50px_rgba(99,102,241,0.15)]">
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-2">
           <div className="w-3 h-3 rounded-full bg-violet-500 animate-pulse" aria-hidden />
           <h3 className="text-xl font-bold text-slate-900">Currently Focused On</h3>
         </div>
+        <p className="text-sm text-slate-600 mb-6">
+          A living snapshot of what I&apos;m building and learning right now — updated as priorities shift.
+        </p>
         <div className="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
-          <div className="rounded-2xl p-4 border border-white bg-white/90 shadow-sm">
-            <strong className="text-slate-900 block mb-1">Learning & R&D</strong>
-            TypeScript deep dive, NGINX, Agentic AI workflows, and modern backend patterns.
-          </div>
-          <div className="rounded-2xl p-4 border border-white bg-white/90 shadow-sm">
-            <strong className="text-slate-900 block mb-1">Engineering</strong>
-            Building and optimizing full-stack architectures with Next.js and secure backend
-            services.
-          </div>
+          {items.map((item) => (
+            <div key={item.title} className="rounded-2xl p-4 border border-white bg-white/90 shadow-sm">
+              <strong className="text-slate-900 block mb-1">{item.title}</strong>
+              {item.body}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section id="faq" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-3xl">
+        <SectionHeader eyebrow="Questions" title="FAQ" />
+        <div className="space-y-3">
+          {FAQ_ITEMS.map((item, idx) => {
+            const isOpen = open === idx;
+            return (
+              <div
+                key={item.q}
+                className="rounded-2xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_8px_30px_rgba(99,102,241,0.08)] overflow-hidden"
+              >
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+                  onClick={() => setOpen(isOpen ? null : idx)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="font-medium text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4 text-violet-500 shrink-0" aria-hidden />
+                    {item.q}
+                  </span>
+                  <span className="text-violet-600 text-lg leading-none shrink-0">{isOpen ? "−" : "+"}</span>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-violet-50 pt-3">
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1019,7 +1276,6 @@ function NowSection() {
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null);
-
   useEffect(() => {
     closeRef.current?.focus();
   }, []);
@@ -1038,16 +1294,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative aspect-video bg-slate-100">
-          <img
-            src={project.image}
-            alt={project.name}
-            className="w-full h-full object-cover object-top"
-          />
+          <img src={project.image} alt={project.name} className="w-full h-full object-cover object-top" />
           <button
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur grid place-items-center text-slate-600 hover:text-violet-600 transition border border-white shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur grid place-items-center text-slate-600 hover:text-violet-600 transition border border-white shadow-md"
             aria-label="Close project details"
           >
             <X className="w-5 h-5" />
@@ -1064,9 +1316,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
             <h3 id="project-modal-title" className="text-2xl sm:text-3xl font-bold text-slate-900">
               {project.name}
             </h3>
-            <p className="mt-3 text-slate-600 leading-relaxed text-sm sm:text-base">
-              {project.description}
-            </p>
+            <p className="mt-3 text-slate-600 leading-relaxed text-sm sm:text-base">{project.description}</p>
           </div>
 
           <div className="rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 p-4 flex items-start gap-3">
@@ -1082,27 +1332,19 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div className="grid gap-5">
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <Target className="w-4 h-4 text-rose-500" aria-hidden />
-                <h4 className="text-sm font-semibold text-slate-900">The Problem</h4>
+            {[
+              { icon: Target, color: "text-rose-500", title: "The Problem", text: project.problem },
+              { icon: Lightbulb, color: "text-amber-500", title: "The Solution", text: project.solution },
+              { icon: BookOpen, color: "text-emerald-500", title: "What I Learned", text: project.learnings },
+            ].map((block) => (
+              <div key={block.title} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <block.icon className={`w-4 h-4 ${block.color}`} aria-hidden />
+                  <h4 className="text-sm font-semibold text-slate-900">{block.title}</h4>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">{block.text}</p>
               </div>
-              <p className="text-sm text-slate-600 leading-relaxed">{project.problem}</p>
-            </div>
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <Lightbulb className="w-4 h-4 text-amber-500" aria-hidden />
-                <h4 className="text-sm font-semibold text-slate-900">The Solution</h4>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">{project.solution}</p>
-            </div>
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
-              <div className="flex items-center gap-2 mb-2">
-                <BookOpen className="w-4 h-4 text-emerald-500" aria-hidden />
-                <h4 className="text-sm font-semibold text-slate-900">What I Learned</h4>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">{project.learnings}</p>
-            </div>
+            ))}
           </div>
 
           <div>
@@ -1191,6 +1433,61 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
   );
 }
 
+function ArticleModal({
+  article,
+  onClose,
+}: {
+  article: (typeof ARTICLES)[0];
+  onClose: () => void;
+}) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    closeRef.current?.focus();
+  }, []);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm px-4 py-8 overflow-y-auto flex items-start sm:items-center justify-center"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="article-modal-title"
+        className="mx-auto max-w-2xl rounded-3xl border border-white/80 bg-white my-8 w-full max-h-[92vh] overflow-y-auto shadow-2xl shadow-violet-500/25 p-6 sm:p-8 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white border border-violet-100 grid place-items-center text-slate-600 hover:text-violet-600 transition shadow-sm"
+          aria-label="Close article"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <div className="pr-12">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-100 text-violet-700 px-2.5 py-1">
+              {article.tag}
+            </span>
+            <span className="text-xs text-slate-400">
+              {article.date} · {article.readTime}
+            </span>
+          </div>
+          <h3 id="article-modal-title" className="text-2xl font-bold text-slate-900 mb-4">
+            {article.title}
+          </h3>
+          <p className="text-slate-600 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+            {article.content}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -1218,15 +1515,10 @@ function Contact() {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="space-y-5 min-w-0">
             <p className="text-slate-600 text-sm sm:text-base">
-              Have a project idea, collaboration opportunity, or just want to say hi? I&apos;m
-              always open to interesting conversations.
+              Have a project idea, collaboration opportunity, or just want to say hi? I&apos;m always
+              open to interesting conversations.
             </p>
-            <ContactRow
-              icon={Mail}
-              label="Email"
-              value="mahmudul5790@gmail.com"
-              href="mailto:mahmudul5790@gmail.com"
-            />
+            <ContactRow icon={Mail} label="Email" value="mahmudul5790@gmail.com" href="mailto:mahmudul5790@gmail.com" />
             <ContactRow
               icon={Linkedin}
               label="LinkedIn"
@@ -1246,14 +1538,7 @@ function Contact() {
             className="rounded-3xl p-6 space-y-4 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
           >
             <Field name="name" label="Name" placeholder="Your name" maxLength={100} required />
-            <Field
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="you@example.com"
-              maxLength={255}
-              required
-            />
+            <Field name="email" label="Email" type="email" placeholder="you@example.com" maxLength={255} required />
             <div>
               <label htmlFor="message" className="text-sm text-slate-500 mb-1.5 block">
                 Message
@@ -1344,12 +1629,7 @@ function ContactRow({
     </div>
   );
   return href ? (
-    <a
-      href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel="noreferrer"
-      className="block w-full"
-    >
+    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="block w-full">
       {inner}
     </a>
   ) : (
@@ -1362,10 +1642,7 @@ function Footer() {
     <footer className="border-t border-violet-100 py-16 px-4 sm:px-6 w-full bg-white/50">
       <div className="mx-auto max-w-6xl flex flex-col md:flex-row justify-between gap-10 items-start text-center md:text-left">
         <div className="space-y-3 max-w-sm mx-auto md:mx-0">
-          <a
-            href="#home"
-            className="font-bold text-xl inline-flex items-center gap-2 justify-center md:justify-start"
-          >
+          <a href="#home" className="font-bold text-xl inline-flex items-center gap-2 justify-center md:justify-start">
             <Code2 className="w-5 h-5 text-violet-600" aria-hidden />
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Nirab
@@ -1378,9 +1655,7 @@ function Footer() {
           </p>
         </div>
         <div className="space-y-3 mx-auto md:mx-0 flex flex-col items-center md:items-start">
-          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">
-            Quick Navigation
-          </h4>
+          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">Quick Navigation</h4>
           <div className="flex flex-col items-center md:items-start gap-2.5 text-sm text-slate-500">
             {NAV.map((n) => (
               <a key={n.id} href={`#${n.id}`} className="hover:text-violet-600 transition">
@@ -1390,17 +1665,11 @@ function Footer() {
           </div>
         </div>
         <div className="space-y-3 mx-auto md:mx-0 flex flex-col items-center md:items-start">
-          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">
-            Connect with Me
-          </h4>
+          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">Connect with Me</h4>
           <div className="flex items-center justify-center md:justify-start gap-3">
             {[
               { href: "https://github.com/mahmudul-hasan-2", icon: Github, label: "GitHub" },
-              {
-                href: "https://linkedin.com/in/mahmudul-hasan-dev",
-                icon: Linkedin,
-                label: "LinkedIn",
-              },
+              { href: "https://linkedin.com/in/mahmudul-hasan-dev", icon: Linkedin, label: "LinkedIn" },
               { href: "mailto:mahmudul5790@gmail.com", icon: Mail, label: "Email" },
             ].map((item) => (
               <a
@@ -1424,8 +1693,8 @@ function Footer() {
       <div className="mx-auto max-w-6xl border-t border-violet-100 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center">
         <p>© {new Date().getFullYear()} Mahmudul Hasan Nirab. All rights reserved.</p>
         <p className="flex items-center justify-center gap-1">
-          Built with <Heart className="w-3.5 h-3.5 text-violet-500 fill-violet-500" aria-hidden />{" "}
-          using React & Tailwind CSS
+          Built with <Heart className="w-3.5 h-3.5 text-violet-500 fill-violet-500" aria-hidden /> using React &
+          Tailwind CSS
         </p>
       </div>
     </footer>
