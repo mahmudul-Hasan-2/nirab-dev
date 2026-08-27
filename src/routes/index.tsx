@@ -597,7 +597,6 @@ function Portfolio() {
       <Skills />
       <Projects onSelect={setActive} />
       <Process />
-      <Testimonials />
       <Articles onSelect={setActiveArticle} />
       <NowSection />
       <FAQ />
