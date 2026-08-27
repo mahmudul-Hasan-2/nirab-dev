@@ -1467,7 +1467,7 @@ function Contact() {
               Have a project idea, collaboration opportunity, or just want to say hi? I&apos;m always
               open to interesting conversations.
             </p>
-            <ContactRow icon={Mail} label="Email" value="mahmudul5790@gmail.com" href="mailto:mahmudul5790@gmail.com" />
+            <ContactRow icon={Mail} label="Email" value="mahmudul5709@gmail.com" href="mailto:mahmudul5709@gmail.com" />
             <ContactRow
               icon={Linkedin}
               label="LinkedIn"
