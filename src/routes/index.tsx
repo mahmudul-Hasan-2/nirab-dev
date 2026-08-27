@@ -347,27 +347,6 @@ const SERVICES = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "Nirab delivers clean, production-minded code. Communication was clear and the final product matched the scope without unnecessary complexity.",
-    name: "Project Collaborator",
-    role: "Indie Founder",
-  },
-  {
-    quote:
-      "Strong grasp of full-stack patterns — especially auth and API structure. Reliable when shipping under tight timelines.",
-    name: "Peer Developer",
-    role: "MERN Stack Developer",
-  },
-  {
-    quote:
-      "Thoughtful about UX details and always willing to iterate. The AI-assisted features were implemented carefully, not as gimmicks.",
-    name: "Product Reviewer",
-    role: "Startup Builder",
-  },
-];
-
 const ARTICLES = [
   {
     id: "better-auth-sessions",
@@ -1116,35 +1095,6 @@ function Process() {
   );
 }
 
-function Testimonials() {
-  return (
-    <section id="testimonials" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Social Proof" title="What Others Say" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t) => (
-            <figure
-              key={t.name + t.role}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] flex flex-col"
-            >
-              <MessageSquareQuote className="w-8 h-8 text-violet-500 mb-4" aria-hidden />
-              <blockquote className="text-sm text-slate-600 leading-relaxed flex-1">
-                “{t.quote}”
-              </blockquote>
-              <figcaption className="mt-5 pt-4 border-t border-violet-100">
-                <p className="font-semibold text-slate-900 text-sm">{t.name}</p>
-                <p className="text-xs text-violet-600 font-medium">{t.role}</p>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-        <p className="text-center text-xs text-slate-400 mt-8">
-          Placeholder testimonials — replace with real quotes when you have them.
-        </p>
-      </div>
-    </section>
-  );
-}
 
 function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
   return (
