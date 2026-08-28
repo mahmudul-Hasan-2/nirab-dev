@@ -44,9 +44,7 @@ import {
   useMemo,
   useRef,
   useState,
-  type ComponentType,
   type FormEvent,
-  type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 
 const RESUME_URL =
@@ -67,7 +65,7 @@ export const Route = createFileRoute("/")({
       {
         name: "keywords",
         content:
-          "Mahmudul Hasan Nirab, Full Stack Developer, React, Next.js, TypeScript, Node.js, MongoDB, MERN, Portfolio, Bangladesh Developer, AI",
+          "Mahmudul Hasan Nirab, Full Stack Developer, React, Next.js, TypeScript, Node.js, MongoDB, MERN, Portfolio, Bangladesh Developer, AI, Programming Hero",
       },
       { property: "og:title", content: "Mahmudul Hasan Nirab — Full Stack Developer" },
       { property: "og:description", content: SITE_DESCRIPTION },
@@ -104,138 +102,130 @@ type Project = {
   solution: string;
   learnings: string;
   features: string[];
-  metrics?: { label: string; value: string }[];
 };
 
 const PROJECTS: Project[] = [
   {
     name: "DevAgent",
     tagline:
-      "Elite Agentic AI Workspace — Autonomous project management & intelligent AI co-pilot.",
+      "Full-stack AI workspace — project generation with Gemini, interactive co-pilot chat, and secure workspaces.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Ffrontend-sigma-tawny-82.vercel.app%2F?w=1280&h=800",
     stack: [
       "Next.js 16",
       "React 19",
       "TypeScript",
-      "Express.js 5",
+      "Express",
       "MongoDB",
       "Google Gemini",
+      "Groq",
       "Better Auth",
       "TanStack Query",
+      "Tailwind CSS",
     ],
     category: "AI",
     description:
-      "DevAgent is a next-generation Agentic AI Workspace that bridges high-level project ideas and production-ready execution. Powered by Google Gemini, it generates detailed project descriptions, offers an interactive AI Co-Pilot chat, and provides secure workspace management.",
+      "DevAgent is a full-stack AI-powered workspace for project management and intelligent assistance. It generates project blueprints with Google Gemini, offers an interactive AI co-pilot chat (Gemini & Groq), and provides secure workspace management with Better Auth.",
     live: "https://frontend-sigma-tawny-82.vercel.app/",
     repos: [{ label: "Full Repository", url: "https://github.com/mahmudul-Hasan-2/DevAgent" }],
     challenges: [
-      "Orchestrating multi-step agentic flows with Gemini while maintaining conversation context across sessions.",
-      "Integrating Better Auth with a fully decoupled Express backend and handling cross-origin cookie sessions reliably.",
+      "Orchestrating multi-step agentic flows with Gemini while keeping conversation context across sessions.",
+      "Integrating Better Auth with a decoupled Express backend and reliable cross-origin cookie sessions.",
       "Building a clean TypeScript shared interface layer between frontend and backend.",
     ],
     improvements: [
-      "Add multi-model LLM fallback support for higher reliability.",
+      "Add multi-model LLM fallback for higher reliability.",
       "Introduce real-time team collaboration and shared workspaces.",
       "Add file upload + vector memory for deeper project context.",
     ],
     badge: "AI Powered",
-    keyMetric: "Generate structured project plans in under 2 minutes using Gemini",
+    keyMetric: "AI project generation + co-pilot chat in one secure workspace",
     problem:
-      "Developers waste significant time context-switching when planning features and structuring new applications from scratch.",
+      "Developers spend too much time switching tools when planning features and structuring new applications from scratch.",
     solution:
-      "Built an integrated agentic workspace that uses Google Gemini to automatically generate project structure, task breakdown, and provides a real-time AI co-pilot chat inside secure workspaces.",
+      "Built an integrated agentic workspace that uses Google Gemini to generate project structure and task breakdown, with a real-time AI co-pilot chat inside Better Auth–protected workspaces.",
     learnings:
-      "Deepened understanding of asynchronous AI stream handling, multi-step agent orchestration, Better Auth session management across domains, and end-to-end TypeScript architecture.",
+      "Hands-on experience with async AI streams, multi-step agent orchestration, Better Auth across domains, and end-to-end TypeScript architecture (Next.js frontend + Express backend).",
     features: [
-      "Autonomous AI project description generator",
-      "Interactive AI Co-Pilot chat with context memory",
+      "AI project blueprint generation (Gemini)",
+      "Interactive AI co-pilot chat (Gemini & Groq)",
       "Secure workspace management with Better Auth",
-      "Full TypeScript type safety across frontend & backend",
-      "Modern dashboard with dark mode support",
-    ],
-    metrics: [
-      { label: "Performance", value: "92" },
-      { label: "Accessibility", value: "98" },
-      { label: "Best Practices", value: "100" },
+      "Project create / explore / update flows",
+      "TypeScript across frontend and backend",
+      "Modern responsive UI with Tailwind CSS",
     ],
   },
   {
     name: "DevCraft",
     tagline:
-      "Premium full-stack developer tools discovery & management platform secured with Better Auth.",
+      "Full-stack item discovery & management platform with Better Auth, search, filters, and CRUD.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdev-craft-lime.vercel.app%2F?w=1280&h=800",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "MongoDB", "Better Auth"],
     category: "Full Stack",
     description:
-      "DevCraft is a high-performance full-stack platform for discovering, organizing, and managing developer tools and resources. It features secure authentication, seamless CRUD operations, and a clean explore experience.",
+      "DevCraft is a full-stack platform for discovering, organizing, and managing developer tools and resources. It uses the Next.js App Router, Better Auth for sessions, and MongoDB for data — with search, filters, and full CRUD.",
     live: "https://dev-craft-lime.vercel.app/",
     repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/DevCraft" }],
     challenges: [
-      "Implementing robust Better Auth sessions that work reliably across local development and Vercel production.",
-      "Building smooth client-side UI synchronization for real-time CRUD feedback.",
-      "Architecting dynamic baseURL routing for seamless environment switching.",
+      "Making Better Auth sessions work reliably on both localhost and Vercel production.",
+      "Keeping client UI in sync after create / update / delete operations.",
+      "Dynamic baseURL routing so the same code works in local and production environments.",
     ],
     improvements: [
-      "Add advanced filtering, tagging, and full-text search for large collections.",
-      "Introduce role-based access control and collaborative collections.",
-      "Add public sharing links for curated tool lists.",
+      "Advanced filtering, tagging, and full-text search for large collections.",
+      "Role-based access and collaborative collections.",
+      "Public sharing links for curated tool lists.",
     ],
     badge: "Full Stack",
-    keyMetric: "Implemented Better Auth + full CRUD with role support in under 3 days",
+    keyMetric: "Better Auth + full CRUD with multi-environment stability",
     problem:
-      "Developers need a fast, centralized place to discover and save specialized engineering tools without switching between multiple bookmarks and tabs.",
+      "Developers need one place to discover and save specialized tools without juggling bookmarks and tabs.",
     solution:
-      "Created a clean, high-performance directory platform with instant search, organized categorization, secure user collections, and seamless CRUD powered by Better Auth.",
+      "Built a clean directory platform with search, categorization, secure user collections, and seamless CRUD powered by Better Auth and MongoDB.",
     learnings:
-      "Mastered Next.js App Router data fetching patterns, Better Auth environment configuration, and optimized MongoDB queries for instant search and filtering.",
+      "Next.js App Router data patterns, Better Auth environment setup, and MongoDB queries tuned for search and filtering.",
     features: [
-      "Bulletproof authentication with Better Auth",
-      "Dynamic item discovery with search & filters",
+      "Authentication with Better Auth",
+      "Browse, search, and filter items on /explore",
       "Full CRUD with instant client-side updates",
-      "Multi-environment stability (local + Vercel)",
-      "Clean modern UI with responsive grids",
-    ],
-    metrics: [
-      { label: "Performance", value: "94" },
-      { label: "Accessibility", value: "96" },
-      { label: "SEO", value: "100" },
+      "Works on localhost and Vercel with dynamic baseURL",
+      "Responsive grids and loading states",
     ],
   },
   {
     name: "IdeaVault",
     tagline:
-      "Modern idea-sharing platform for pitching, discovering, and discussing startup concepts.",
+      "Idea-sharing platform with JWT auth, discovery search, nested comments, and user dashboards.",
     image:
       "https://s.wordpress.com/mshots/v1/https%3A%2F%2Fideavault-client-psi.vercel.app%2F?w=1280&h=800",
     stack: ["Next.js", "Node.js", "Express", "MongoDB", "JWT", "Tailwind CSS"],
     category: "Full Stack",
     description:
-      "IdeaVault is a collaborative idea-sharing platform where users can create, explore, and interact with startup ideas. It features secure JWT authentication, smart discovery, nested comments, user dashboards, and a responsive carousel UI.",
+      "IdeaVault is a collaborative idea-sharing platform. Users create and explore ideas, leave nested comments, and manage their own dashboards. The client is Next.js; the API is a separate Express server with JWT authentication.",
     live: "https://ideavault-client-psi.vercel.app/",
     repos: [
       { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/IdeaVault-client" },
       { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/IdeaVault-Server" },
     ],
     challenges: [
-      "Synchronizing a fully decoupled Next.js client and Express server while handling CORS and JWT authentication securely.",
-      "Designing efficient discovery feeds with pagination, sorting, and nested comment interactions.",
-      "Building clean user dashboards (My Ideas, My Interactions) with proper data ownership.",
+      "Keeping a fully decoupled Next.js client and Express server in sync (CORS + JWT).",
+      "Discovery feeds with pagination, sorting, and nested comments.",
+      "User dashboards (My Ideas, My Interactions) with correct data ownership.",
     ],
     improvements: [
-      "Add real-time updates via WebSockets for comments and idea interactions.",
-      "Expand into full crowdfunding features with campaign management.",
-      "Add idea upvoting and trending algorithm.",
+      "Real-time updates via WebSockets for comments and interactions.",
+      "Crowdfunding-style campaign features.",
+      "Upvoting and a simple trending algorithm.",
     ],
     badge: "Solo",
-    keyMetric: "Secure JWT auth working across fully decoupled client & server",
+    keyMetric: "JWT auth working across fully decoupled client & server",
     problem:
-      "Founders and builders lack a clean, modern space to pitch early concepts and receive structured peer feedback.",
+      "Founders and builders need a simple place to pitch early ideas and get structured feedback.",
     solution:
-      "Developed a full collaborative platform with idea creation, nested comments, smart discovery search, user dashboards, and a responsive homepage carousel.",
+      "Built a full platform with idea creation, nested comments, search-based discovery, user dashboards, and a responsive homepage carousel.",
     learnings:
-      "Gained deep practical experience with JWT implementation, Express middleware protection, CORS handling, and managing state across a decoupled architecture.",
+      "Practical JWT + Express middleware, CORS handling, and state management across a split client/server architecture.",
     features: [
       "Secure JWT authentication",
       "Smart idea discovery & search",
@@ -243,16 +233,11 @@ const PROJECTS: Project[] = [
       "User dashboards (My Ideas / Interactions)",
       "Responsive homepage carousel",
     ],
-    metrics: [
-      { label: "Performance", value: "90" },
-      { label: "Accessibility", value: "95" },
-      { label: "Best Practices", value: "96" },
-    ],
   },
   {
     name: "RecipeHub",
     tagline:
-      "Sleek full-stack platform for discovering, sharing, and managing recipes with smooth animations.",
+      "Recipe browsing & management app with Better Auth, smart search, dark mode, and Framer Motion.",
     image:
       "https://res.cloudinary.com/dyyxcyiz9/image/upload/v1785176448/Screenshot_2026-07-28_001916_a864d4.png",
     stack: [
@@ -266,84 +251,74 @@ const PROJECTS: Project[] = [
     ],
     category: "Full Stack",
     description:
-      "RecipeHub is a modern, responsive culinary platform that lets food enthusiasts browse, search, share, and manage recipes. It features secure authentication, smart filters, dark/light mode, and delightful micro-interactions powered by Framer Motion.",
+      "RecipeHub is a responsive culinary platform for browsing, searching, and managing recipes. It includes Better Auth, category/name/difficulty search, dark/light mode, and smooth animations with Framer Motion and HeroUI.",
     live: "https://recipehub-client.vercel.app/",
     repos: [
       { label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/RecipeHub-Client" },
       { label: "Server Repository", url: "https://github.com/mahmudul-Hasan-2/RecipeHub-Server" },
     ],
     challenges: [
-      "Integrating Better Auth with a decoupled Express backend while keeping session handling seamless across environments.",
-      "Optimizing data fetching and caching strategies in Next.js App Router for dynamic recipe feeds.",
-      "Creating smooth page transitions and micro-interactions with Framer Motion without hurting performance.",
+      "Better Auth with a decoupled Express backend across local and production environments.",
+      "Data fetching and caching in the Next.js App Router for dynamic recipe feeds.",
+      "Smooth Framer Motion transitions without hurting performance.",
     ],
     improvements: [
-      "Add user-generated recipe submissions with image upload and moderation.",
-      "Implement real-time likes and comments.",
-      "Add personalized recipe recommendations.",
+      "User-submitted recipes with image upload and moderation.",
+      "Real-time likes and comments.",
+      "Personalized recipe recommendations.",
     ],
     badge: "Full Stack",
-    keyMetric: "Sub-second layout transitions with optimized asset loading",
+    keyMetric: "Dark/light mode + Framer Motion micro-interactions on a full-stack recipe app",
     problem:
-      "Most recipe websites feel cluttered and lack personalization, bookmarking, and smooth discovery experiences.",
+      "Many recipe sites feel cluttered and lack clear search, personalization, and smooth UX.",
     solution:
-      "Built a clean, animated recipe platform with smart filters, secure authentication, dark/light mode, and delightful micro-interactions using Framer Motion + HeroUI.",
+      "Built a clean, animated recipe platform with smart filters, Better Auth, dark/light mode, and Framer Motion + HeroUI interactions.",
     learnings:
-      "Improved skills in UI micro-interactions, effective caching strategies with Next.js, Better Auth integration, and building polished full-stack user experiences.",
+      "UI micro-interactions, Next.js caching strategies, Better Auth integration, and polished full-stack UX.",
     features: [
-      "Modern UI with Dark/Light mode",
-      "Smart search by category, name & difficulty",
+      "Modern UI with dark / light mode",
+      "Search by category, name & difficulty",
       "Secure authentication via Better Auth",
       "Smooth animations with Framer Motion",
       "Fully responsive design",
-    ],
-    metrics: [
-      { label: "Performance", value: "93" },
-      { label: "Accessibility", value: "97" },
-      { label: "SEO", value: "100" },
     ],
   },
   {
     name: "BookVibe",
     tagline:
-      "Interactive reading companion for organizing, tracking, and visualizing your favorite books.",
+      "Reading companion with dynamic bookshelves, book details, progress charts, and LocalStorage.",
     image:
       "https://res.cloudinary.com/dyyxcyiz9/image/upload/v1785176613/Screenshot_2026-07-28_002216_hdg5zy.png",
     stack: ["React", "Vite", "Tailwind CSS", "DaisyUI", "React Router", "Recharts", "LocalStorage"],
     category: "Frontend",
     description:
-      "BookVibe is a modern React application that helps book lovers discover, review, and organize their reads. It features dynamic bookshelves, detailed book views, interactive progress charts, and fully offline-first data persistence using LocalStorage.",
+      "BookVibe is a React app for book lovers to discover, organize, and track reads. It offers To-Read / Currently Reading / Completed shelves, detailed book pages, Recharts progress charts, and offline-first persistence with LocalStorage.",
     live: "https://book-vibe-coral.vercel.app/",
     repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/Book-Vibe" }],
     challenges: [
-      "Persisting complex bookshelf state across sessions using LocalStorage without data loss or corruption.",
-      "Building responsive, interactive charts that accurately reflect reading progress with Recharts.",
-      "Creating a clean multi-page experience with React Router while keeping the UI consistent.",
+      "Persisting complex bookshelf state in LocalStorage without data loss.",
+      "Responsive, accurate reading-progress charts with Recharts.",
+      "Consistent multi-page UX with React Router.",
     ],
     improvements: [
-      "Migrate data persistence to a backend with user accounts and cloud sync.",
-      "Add social features such as public reviews and reading challenges.",
-      "Implement advanced filtering and reading statistics.",
+      "Backend + user accounts for cloud sync.",
+      "Public reviews and reading challenges.",
+      "Richer filters and reading statistics.",
     ],
     badge: "Frontend",
-    keyMetric: "Fully functional offline-first reading tracker with LocalStorage",
+    keyMetric: "Offline-first reading tracker with LocalStorage + Recharts",
     problem:
-      "Readers need a simple, beautiful way to organize books, track progress, and visualize their reading habits without complex setups.",
+      "Readers want a simple way to organize books, track progress, and see stats without a heavy setup.",
     solution:
-      "Created a clean React application with dynamic bookshelves (To-Read, Currently Reading, Completed), detailed book views, and interactive progress charts powered by Recharts.",
+      "Created a React + Vite app with dynamic bookshelves, detail pages, and interactive progress charts powered by Recharts and LocalStorage.",
     learnings:
-      "Strengthened skills in client-side state management, LocalStorage patterns, data visualization with Recharts, and building polished multi-page React applications.",
+      "Client-side state management, LocalStorage patterns, data visualization with Recharts, and multi-page React apps.",
     features: [
       "Dynamic bookshelves (To-Read / Reading / Completed)",
       "Detailed book information pages",
       "Interactive progress charts with Recharts",
-      "Fully responsive mobile-first design",
-      "Offline-first with LocalStorage persistence",
-    ],
-    metrics: [
-      { label: "Performance", value: "98" },
-      { label: "Accessibility", value: "96" },
-      { label: "Best Practices", value: "100" },
+      "Mobile-first responsive design",
+      "Offline-first with LocalStorage",
     ],
   },
 ];
@@ -365,7 +340,7 @@ const SERVICES = [
     icon: Bot,
     title: "AI Feature Integration",
     description:
-      "LLM-powered flows with Google Gemini — project generators, co-pilot chat, and agent-style workflows inside real apps.",
+      "LLM-powered flows with Google Gemini (and Groq) — project generators, co-pilot chat, and agent-style workflows.",
   },
   {
     icon: Zap,
@@ -432,6 +407,10 @@ const FAQ_ITEMS = [
     q: "Do you work with existing codebases?",
     a: "Yes. I can join an existing React/Next or Node project, fix auth or API issues, and improve structure without rewriting everything.",
   },
+  {
+    q: "Where did you learn web development?",
+    a: "I completed the Programming Hero Complete Web Development Course (Batch-13, WEB13-1485) from 01 January 2026 to 23 July 2026 with a Certificate of Completion with Excellence, and have been building and shipping real full-stack projects from that foundation.",
+  },
 ];
 
 const SKILLS_CATEGORIES = [
@@ -471,30 +450,31 @@ const SKILLS_CATEGORIES = [
   },
 ];
 
+/** Truthful milestone timeline — Programming Hero Batch-13 (01 Jan – 23 Jul 2026) + shipped projects */
 const TIMELINE_DATA = [
   {
-    year: "2024",
-    title: "Started Web Development",
+    year: "Jan 2026",
+    title: "Started Programming Hero (Batch-13)",
     description:
-      "Built foundational skills in HTML, CSS, JavaScript DOM, and modern responsive layouts.",
-  },
-  {
-    year: "2025",
-    title: "Learned MERN Stack & Next.js",
-    description:
-      "Engineered full-stack systems with Node.js, Express, MongoDB, and Next.js App Router.",
-  },
-  {
-    year: "2025",
-    title: "Built AI-Powered Projects",
-    description:
-      "Integrated Large Language Models like Gemini into production applications for autonomous workflows.",
+      "Began the Complete Web Development Course With Programming Hero (Batch-13, WEB13-1485) — HTML, CSS, JavaScript, React, Next.js, Node.js, Express, and MongoDB from the ground up.",
   },
   {
     year: "2026",
-    title: "Deep TypeScript & Systems",
+    title: "Built first full-stack apps",
     description:
-      "Exploring advanced TypeScript patterns, containerization concepts, web servers, and agentic workflows.",
+      "Shipped IdeaVault (JWT + decoupled client/server), RecipeHub (Better Auth + Framer Motion), and BookVibe (React + LocalStorage + Recharts) while progressing through the course.",
+  },
+  {
+    year: "2026",
+    title: "Auth, TypeScript & production deploys",
+    description:
+      "Deepened Better Auth, TypeScript, and Next.js App Router skills while deploying DevCraft and other projects to Vercel.",
+  },
+  {
+    year: "Jul 2026",
+    title: "Completed Programming Hero with Excellence",
+    description:
+      "Finished the course (01 Jan – 23 Jul 2026) with Certificate of Completion with Excellence. Continued building AI-powered apps like DevAgent with Gemini and Groq.",
   },
 ];
 
@@ -536,26 +516,30 @@ const PROCESS_STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
+/** Honest Trust section — real Programming Hero certificate (Batch-13) */
+const LEARNING_HIGHLIGHTS = [
   {
-    quote:
-      "Nirab delivered a clean, production-ready full-stack app faster than expected. Communication was clear and the code quality was excellent.",
-    name: "Project Collaborator",
-    role: "Peer Developer",
+    title: "Programming Hero",
+    detail: "Batch-13 · WEB13-1485 · Jan–Jul 2026",
+    description:
+      "Certificate of Completion with Excellence — Complete Web Development Course. HTML, CSS, JavaScript, React.js, Next.js, Node.js, Express.js, MongoDB, and AI-powered development practices.",
   },
   {
-    quote:
-      "The authentication and AI features in DevAgent showed real engineering depth. He thinks about edge cases and deployment, not just UI.",
-    name: "Open Source Reviewer",
-    role: "GitHub Community",
+    title: "5+ production projects",
+    detail: "Shipped & live on Vercel",
+    description:
+      "DevAgent, DevCraft, IdeaVault, RecipeHub, and BookVibe — each with real auth, APIs, and deployment, not just UI mockups.",
+  },
+  {
+    title: "AI & modern stack",
+    detail: "Gemini, Better Auth, TypeScript",
+    description:
+      "Actively building with Google Gemini, Groq, Better Auth, and end-to-end TypeScript after the core MERN foundation.",
   },
 ];
 
-const CERTIFICATIONS = [
-  { title: "JavaScript Algorithms & Data Structures", issuer: "freeCodeCamp", year: "2025" },
-  { title: "Responsive Web Design", issuer: "freeCodeCamp", year: "2024" },
-  { title: "Modern React with TypeScript", issuer: "Self-paced + Projects", year: "2025" },
-];
+/** Certificate image — place file at public/certificate-programming-hero.png */
+const CERTIFICATE_IMAGE = "/certificate-programming-hero.png";
 
 const NAV = [
   { id: "home", label: "Home" },
@@ -641,7 +625,7 @@ function Portfolio() {
         <Services />
         <Skills />
         <Projects onSelect={setActive} />
-        <Testimonials />
+        <Trust />
         <Process />
         <Articles onSelect={setActiveArticle} />
         <FAQ />
@@ -763,11 +747,10 @@ function Hero() {
           </p>
           <p className="mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
             I build secure, scalable web applications with React, Next.js, TypeScript, and MongoDB.
-            I love turning ideas into clean, production-ready products — especially ones that
-            involve AI.
+            I completed Programming Hero&apos;s Complete Web Development Course (Batch-13, 2026) and
+            love turning ideas into clean, production-ready products — especially ones that involve AI.
           </p>
 
-          {/* Strong dual CTAs */}
           <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
             <a
               href="#projects"
@@ -818,7 +801,10 @@ function Hero() {
           </p>
         </div>
 
-        <div className="order-1 md:order-2 flex justify-center md:justify-end" style={{ perspective: "1200px" }}>
+        <div
+          className="order-1 md:order-2 flex justify-center md:justify-end"
+          style={{ perspective: "1200px" }}
+        >
           <div className="relative group" style={{ transformStyle: "preserve-3d" }}>
             <div
               className="absolute -inset-8 rounded-[2.8rem] bg-gradient-to-br from-violet-400/40 via-indigo-300/30 to-fuchsia-300/30 blur-3xl opacity-70 group-hover:opacity-95 transition duration-700 motion-reduce:transition-none"
@@ -885,12 +871,15 @@ function About() {
             },
             {
               icon: Briefcase,
-              title: "Focus",
-              period: "Self-taught · Project-driven",
+              title: "Training",
+              period: "Programming Hero · Batch-13 · Jan–Jul 2026",
               body: (
                 <>
-                  Specializing in the modern TypeScript ecosystem — React, Next.js, Node.js, MongoDB
-                  — with a growing interest in agentic AI systems and production-grade auth.
+                  Completed the{" "}
+                  <strong className="text-slate-800">Programming Hero</strong> Complete Web Development Course
+                  (Batch-13, Jan–Jul 2026) — HTML, CSS, JavaScript, React, Next.js, Node.js, Express,
+                  MongoDB, and AI-powered practices. Certified with Excellence. Every project on this
+                  site grew from that foundation.
                 </>
               ),
             },
@@ -927,14 +916,15 @@ function About() {
 
         <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
-            I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who loves building
-            clean, reliable software. I care deeply about code quality, performance, and creating
-            experiences that feel thoughtful.
+            I&apos;m Mahmudul Hasan Nirab — a Full-Stack Developer who completed Programming Hero&apos;s
+            Complete Web Development Course (Batch-13, Jan–Jul 2026) with Excellence and loves building
+            clean, reliable software. I care deeply about code quality, performance, and experiences
+            that feel thoughtful.
           </p>
           <p>
-            Most of my time goes into the modern JavaScript/TypeScript ecosystem, exploring better
-            architecture patterns, secure authentication, and intelligent AI-powered features. Every
-            project is an opportunity to ship something real and learn something new.
+            Most of my time goes into the modern JavaScript/TypeScript ecosystem: React, Next.js,
+            Node.js, MongoDB, Better Auth, and AI features with Gemini. Every project is a chance to
+            ship something real and level up.
           </p>
         </div>
       </div>
@@ -1019,10 +1009,7 @@ function Skills() {
 function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   const [filter, setFilter] = useState<ProjectCategory>("All");
   const filters: ProjectCategory[] = ["All", "AI", "Full Stack", "Next.js", "Frontend"];
-  const filtered = useMemo(
-    () => PROJECTS.filter((p) => matchesFilter(p, filter)),
-    [filter],
-  );
+  const filtered = useMemo(() => PROJECTS.filter((p) => matchesFilter(p, filter)), [filter]);
 
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
@@ -1074,19 +1061,6 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
                   {project.name}
                 </h3>
                 <p className="mt-1.5 text-sm text-slate-600 line-clamp-2">{project.tagline}</p>
-                {project.metrics && (
-                  <div className="mt-3 flex gap-2">
-                    {project.metrics.slice(0, 3).map((m) => (
-                      <span
-                        key={m.label}
-                        className="text-[10px] font-mono font-semibold rounded-md bg-violet-50 text-violet-700 px-1.5 py-0.5 border border-violet-100"
-                        title={m.label}
-                      >
-                        {m.label.slice(0, 4)} {m.value}
-                      </span>
-                    ))}
-                  </div>
-                )}
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {project.stack.slice(0, 4).map((s) => (
                     <span
@@ -1096,6 +1070,11 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
                       {s}
                     </span>
                   ))}
+                  {project.stack.length > 4 && (
+                    <span className="text-[11px] rounded-full bg-violet-50 text-violet-600 px-2 py-0.5 font-mono">
+                      +{project.stack.length - 4}
+                    </span>
+                  )}
                 </div>
               </div>
             </article>
@@ -1106,51 +1085,100 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   );
 }
 
-function Testimonials() {
+function Trust() {
   return (
     <section id="testimonials" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Social Proof" title="Testimonials & Learning" />
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          {TESTIMONIALS.map((t) => (
-            <blockquote
-              key={t.name}
+        <SectionHeader eyebrow="Social Proof" title="Learning & Proof of Work" />
+        <p className="text-center text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-10 -mt-6">
+          Real certificate and shipped projects — Programming Hero Batch-13 (WEB13-1485).
+        </p>
+
+        {/* Certificate showcase */}
+        <div className="mb-12 rounded-3xl border border-white/80 bg-white/90 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.12)] overflow-hidden">
+          <div className="grid md:grid-cols-2 gap-0 items-center">
+            <div className="p-4 sm:p-6 md:p-8">
+              <a
+                href={CERTIFICATE_IMAGE}
+                target="_blank"
+                rel="noreferrer"
+                className="block rounded-2xl overflow-hidden border border-violet-100 shadow-lg hover:shadow-xl transition group"
+              >
+                <img
+                  src={CERTIFICATE_IMAGE}
+                  alt="Programming Hero Certificate of Completion with Excellence — Mahmudul Hasan Nirab, Batch-13, WEB13-1485"
+                  className="w-full h-auto object-contain group-hover:scale-[1.02] transition duration-300 motion-reduce:transform-none"
+                  loading="lazy"
+                />
+              </a>
+            </div>
+            <div className="p-6 sm:p-8 md:pr-10 space-y-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold px-3 py-1">
+                <Award className="w-3.5 h-3.5" aria-hidden />
+                Certificate of Completion with Excellence
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
+                Complete Web Development Course
+              </h3>
+              <p className="text-sm text-violet-600 font-medium">
+                Programming Hero · Batch-13 · WEB13-1485
+              </p>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Conducted from <strong>01 January 2026</strong> to{" "}
+                <strong>23 July 2026</strong>. Covered HTML, CSS, JavaScript, React.js, Next.js,
+                Node.js, Express.js, MongoDB, AI-powered development practices, and professional
+                web engineering readiness.
+              </p>
+              <ul className="grid grid-cols-2 gap-2 text-xs sm:text-sm text-slate-600">
+                {[
+                  "HTML & CSS",
+                  "JavaScript",
+                  "React.js",
+                  "Next.js",
+                  "Node.js",
+                  "Express.js",
+                  "MongoDB",
+                  "AI-powered practices",
+                ].map((skill) => (
+                  <li key={skill} className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-violet-500 shrink-0" aria-hidden />
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={CERTIFICATE_IMAGE}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-700"
+              >
+                View full certificate <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {LEARNING_HIGHLIGHTS.map((item) => (
+            <div
+              key={item.title}
               className="rounded-3xl p-6 sm:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
             >
-              <MessageSquareQuote className="w-8 h-8 text-violet-400 mb-4" aria-hidden />
-              <p className="text-slate-700 leading-relaxed text-sm sm:text-base">&ldquo;{t.quote}&rdquo;</p>
-              <footer className="mt-5 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 grid place-items-center text-white font-bold text-sm">
-                  {t.name.charAt(0)}
-                </div>
-                <div>
-                  <cite className="not-italic font-semibold text-slate-900 text-sm">{t.name}</cite>
-                  <p className="text-xs text-slate-500">{t.role}</p>
-                </div>
-              </footer>
-            </blockquote>
+              <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
+                <Award className="w-6 h-6 text-white" aria-hidden />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+              <p className="text-sm text-violet-600 font-medium mt-1 mb-3">{item.detail}</p>
+              <p className="text-sm text-slate-600 leading-relaxed">{item.description}</p>
+            </div>
           ))}
         </div>
-        <div>
-          <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
-            <Award className="w-5 h-5 text-violet-600" /> Certifications & Learning
-          </h3>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {CERTIFICATIONS.map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl border border-violet-100 bg-white/90 p-4 flex items-start gap-3"
-              >
-                <Star className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" aria-hidden />
-                <div>
-                  <p className="font-semibold text-slate-900 text-sm">{c.title}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    {c.issuer} · {c.year}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="mt-10 rounded-3xl border border-violet-100 bg-violet-50/50 p-6 sm:p-8 text-center">
+          <Star className="w-8 h-8 text-violet-500 mx-auto mb-3" aria-hidden />
+          <p className="text-slate-700 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+            All featured projects are live on Vercel with public GitHub repositories. Open any case
+            study to see the problem, solution, stack, and source code.
+          </p>
         </div>
       </div>
     </section>
@@ -1245,7 +1273,7 @@ function Contact() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // Demo only — replace with real form endpoint (Formspree, etc.)
+    // Demo only — replace with a real form endpoint (Formspree, Resend, etc.)
     setTimeout(() => setStatus("sent"), 1200);
   };
 
@@ -1261,7 +1289,12 @@ function Contact() {
             </p>
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "Email", value: "mahmudul5709@gmail.com", href: "mailto:mahmudul5709@gmail.com" },
+                {
+                  icon: Mail,
+                  label: "Email",
+                  value: "mahmudul5790@gmail.com",
+                  href: "mailto:mahmudul5790@gmail.com",
+                },
                 {
                   icon: Linkedin,
                   label: "LinkedIn",
@@ -1274,7 +1307,12 @@ function Contact() {
                   value: "github.com/mahmudul-hasan-2",
                   href: "https://github.com/mahmudul-hasan-2",
                 },
-                { icon: MapPin, label: "Location", value: "Madhabpur, Bangladesh (Remote)", href: undefined },
+                {
+                  icon: MapPin,
+                  label: "Location",
+                  value: "Madhabpur, Bangladesh (Remote)",
+                  href: undefined,
+                },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-violet-100 grid place-items-center shrink-0">
@@ -1405,22 +1443,6 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               {project.description}
             </p>
           </div>
-
-          {project.metrics && (
-            <div className="grid grid-cols-3 gap-3">
-              {project.metrics.map((m) => (
-                <div
-                  key={m.label}
-                  className="rounded-2xl bg-violet-50 border border-violet-100 p-3 text-center"
-                >
-                  <p className="text-2xl font-bold text-violet-700 font-mono">{m.value}</p>
-                  <p className="text-[11px] uppercase tracking-wider text-violet-600 font-semibold mt-0.5">
-                    {m.label}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
 
           <div className="rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 p-4 flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-violet-600 grid place-items-center shrink-0">
@@ -1554,7 +1576,11 @@ function ArticleModal({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl bg-white p-6 sm:p-8 shadow-2xl">
         <button
@@ -1585,6 +1611,7 @@ function Footer() {
           </p>
           <p className="text-sm text-slate-500 max-w-xs">
             Full-Stack Developer focused on clean TypeScript architecture and AI-powered products.
+            Trained at Programming Hero.
           </p>
         </div>
         <div className="space-y-3 mx-auto md:mx-0 flex flex-col items-center md:items-start">
