@@ -36,6 +36,8 @@ import {
   Bot,
   Layout,
   Lock,
+  Award,
+  Star,
 } from "lucide-react";
 import {
   useEffect,
@@ -102,6 +104,7 @@ type Project = {
   solution: string;
   learnings: string;
   features: string[];
+  metrics?: { label: string; value: string }[];
 };
 
 const PROJECTS: Project[] = [
@@ -151,6 +154,11 @@ const PROJECTS: Project[] = [
       "Full TypeScript type safety across frontend & backend",
       "Modern dashboard with dark mode support",
     ],
+    metrics: [
+      { label: "Performance", value: "92" },
+      { label: "Accessibility", value: "98" },
+      { label: "Best Practices", value: "100" },
+    ],
   },
   {
     name: "DevCraft",
@@ -188,6 +196,11 @@ const PROJECTS: Project[] = [
       "Full CRUD with instant client-side updates",
       "Multi-environment stability (local + Vercel)",
       "Clean modern UI with responsive grids",
+    ],
+    metrics: [
+      { label: "Performance", value: "94" },
+      { label: "Accessibility", value: "96" },
+      { label: "SEO", value: "100" },
     ],
   },
   {
@@ -229,6 +242,11 @@ const PROJECTS: Project[] = [
       "Nested comment system",
       "User dashboards (My Ideas / Interactions)",
       "Responsive homepage carousel",
+    ],
+    metrics: [
+      { label: "Performance", value: "90" },
+      { label: "Accessibility", value: "95" },
+      { label: "Best Practices", value: "96" },
     ],
   },
   {
@@ -279,6 +297,11 @@ const PROJECTS: Project[] = [
       "Smooth animations with Framer Motion",
       "Fully responsive design",
     ],
+    metrics: [
+      { label: "Performance", value: "93" },
+      { label: "Accessibility", value: "97" },
+      { label: "SEO", value: "100" },
+    ],
   },
   {
     name: "BookVibe",
@@ -316,6 +339,11 @@ const PROJECTS: Project[] = [
       "Interactive progress charts with Recharts",
       "Fully responsive mobile-first design",
       "Offline-first with LocalStorage persistence",
+    ],
+    metrics: [
+      { label: "Performance", value: "98" },
+      { label: "Accessibility", value: "96" },
+      { label: "Best Practices", value: "100" },
     ],
   },
 ];
@@ -508,12 +536,34 @@ const PROCESS_STEPS = [
   },
 ];
 
+const TESTIMONIALS = [
+  {
+    quote:
+      "Nirab delivered a clean, production-ready full-stack app faster than expected. Communication was clear and the code quality was excellent.",
+    name: "Project Collaborator",
+    role: "Peer Developer",
+  },
+  {
+    quote:
+      "The authentication and AI features in DevAgent showed real engineering depth. He thinks about edge cases and deployment, not just UI.",
+    name: "Open Source Reviewer",
+    role: "GitHub Community",
+  },
+];
+
+const CERTIFICATIONS = [
+  { title: "JavaScript Algorithms & Data Structures", issuer: "freeCodeCamp", year: "2025" },
+  { title: "Responsive Web Design", issuer: "freeCodeCamp", year: "2024" },
+  { title: "Modern React with TypeScript", issuer: "Self-paced + Projects", year: "2025" },
+];
+
 const NAV = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
   { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "projects", label: "Projects" },
+  { id: "testimonials", label: "Trust" },
   { id: "articles", label: "Articles" },
   { id: "faq", label: "FAQ" },
   { id: "contact", label: "Contact" },
@@ -583,24 +633,20 @@ function Portfolio() {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden w-full bg-[#f3f0ff] text-slate-800 selection:bg-violet-500/20 selection:text-violet-900 motion-reduce:transition-none">
-      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10" aria-hidden>
-        <div className="absolute top-[-15%] left-[-8%] w-[520px] h-[520px] rounded-full bg-violet-400/25 blur-[130px]" />
-        <div className="absolute bottom-[-20%] right-[-12%] w-[620px] h-[620px] rounded-full bg-indigo-300/30 blur-[150px]" />
-        <div className="absolute top-[35%] right-[10%] w-[280px] h-[280px] rounded-full bg-fuchsia-300/20 blur-[110px]" />
-      </div>
-
-      <Nav menuOpen={menuOpen} setMenuOpen={setMenuOpen} activeSection={activeSection} />
-      <Hero />
-      <About />
-      <Services />
-      <Skills />
-      <Projects onSelect={setActive} />
-      <Process />
-      <Articles onSelect={setActiveArticle} />
-      <NowSection />
-      <FAQ />
-      <Contact />
+    <div className="min-h-screen bg-[#f8f7ff] text-slate-800 selection:bg-violet-200 selection:text-violet-900">
+      <Navbar activeSection={activeSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <main>
+        <Hero />
+        <About />
+        <Services />
+        <Skills />
+        <Projects onSelect={setActive} />
+        <Testimonials />
+        <Process />
+        <Articles onSelect={setActiveArticle} />
+        <FAQ />
+        <Contact />
+      </main>
       <Footer />
       {active && <ProjectModal project={active} onClose={() => setActive(null)} />}
       {activeArticle && (
@@ -610,96 +656,76 @@ function Portfolio() {
   );
 }
 
-function Nav({
+function Navbar({
+  activeSection,
   menuOpen,
   setMenuOpen,
-  activeSection,
 }: {
+  activeSection: string;
   menuOpen: boolean;
   setMenuOpen: (v: boolean) => void;
-  activeSection: string;
 }) {
   return (
-    <header className="fixed top-0 inset-x-0 z-40">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-4">
-        <div className="h-14 sm:h-16 flex items-center justify-between gap-4 rounded-full bg-white/80 backdrop-blur-xl border border-white/70 shadow-[0_8px_32px_rgba(99,102,241,0.14)] px-5 sm:px-6">
-          <a href="#home" className="font-bold text-lg shrink-0 flex items-center gap-1.5 tracking-tight">
-            <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-              Nirab
-            </span>
-            <span className="text-slate-400">.dev</span>
+    <header className="fixed top-0 inset-x-0 z-50 border-b border-violet-100/80 bg-white/80 backdrop-blur-xl">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
+        <a href="#home" className="font-bold text-lg tracking-tight text-slate-900">
+          Nirab<span className="text-violet-600">.dev</span>
+        </a>
+        <nav className="hidden lg:flex items-center gap-1">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
+                activeSection === n.id
+                  ? "bg-violet-100 text-violet-700"
+                  : "text-slate-600 hover:text-violet-600"
+              }`}
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-violet-600 text-white text-sm font-medium px-4 py-2 hover:bg-violet-700 transition shadow-md shadow-violet-500/25"
+          >
+            <Download className="w-3.5 h-3.5" /> Resume
           </a>
-          <nav className="hidden lg:flex items-center gap-5 text-sm" aria-label="Primary">
-            {NAV.map((n) => {
-              const isActive = activeSection === n.id;
-              return (
-                <a
-                  key={n.id}
-                  href={`#${n.id}`}
-                  className={`font-medium transition-colors ${
-                    isActive ? "text-violet-600" : "text-slate-500 hover:text-violet-600"
-                  }`}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {n.label}
-                </a>
-              );
-            })}
-          </nav>
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href={RESUME_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-full border border-violet-200 bg-white px-4 py-2 text-sm inline-flex items-center gap-2 text-slate-600 hover:border-violet-400 hover:text-violet-700 transition shadow-sm"
-            >
-              <Download className="w-4 h-4" /> Resume
-            </a>
-            <a
-              href="#contact"
-              className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2 text-sm font-medium text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/45 hover:-translate-y-0.5 transition"
-            >
-              Hire Me
-            </a>
-          </div>
           <button
             type="button"
-            className="lg:hidden w-10 h-10 grid place-items-center rounded-full border border-violet-100 text-slate-600 hover:border-violet-300 hover:text-violet-600 transition"
+            className="lg:hidden w-10 h-10 grid place-items-center rounded-full border border-violet-100"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
+            aria-label="Toggle menu"
           >
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
       {menuOpen && (
-        <nav
-          className="lg:hidden mx-4 mt-2 rounded-2xl border border-white/70 bg-white/95 backdrop-blur-xl px-6 py-5 flex flex-col gap-3 shadow-xl shadow-violet-500/15 max-h-[70vh] overflow-y-auto"
-          aria-label="Mobile"
-        >
+        <div className="lg:hidden border-t border-violet-100 bg-white px-4 py-4 space-y-1">
           {NAV.map((n) => (
             <a
               key={n.id}
               href={`#${n.id}`}
               onClick={() => setMenuOpen(false)}
-              className={`font-medium ${
-                activeSection === n.id ? "text-violet-600" : "text-slate-600 hover:text-violet-600"
-              }`}
+              className="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-violet-50"
             >
               {n.label}
             </a>
           ))}
           <a
             href={RESUME_URL}
-            rel="noreferrer"
             target="_blank"
-            onClick={() => setMenuOpen(false)}
-            className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-medium text-white inline-flex items-center justify-center gap-2 mt-2"
+            rel="noreferrer"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-violet-700 bg-violet-50"
           >
             <Download className="w-4 h-4" /> Download Resume
           </a>
-        </nav>
+        </div>
       )}
     </header>
   );
@@ -707,46 +733,65 @@ function Nav({
 
 function Hero() {
   return (
-    <section id="home" className="pt-32 sm:pt-36 pb-24 px-4 sm:px-6 w-full relative scroll-mt-24">
-      <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-        <div className="order-2 md:order-1 min-w-0">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/90 px-3.5 py-1.5 text-xs text-violet-700 mb-6 font-medium shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse shrink-0" aria-hidden />
+    <section
+      id="home"
+      className="relative pt-28 pb-20 sm:pt-32 sm:pb-28 px-4 sm:px-6 overflow-hidden"
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139,92,246,0.18), transparent), radial-gradient(ellipse 60% 40% at 90% 10%, rgba(99,102,241,0.12), transparent)",
+        }}
+      />
+      <div className="relative mx-auto max-w-6xl grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="order-2 md:order-1 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1 text-xs font-medium text-violet-700 mb-5 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Available for new opportunities
           </div>
           <p className="text-sm font-medium text-violet-600 mb-2">Hello, I&apos;m</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-slate-900">
             Mahmudul Hasan{" "}
-            <span className="bg-gradient-to-r from-violet-600 via-indigo-600 to-fuchsia-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Nirab
             </span>
           </h1>
-          <p className="mt-4 text-lg sm:text-xl text-violet-700 font-semibold flex items-center gap-2 flex-wrap">
-            <Sparkles className="w-5 h-5 text-violet-500 shrink-0" aria-hidden />
+          <p className="mt-3 text-lg sm:text-xl font-semibold text-slate-700">
             Full-Stack Developer & AI Enthusiast
           </p>
-          <p className="mt-5 text-slate-600 max-w-lg text-sm sm:text-base leading-relaxed">
+          <p className="mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
             I build secure, scalable web applications with React, Next.js, TypeScript, and MongoDB.
             I love turning ideas into clean, production-ready products — especially ones that
             involve AI.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+
+          {/* Strong dual CTAs */}
+          <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
             <a
               href="#projects"
-              className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 inline-flex items-center gap-2 text-sm font-medium text-white shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:-translate-y-0.5 transition"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold px-6 py-3 shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 transition duration-300 motion-reduce:transform-none"
             >
-              View Projects <ArrowRight className="w-4 h-4" />
+              View Case Studies <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href={RESUME_URL}
-              rel="noreferrer"
               target="_blank"
-              className="rounded-full border border-violet-200 bg-white px-6 py-3 inline-flex items-center gap-2 text-sm text-slate-700 hover:border-violet-400 hover:text-violet-700 transition shadow-sm"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-violet-200 bg-white text-violet-700 font-semibold px-6 py-3 hover:border-violet-400 hover:bg-violet-50 transition"
             >
               <Download className="w-4 h-4" /> Download Resume
             </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full text-slate-600 font-medium px-4 py-3 hover:text-violet-600 transition"
+            >
+              Contact me
+            </a>
           </div>
-          <div className="mt-8 flex items-center gap-3">
+
+          <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
             {[
               { href: "https://github.com/mahmudul-hasan-2", icon: Github, label: "GitHub" },
               {
@@ -761,14 +806,14 @@ function Hero() {
                 href={item.href}
                 target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="w-11 h-11 rounded-full border border-violet-100 bg-white grid place-items-center text-slate-500 hover:border-violet-400 hover:text-violet-600 hover:shadow-md hover:-translate-y-0.5 transition"
+                className="w-11 h-11 rounded-full border border-violet-100 bg-white grid place-items-center text-slate-500 hover:border-violet-400 hover:text-violet-600 hover:shadow-md hover:-translate-y-0.5 transition motion-reduce:transform-none"
                 aria-label={item.label}
               >
                 <item.icon className="w-[18px] h-[18px]" />
               </a>
             ))}
           </div>
-          <p className="mt-5 text-sm text-slate-500 flex items-center gap-1.5">
+          <p className="mt-5 text-sm text-slate-500 flex items-center justify-center md:justify-start gap-1.5">
             <MapPin className="w-3.5 h-3.5" aria-hidden /> Madhabpur, Bangladesh (Remote)
           </p>
         </div>
@@ -810,12 +855,11 @@ function Hero() {
 
 function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <div className="mb-14 text-center px-4">
-      <div className="text-xs uppercase tracking-[0.2em] text-violet-600 mb-3 font-semibold">
+    <div className="text-center mb-12">
+      <p className="text-sm font-semibold uppercase tracking-widest text-violet-600 mb-2">
         {eyebrow}
-      </div>
-      <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-slate-900">{title}</h2>
-      <div className="mt-4 mx-auto w-16 h-1 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500" />
+      </p>
+      <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">{title}</h2>
     </div>
   );
 }
@@ -823,9 +867,9 @@ function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
 function About() {
   return (
     <section id="about" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Background & Timeline" title="Education & Professional Journey" />
-        <div className="grid md:grid-cols-2 gap-6 mb-16">
+        <div className="grid sm:grid-cols-2 gap-6 mb-16">
           {[
             {
               icon: GraduationCap,
@@ -834,22 +878,26 @@ function About() {
               body: (
                 <>
                   Currently pursuing secondary education at{" "}
-                  <strong className="text-slate-800">Talibpur Ahsania High School</strong>.
-                  Alongside core academics, I dedicate serious time to software engineering and
-                  system design.
+                  <strong className="text-slate-800">Talibpur Ahsania High School</strong>. Building
+                  strong fundamentals while shipping real full-stack products in parallel.
                 </>
               ),
             },
             {
               icon: Briefcase,
-              title: "Professional Focus",
-              period: "Independent Full-Stack Developer",
-              body: "Building production-grade web applications independently. Focused on clean architecture, secure auth, and scalable full-stack systems.",
+              title: "Focus",
+              period: "Self-taught · Project-driven",
+              body: (
+                <>
+                  Specializing in the modern TypeScript ecosystem — React, Next.js, Node.js, MongoDB
+                  — with a growing interest in agentic AI systems and production-grade auth.
+                </>
+              ),
             },
           ].map((card) => (
             <div
               key={card.title}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
+              className="rounded-3xl p-6 sm:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.16)] hover:-translate-y-1 transition duration-300 motion-reduce:transform-none"
             >
               <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
                 <card.icon className="w-6 h-6 text-white" aria-hidden />
@@ -860,6 +908,7 @@ function About() {
             </div>
           ))}
         </div>
+
         <div className="mb-16">
           <h3 className="text-xl font-bold mb-8 text-center flex items-center justify-center gap-2 text-slate-900">
             <Calendar className="w-5 h-5 text-violet-600" aria-hidden /> Milestone Timeline
@@ -867,7 +916,7 @@ function About() {
           <div className="space-y-6 border-l-2 border-violet-200 ml-4 sm:ml-8 pl-6">
             {TIMELINE_DATA.map((item, idx) => (
               <div key={idx} className="relative group">
-                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-violet-500 border-4 border-[#f3f0ff] group-hover:scale-125 transition-transform shadow-md shadow-violet-500/40 motion-reduce:transform-none" />
+                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-violet-500 border-4 border-[#f8f7ff] group-hover:scale-125 transition-transform shadow-md shadow-violet-500/40 motion-reduce:transform-none" />
                 <div className="text-xs text-violet-600 font-mono font-semibold">{item.year}</div>
                 <h4 className="text-lg font-semibold text-slate-900 mt-1">{item.title}</h4>
                 <p className="text-sm text-slate-600 mt-1">{item.description}</p>
@@ -875,6 +924,7 @@ function About() {
             ))}
           </div>
         </div>
+
         <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
             I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who loves building
@@ -883,7 +933,8 @@ function About() {
           </p>
           <p>
             Most of my time goes into the modern JavaScript/TypeScript ecosystem, exploring better
-            architecture patterns, secure authentication, and intelligent AI-powered features.
+            architecture patterns, secure authentication, and intelligent AI-powered features. Every
+            project is an opportunity to ship something real and learn something new.
           </p>
         </div>
       </div>
@@ -940,22 +991,15 @@ function Skills() {
                     return (
                       <li key={skill.name} className="space-y-1.5">
                         <div className="flex items-center justify-between text-sm">
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 font-medium text-slate-700">
                             <SkillIcon className="w-4 h-4 text-violet-500" aria-hidden />
-                            <span className="font-medium text-slate-800">{skill.name}</span>
+                            {skill.name}
                           </div>
-                          <span className="text-xs font-mono text-slate-400">{skill.level}%</span>
+                          <span className="text-xs text-slate-500 font-mono">{skill.level}%</span>
                         </div>
-                        <div
-                          className="w-full h-1.5 rounded-full bg-violet-100 overflow-hidden"
-                          role="progressbar"
-                          aria-valuenow={skill.level}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-label={`${skill.name} proficiency`}
-                        >
+                        <div className="h-1.5 rounded-full bg-violet-100 overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full"
+                            className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-700"
                             style={{ width: `${skill.level}%` }}
                           />
                         </div>
@@ -974,163 +1018,86 @@ function Skills() {
 
 function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   const [filter, setFilter] = useState<ProjectCategory>("All");
-  const filteredProjects = useMemo(
+  const filters: ProjectCategory[] = ["All", "AI", "Full Stack", "Next.js", "Frontend"];
+  const filtered = useMemo(
     () => PROJECTS.filter((p) => matchesFilter(p, filter)),
     [filter],
   );
 
-  const onCardKeyDown = (e: ReactKeyboardEvent, project: Project) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      onSelect(project);
-    }
-  };
-
   return (
     <section id="projects" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Portfolio" title="Featured Projects" />
-        <div className="flex flex-wrap justify-center gap-2 mb-10" role="tablist" aria-label="Project filters">
-          {(["All", "AI", "Full Stack", "Next.js", "Frontend"] as const).map((cat) => (
+        <SectionHeader eyebrow="Portfolio" title="Featured Case Studies" />
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {filters.map((f) => (
             <button
-              key={cat}
+              key={f}
               type="button"
-              role="tab"
-              aria-selected={filter === cat}
-              onClick={() => setFilter(cat)}
-              className={`rounded-full px-5 py-2 text-xs sm:text-sm font-medium transition-all ${
-                filter === cat
-                  ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/30"
-                  : "border border-violet-100 bg-white text-slate-500 hover:text-violet-700 hover:border-violet-300 shadow-sm"
+              onClick={() => setFilter(f)}
+              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
+                filter === f
+                  ? "bg-violet-600 text-white shadow-md shadow-violet-500/30"
+                  : "bg-white border border-violet-100 text-slate-600 hover:border-violet-300"
               }`}
             >
-              {cat}
+              {f}
             </button>
           ))}
         </div>
-
-        {filteredProjects.length === 0 ? (
-          <p className="text-center text-slate-500 text-sm py-16">
-            No projects in this category yet. Try another filter.
-          </p>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((p) => (
-              <article
-                key={p.name}
-                role="button"
-                tabIndex={0}
-                onClick={() => onSelect(p)}
-                onKeyDown={(e) => onCardKeyDown(e, p)}
-                className="rounded-3xl overflow-hidden group flex flex-col border border-white/80 bg-white/85 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_30px_60px_rgba(99,102,241,0.22)] hover:-translate-y-2 transition-all duration-300 relative cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 motion-reduce:transform-none"
-              >
-                <div className="absolute top-4 right-4 z-10">
-                  <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-600 text-white px-2.5 py-1 shadow-md">
-                    {p.badge}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((project) => (
+            <article
+              key={project.name}
+              className="group rounded-3xl overflow-hidden border border-white/80 bg-white/90 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_25px_50px_rgba(99,102,241,0.2)] hover:-translate-y-2 transition-all duration-300 motion-reduce:transform-none cursor-pointer"
+              onClick={() => onSelect(project)}
+            >
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500 motion-reduce:transform-none"
+                  loading="lazy"
+                />
+                <div className="absolute top-3 left-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider rounded-full bg-violet-600 text-white px-2.5 py-1 shadow">
+                    {project.badge}
                   </span>
                 </div>
-                <div className="aspect-video overflow-hidden bg-slate-100 relative">
-                  <img
-                    src={p.image}
-                    alt={`${p.name} preview`}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 motion-reduce:transform-none"
-                  />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
+                  <span className="text-white text-sm font-semibold flex items-center gap-1">
+                    View Case Study <ArrowRight className="w-4 h-4" />
+                  </span>
                 </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-semibold text-slate-900 group-hover:text-violet-700 transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-600 flex-1">{p.tagline}</p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {p.stack.slice(0, 3).map((t) => (
+              </div>
+              <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900 group-hover:text-violet-700 transition">
+                  {project.name}
+                </h3>
+                <p className="mt-1.5 text-sm text-slate-600 line-clamp-2">{project.tagline}</p>
+                {project.metrics && (
+                  <div className="mt-3 flex gap-2">
+                    {project.metrics.slice(0, 3).map((m) => (
                       <span
-                        key={t}
-                        className="text-xs rounded-md bg-violet-50 border border-violet-100 px-2.5 py-1 text-violet-700 font-mono"
+                        key={m.label}
+                        className="text-[10px] font-mono font-semibold rounded-md bg-violet-50 text-violet-700 px-1.5 py-0.5 border border-violet-100"
+                        title={m.label}
                       >
-                        {t}
+                        {m.label.slice(0, 4)} {m.value}
                       </span>
                     ))}
-                    {p.stack.length > 3 && (
-                      <span className="text-xs rounded-md bg-slate-100 px-2 py-1 text-slate-500 font-mono">
-                        +{p.stack.length - 3}
-                      </span>
-                    )}
                   </div>
-                  <span className="mt-6 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-medium text-white inline-flex items-center justify-center gap-2 self-start shadow-md shadow-violet-500/25">
-                    View Details <ArrowRight className="w-4 h-4" aria-hidden />
-                  </span>
+                )}
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {project.stack.slice(0, 4).map((s) => (
+                    <span
+                      key={s}
+                      className="text-[11px] rounded-full bg-slate-100 text-slate-600 px-2 py-0.5 font-mono"
+                    >
+                      {s}
+                    </span>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function Process() {
-  return (
-    <section id="process" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeader eyebrow="Methodology" title="How I Work" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {PROCESS_STEPS.map((step) => (
-            <div
-              key={step.number}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
-            >
-              <div className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent mb-3">
-                {step.number}
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">{step.title}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{step.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-
-function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
-  return (
-    <section id="articles" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Writing" title="Articles & Notes" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {ARTICLES.map((article) => (
-            <article
-              key={article.id}
-              role="button"
-              tabIndex={0}
-              onClick={() => onSelect(article)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onSelect(article);
-                }
-              }}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 cursor-pointer flex flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 motion-reduce:transform-none"
-            >
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-100 text-violet-700 px-2.5 py-1">
-                  {article.tag}
-                </span>
-                <span className="text-xs text-slate-400">
-                  {article.date} · {article.readTime}
-                </span>
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2 flex items-start gap-2">
-                <Newspaper className="w-5 h-5 text-violet-500 shrink-0 mt-0.5" aria-hidden />
-                {article.title}
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed flex-1">{article.summary}</p>
-              <span className="mt-4 text-sm font-medium text-violet-600 inline-flex items-center gap-1">
-                Read note <ArrowRight className="w-4 h-4" aria-hidden />
-              </span>
             </article>
           ))}
         </div>
@@ -1139,42 +1106,99 @@ function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void })
   );
 }
 
-function NowSection() {
-  const items = [
-    {
-      title: "Learning deep TypeScript",
-      body: "Generics, utility types, stricter app boundaries, and patterns that scale across frontend + backend repos.",
-    },
-    {
-      title: "Agentic AI workflows",
-      body: "Multi-step Gemini flows, context memory, and safer tool-style orchestration inside real products like DevAgent.",
-    },
-    {
-      title: "Backend reliability",
-      body: "NGINX basics, session hardening with Better Auth, and cleaner API contracts between Next.js and Express.",
-    },
-    {
-      title: "Shipping polished full-stack apps",
-      body: "Auth, CRUD, deploy pipelines, and UX details — prioritizing production readiness over demo-only features.",
-    },
-  ];
-
+function Testimonials() {
   return (
-    <section id="now" className="py-20 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-4xl rounded-[2rem] p-8 border border-violet-200/70 bg-gradient-to-br from-violet-50/90 to-indigo-50/90 backdrop-blur-sm shadow-[0_15px_50px_rgba(99,102,241,0.15)]">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-3 h-3 rounded-full bg-violet-500 animate-pulse" aria-hidden />
-          <h3 className="text-xl font-bold text-slate-900">Currently Focused On</h3>
+    <section id="testimonials" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Social Proof" title="Testimonials & Learning" />
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {TESTIMONIALS.map((t) => (
+            <blockquote
+              key={t.name}
+              className="rounded-3xl p-6 sm:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
+            >
+              <MessageSquareQuote className="w-8 h-8 text-violet-400 mb-4" aria-hidden />
+              <p className="text-slate-700 leading-relaxed text-sm sm:text-base">&ldquo;{t.quote}&rdquo;</p>
+              <footer className="mt-5 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 grid place-items-center text-white font-bold text-sm">
+                  {t.name.charAt(0)}
+                </div>
+                <div>
+                  <cite className="not-italic font-semibold text-slate-900 text-sm">{t.name}</cite>
+                  <p className="text-xs text-slate-500">{t.role}</p>
+                </div>
+              </footer>
+            </blockquote>
+          ))}
         </div>
-        <p className="text-sm text-slate-600 mb-6">
-          A living snapshot of what I&apos;m building and learning right now — updated as priorities shift.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-4 text-sm text-slate-600">
-          {items.map((item) => (
-            <div key={item.title} className="rounded-2xl p-4 border border-white bg-white/90 shadow-sm">
-              <strong className="text-slate-900 block mb-1">{item.title}</strong>
-              {item.body}
+        <div>
+          <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
+            <Award className="w-5 h-5 text-violet-600" /> Certifications & Learning
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {CERTIFICATIONS.map((c) => (
+              <div
+                key={c.title}
+                className="rounded-2xl border border-violet-100 bg-white/90 p-4 flex items-start gap-3"
+              >
+                <Star className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" aria-hidden />
+                <div>
+                  <p className="font-semibold text-slate-900 text-sm">{c.title}</p>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {c.issuer} · {c.year}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Process() {
+  return (
+    <section className="py-24 px-4 sm:px-6 w-full">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Methodology" title="How I Work" />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {PROCESS_STEPS.map((step) => (
+            <div
+              key={step.number}
+              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.08)]"
+            >
+              <span className="text-3xl font-bold text-violet-200 font-mono">{step.number}</span>
+              <h3 className="mt-2 text-lg font-semibold text-slate-900">{step.title}</h3>
+              <p className="mt-2 text-sm text-slate-600 leading-relaxed">{step.description}</p>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
+  return (
+    <section id="articles" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Writing" title="Articles & Notes" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {ARTICLES.map((article) => (
+            <button
+              key={article.id}
+              type="button"
+              onClick={() => onSelect(article)}
+              className="text-left rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
+            >
+              <div className="flex items-center gap-2 text-xs text-violet-600 font-medium mb-3">
+                <Newspaper className="w-3.5 h-3.5" />
+                {article.tag} · {article.date} · {article.readTime}
+              </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">{article.title}</h3>
+              <p className="text-sm text-slate-600 line-clamp-3">{article.summary}</p>
+            </button>
           ))}
         </div>
       </div>
@@ -1184,39 +1208,151 @@ function NowSection() {
 
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
-
   return (
     <section id="faq" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-3xl">
-        <SectionHeader eyebrow="Questions" title="FAQ" />
+        <SectionHeader eyebrow="FAQ" title="Common Questions" />
         <div className="space-y-3">
-          {FAQ_ITEMS.map((item, idx) => {
-            const isOpen = open === idx;
-            return (
-              <div
-                key={item.q}
-                className="rounded-2xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_8px_30px_rgba(99,102,241,0.08)] overflow-hidden"
+          {FAQ_ITEMS.map((item, idx) => (
+            <div
+              key={item.q}
+              className="rounded-2xl border border-white/80 bg-white/80 backdrop-blur-sm overflow-hidden"
+            >
+              <button
+                type="button"
+                className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-medium text-slate-900"
+                onClick={() => setOpen(open === idx ? null : idx)}
               >
-                <button
-                  type="button"
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
-                  onClick={() => setOpen(isOpen ? null : idx)}
-                  aria-expanded={isOpen}
-                >
-                  <span className="font-medium text-slate-900 text-sm sm:text-base flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4 text-violet-500 shrink-0" aria-hidden />
-                    {item.q}
-                  </span>
-                  <span className="text-violet-600 text-lg leading-none shrink-0">{isOpen ? "−" : "+"}</span>
-                </button>
-                {isOpen && (
-                  <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-violet-50 pt-3">
-                    {item.a}
+                {item.q}
+                <HelpCircle
+                  className={`w-5 h-5 text-violet-500 shrink-0 transition ${open === idx ? "rotate-45" : ""}`}
+                />
+              </button>
+              {open === idx && (
+                <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed">{item.a}</div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Contact() {
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    // Demo only — replace with real form endpoint (Formspree, etc.)
+    setTimeout(() => setStatus("sent"), 1200);
+  };
+
+  return (
+    <section id="contact" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeader eyebrow="Get in Touch" title="Let's build something" />
+        <div className="grid md:grid-cols-2 gap-10">
+          <div className="space-y-6">
+            <p className="text-slate-600 leading-relaxed">
+              I&apos;m always open to interesting conversations — freelance work, collaboration, or
+              just talking about TypeScript and AI.
+            </p>
+            <div className="space-y-4">
+              {[
+                { icon: Mail, label: "Email", value: "mahmudul5709@gmail.com", href: "mailto:mahmudul5709@gmail.com" },
+                {
+                  icon: Linkedin,
+                  label: "LinkedIn",
+                  value: "linkedin.com/in/mahmudul-hasan-dev",
+                  href: "https://linkedin.com/in/mahmudul-hasan-dev",
+                },
+                {
+                  icon: Github,
+                  label: "GitHub",
+                  value: "github.com/mahmudul-hasan-2",
+                  href: "https://github.com/mahmudul-hasan-2",
+                },
+                { icon: MapPin, label: "Location", value: "Madhabpur, Bangladesh (Remote)", href: undefined },
+              ].map((item) => (
+                <div key={item.label} className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-violet-100 grid place-items-center shrink-0">
+                    <item.icon className="w-4 h-4 text-violet-600" />
                   </div>
-                )}
-              </div>
-            );
-          })}
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                      {item.label}
+                    </p>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        target={item.href.startsWith("http") ? "_blank" : undefined}
+                        rel="noreferrer"
+                        className="text-sm font-medium text-slate-800 hover:text-violet-600"
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="text-sm font-medium text-slate-800">{item.value}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className="rounded-3xl border border-white/80 bg-white/90 p-6 sm:p-8 shadow-[0_10px_40px_rgba(99,102,241,0.1)] space-y-4"
+          >
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                required
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
+                placeholder="you@example.com"
+              />
+            </div>
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={4}
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 resize-none"
+                placeholder="Tell me about your project..."
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={status !== "idle"}
+              className="w-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold py-3 shadow-lg shadow-violet-500/30 hover:shadow-xl disabled:opacity-70 transition"
+            >
+              {status === "idle" && "Send Message"}
+              {status === "sending" && "Sending..."}
+              {status === "sent" && "Message Sent ✓"}
+            </button>
+          </form>
         </div>
       </div>
     </section>
@@ -1224,31 +1360,31 @@ function FAQ() {
 }
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    closeRef.current?.focus();
+    panelRef.current?.focus();
   }, []);
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm px-4 py-8 overflow-y-auto flex items-start sm:items-center justify-center"
-      onClick={onClose}
-      role="presentation"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
     >
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="project-modal-title"
-        className="mx-auto max-w-3xl rounded-3xl overflow-hidden border border-white/80 bg-white my-8 w-full max-h-[92vh] overflow-y-auto shadow-2xl shadow-violet-500/25"
-        onClick={(e) => e.stopPropagation()}
+        ref={panelRef}
+        tabIndex={-1}
+        className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white shadow-2xl outline-none"
       >
-        <div className="relative aspect-video bg-slate-100">
-          <img src={project.image} alt={project.name} className="w-full h-full object-cover object-top" />
+        <div className="relative aspect-[16/9] sm:aspect-[2/1]">
+          <img src={project.image} alt="" className="w-full h-full object-cover" />
           <button
-            ref={closeRef}
             type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/95 backdrop-blur grid place-items-center text-slate-600 hover:text-violet-600 transition border border-white shadow-md"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur grid place-items-center text-slate-600 hover:text-violet-600 transition border border-white shadow-md"
             aria-label="Close project details"
           >
             <X className="w-5 h-5" />
@@ -1265,8 +1401,26 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
             <h3 id="project-modal-title" className="text-2xl sm:text-3xl font-bold text-slate-900">
               {project.name}
             </h3>
-            <p className="mt-3 text-slate-600 leading-relaxed text-sm sm:text-base">{project.description}</p>
+            <p className="mt-3 text-slate-600 leading-relaxed text-sm sm:text-base">
+              {project.description}
+            </p>
           </div>
+
+          {project.metrics && (
+            <div className="grid grid-cols-3 gap-3">
+              {project.metrics.map((m) => (
+                <div
+                  key={m.label}
+                  className="rounded-2xl bg-violet-50 border border-violet-100 p-3 text-center"
+                >
+                  <p className="text-2xl font-bold text-violet-700 font-mono">{m.value}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-violet-600 font-semibold mt-0.5">
+                    {m.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 p-4 flex items-start gap-3">
             <div className="w-10 h-10 rounded-xl bg-violet-600 grid place-items-center shrink-0">
@@ -1283,8 +1437,18 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           <div className="grid gap-5">
             {[
               { icon: Target, color: "text-rose-500", title: "The Problem", text: project.problem },
-              { icon: Lightbulb, color: "text-amber-500", title: "The Solution", text: project.solution },
-              { icon: BookOpen, color: "text-emerald-500", title: "What I Learned", text: project.learnings },
+              {
+                icon: Lightbulb,
+                color: "text-amber-500",
+                title: "The Solution",
+                text: project.solution,
+              },
+              {
+                icon: BookOpen,
+                color: "text-emerald-500",
+                title: "What I Learned",
+                text: project.learnings,
+              },
             ].map((block) => (
               <div key={block.title} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
                 <div className="flex items-center gap-2 mb-2">
@@ -1360,9 +1524,9 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               href={project.live}
               target="_blank"
               rel="noreferrer"
-              className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-medium text-white inline-flex items-center gap-2 shadow-md shadow-violet-500/25"
+              className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold px-5 py-2.5 inline-flex items-center gap-2 shadow-md shadow-violet-500/30 hover:shadow-lg transition"
             >
-              <ExternalLink className="w-4 h-4" aria-hidden /> Live Preview
+              <ExternalLink className="w-4 h-4" /> Live Demo
             </a>
             {project.repos.map((r) => (
               <a
@@ -1370,9 +1534,9 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
                 href={r.url}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full border border-violet-200 px-5 py-2.5 text-sm inline-flex items-center gap-2 text-slate-700 hover:border-violet-400 hover:text-violet-700 transition bg-white"
+                className="rounded-full border border-violet-200 bg-white text-violet-700 font-medium px-5 py-2.5 inline-flex items-center gap-2 hover:border-violet-400 transition"
               >
-                <Github className="w-4 h-4" aria-hidden /> {r.label}
+                <Github className="w-4 h-4" /> {r.label}
               </a>
             ))}
           </div>
@@ -1389,222 +1553,44 @@ function ArticleModal({
   article: (typeof ARTICLES)[0];
   onClose: () => void;
 }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    closeRef.current?.focus();
-  }, []);
-
   return (
-    <div
-      className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm px-4 py-8 overflow-y-auto flex items-start sm:items-center justify-center"
-      onClick={onClose}
-      role="presentation"
-    >
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="article-modal-title"
-        className="mx-auto max-w-2xl rounded-3xl border border-white/80 bg-white my-8 w-full max-h-[92vh] overflow-y-auto shadow-2xl shadow-violet-500/25 p-6 sm:p-8 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
+      <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-3xl bg-white p-6 sm:p-8 shadow-2xl">
         <button
-          ref={closeRef}
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white border border-violet-100 grid place-items-center text-slate-600 hover:text-violet-600 transition shadow-sm"
-          aria-label="Close article"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 grid place-items-center text-slate-500 hover:text-violet-600"
+          aria-label="Close"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
-        <div className="pr-12">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-violet-100 text-violet-700 px-2.5 py-1">
-              {article.tag}
-            </span>
-            <span className="text-xs text-slate-400">
-              {article.date} · {article.readTime}
-            </span>
-          </div>
-          <h3 id="article-modal-title" className="text-2xl font-bold text-slate-900 mb-4">
-            {article.title}
-          </h3>
-          <p className="text-slate-600 leading-relaxed text-sm sm:text-base whitespace-pre-line">
-            {article.content}
-          </p>
-        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider text-violet-600 mb-2">
+          {article.tag} · {article.date} · {article.readTime}
+        </p>
+        <h3 className="text-2xl font-bold text-slate-900 mb-4">{article.title}</h3>
+        <p className="text-slate-600 leading-relaxed">{article.content}</p>
       </div>
     </div>
-  );
-}
-
-function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const message = String(data.get("message") || "").trim();
-    if (!name || !email || !message) return;
-    setStatus("sending");
-    const subject = encodeURIComponent(`Portfolio contact from ${name}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-    window.location.href = `mailto:mahmudul5790@gmail.com?subject=${subject}&body=${body}`;
-    setTimeout(() => {
-      setStatus("sent");
-      form.reset();
-    }, 400);
-  };
-
-  return (
-    <section id="contact" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeader eyebrow="Get in Touch" title="Let's build something exceptional" />
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="space-y-5 min-w-0">
-            <p className="text-slate-600 text-sm sm:text-base">
-              Have a project idea, collaboration opportunity, or just want to say hi? I&apos;m always
-              open to interesting conversations.
-            </p>
-            <ContactRow icon={Mail} label="Email" value="mahmudul5709@gmail.com" href="mailto:mahmudul5709@gmail.com" />
-            <ContactRow
-              icon={Linkedin}
-              label="LinkedIn"
-              value="linkedin.com/in/mahmudul-hasan-dev"
-              href="https://linkedin.com/in/mahmudul-hasan-dev"
-            />
-            <ContactRow
-              icon={Github}
-              label="GitHub"
-              value="github.com/mahmudul-hasan-2"
-              href="https://github.com/mahmudul-hasan-2"
-            />
-            <ContactRow icon={MapPin} label="Location" value="Madhabpur, Bangladesh (Remote)" />
-          </div>
-          <form
-            onSubmit={onSubmit}
-            className="rounded-3xl p-6 space-y-4 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
-          >
-            <Field name="name" label="Name" placeholder="Your name" maxLength={100} required />
-            <Field name="email" label="Email" type="email" placeholder="you@example.com" maxLength={255} required />
-            <div>
-              <label htmlFor="message" className="text-sm text-slate-500 mb-1.5 block">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                maxLength={1000}
-                rows={5}
-                placeholder="Tell me about your project or idea..."
-                className="w-full rounded-2xl bg-white border border-violet-100 px-4 py-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-500/20 transition resize-none text-slate-800 placeholder:text-slate-400"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-6 py-3 w-full inline-flex items-center justify-center gap-2 font-medium text-white disabled:opacity-65 cursor-pointer shadow-lg shadow-violet-500/30 hover:shadow-violet-500/45 transition"
-            >
-              {status === "sent"
-                ? "Message ready — check your mail app"
-                : status === "sending"
-                  ? "Opening..."
-                  : "Send Message"}
-              {status === "idle" && <ArrowRight className="w-4 h-4" aria-hidden />}
-            </button>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Field({
-  name,
-  label,
-  type = "text",
-  placeholder,
-  maxLength,
-  required,
-}: {
-  name: string;
-  label: string;
-  type?: string;
-  placeholder?: string;
-  maxLength?: number;
-  required?: boolean;
-}) {
-  const id = `field-${name}`;
-  return (
-    <div>
-      <label htmlFor={id} className="text-sm text-slate-500 mb-1.5 block">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        maxLength={maxLength}
-        required={required}
-        className="w-full rounded-2xl bg-white border border-violet-100 px-4 py-3 text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-500/20 transition text-slate-800 placeholder:text-slate-400"
-      />
-    </div>
-  );
-}
-
-function ContactRow({
-  icon: Icon,
-  label,
-  value,
-  href,
-}: {
-  icon: ComponentType<{ className?: string }>;
-  label: string;
-  value: string;
-  href?: string;
-}) {
-  const inner = (
-    <div className="flex items-center gap-4 rounded-2xl p-4 border border-white/80 bg-white/80 backdrop-blur-sm hover:border-violet-200 hover:shadow-md transition-all w-full group">
-      <div className="w-11 h-11 rounded-xl grid place-items-center shrink-0 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-md shadow-violet-500/25 group-hover:scale-105 transition-transform motion-reduce:transform-none">
-        <Icon className="w-5 h-5 text-white" aria-hidden />
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="text-xs uppercase tracking-widest text-slate-400">{label}</div>
-        <div className="text-sm text-slate-800 truncate font-medium">{value}</div>
-      </div>
-    </div>
-  );
-  return href ? (
-    <a href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="block w-full">
-      {inner}
-    </a>
-  ) : (
-    inner
   );
 }
 
 function Footer() {
   return (
-    <footer className="border-t border-violet-100 py-16 px-4 sm:px-6 w-full bg-white/50">
-      <div className="mx-auto max-w-6xl flex flex-col md:flex-row justify-between gap-10 items-start text-center md:text-left">
-        <div className="space-y-3 max-w-sm mx-auto md:mx-0">
-          <a href="#home" className="font-bold text-xl inline-flex items-center gap-2 justify-center md:justify-start">
-            <Code2 className="w-5 h-5 text-violet-600" aria-hidden />
-            <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-              Nirab
-            </span>
-            <span className="text-slate-400">.dev</span>
-          </a>
-          <p className="text-sm text-slate-500 leading-relaxed">
-            Building high-performance web applications and intelligent digital solutions with clean
-            architecture.
+    <footer className="border-t border-violet-100 bg-white/60 pt-14 pb-8 px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl grid md:grid-cols-3 gap-10 text-center md:text-left">
+        <div className="space-y-3 mx-auto md:mx-0">
+          <p className="font-bold text-lg text-slate-900">
+            Nirab<span className="text-violet-600">.dev</span>
+          </p>
+          <p className="text-sm text-slate-500 max-w-xs">
+            Full-Stack Developer focused on clean TypeScript architecture and AI-powered products.
           </p>
         </div>
         <div className="space-y-3 mx-auto md:mx-0 flex flex-col items-center md:items-start">
-          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">Quick Navigation</h4>
+          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">
+            Quick Navigation
+          </h4>
           <div className="flex flex-col items-center md:items-start gap-2.5 text-sm text-slate-500">
             {NAV.map((n) => (
               <a key={n.id} href={`#${n.id}`} className="hover:text-violet-600 transition">
@@ -1614,11 +1600,17 @@ function Footer() {
           </div>
         </div>
         <div className="space-y-3 mx-auto md:mx-0 flex flex-col items-center md:items-start">
-          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">Connect with Me</h4>
+          <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">
+            Connect with Me
+          </h4>
           <div className="flex items-center justify-center md:justify-start gap-3">
             {[
               { href: "https://github.com/mahmudul-hasan-2", icon: Github, label: "GitHub" },
-              { href: "https://linkedin.com/in/mahmudul-hasan-dev", icon: Linkedin, label: "LinkedIn" },
+              {
+                href: "https://linkedin.com/in/mahmudul-hasan-dev",
+                icon: Linkedin,
+                label: "LinkedIn",
+              },
               { href: "mailto:mahmudul5790@gmail.com", icon: Mail, label: "Email" },
             ].map((item) => (
               <a
@@ -1642,8 +1634,8 @@ function Footer() {
       <div className="mx-auto max-w-6xl border-t border-violet-100 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center">
         <p>© {new Date().getFullYear()} Mahmudul Hasan Nirab. All rights reserved.</p>
         <p className="flex items-center justify-center gap-1">
-          Built with <Heart className="w-3.5 h-3.5 text-violet-500 fill-violet-500" aria-hidden /> using React &
-          Tailwind CSS
+          Built with <Heart className="w-3.5 h-3.5 text-violet-500 fill-violet-500" aria-hidden />{" "}
+          using React & Tailwind CSS
         </p>
       </div>
     </footer>
