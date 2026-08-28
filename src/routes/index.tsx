@@ -22,7 +22,6 @@ import {
   Mail,
   MapPin,
   Menu,
-  MessageSquareQuote,
   Newspaper,
   Server,
   ShieldCheck,
@@ -286,13 +285,13 @@ const PROJECTS: Project[] = [
   {
     name: "BookVibe",
     tagline:
-      "Reading companion with dynamic bookshelves, book details, progress charts, and LocalStorage.",
+      "Frontend reading companion — dynamic bookshelves, book details, progress charts. No auth; LocalStorage only.",
     image:
       "https://res.cloudinary.com/dyyxcyiz9/image/upload/v1785176613/Screenshot_2026-07-28_002216_hdg5zy.png",
     stack: ["React", "Vite", "Tailwind CSS", "DaisyUI", "React Router", "Recharts", "LocalStorage"],
     category: "Frontend",
     description:
-      "BookVibe is a React app for book lovers to discover, organize, and track reads. It offers To-Read / Currently Reading / Completed shelves, detailed book pages, Recharts progress charts, and offline-first persistence with LocalStorage.",
+      "BookVibe is a pure frontend React app for book lovers. It has no authentication and no backend. Users organize books into To-Read / Currently Reading / Completed shelves, open detail pages, view Recharts progress charts, and keep everything offline via LocalStorage.",
     live: "https://book-vibe-coral.vercel.app/",
     repos: [{ label: "Client Repository", url: "https://github.com/mahmudul-Hasan-2/Book-Vibe" }],
     challenges: [
@@ -301,24 +300,24 @@ const PROJECTS: Project[] = [
       "Consistent multi-page UX with React Router.",
     ],
     improvements: [
-      "Backend + user accounts for cloud sync.",
+      "Optional backend + user accounts for cloud sync (would add auth).",
       "Public reviews and reading challenges.",
       "Richer filters and reading statistics.",
     ],
     badge: "Frontend",
-    keyMetric: "Offline-first reading tracker with LocalStorage + Recharts",
+    keyMetric: "Offline-first reading tracker — LocalStorage only, no auth system",
     problem:
-      "Readers want a simple way to organize books, track progress, and see stats without a heavy setup.",
+      "Readers want a simple way to organize books, track progress, and see stats without accounts or a heavy setup.",
     solution:
-      "Created a React + Vite app with dynamic bookshelves, detail pages, and interactive progress charts powered by Recharts and LocalStorage.",
+      "Built a React + Vite app with dynamic bookshelves, detail pages, and interactive progress charts. All data stays in the browser via LocalStorage — no login, no server.",
     learnings:
-      "Client-side state management, LocalStorage patterns, data visualization with Recharts, and multi-page React apps.",
+      "Client-side state management, LocalStorage patterns, data visualization with Recharts, and multi-page React apps without a backend.",
     features: [
       "Dynamic bookshelves (To-Read / Reading / Completed)",
       "Detailed book information pages",
       "Interactive progress charts with Recharts",
       "Mobile-first responsive design",
-      "Offline-first with LocalStorage",
+      "Offline-first with LocalStorage (no authentication)",
     ],
   },
 ];
@@ -397,7 +396,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can you build both frontend and backend?",
-    a: "Yes. Most of my shipped projects are full-stack — UI, API, database models, auth, and deployment on Vercel.",
+    a: "Yes. Most of my shipped projects are full-stack — UI, API, database models, auth, and deployment on Vercel. BookVibe is a pure frontend exception (LocalStorage only, no auth).",
   },
   {
     q: "How do you usually start a project?",
@@ -409,7 +408,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Where did you learn web development?",
-    a: "I completed the Programming Hero Complete Web Development Course (Batch-13, WEB13-1485) from 01 January 2026 to 23 July 2026 with a Certificate of Completion with Excellence, and have been building and shipping real full-stack projects from that foundation.",
+    a: "I completed the Programming Hero Complete Web Development path in 2026 and have been building and shipping real full-stack projects from that foundation.",
   },
 ];
 
@@ -450,19 +449,19 @@ const SKILLS_CATEGORIES = [
   },
 ];
 
-/** Truthful milestone timeline — Programming Hero Batch-13 (01 Jan – 23 Jul 2026) + shipped projects */
+/** Milestone timeline — Programming Hero 2026 + shipped projects */
 const TIMELINE_DATA = [
   {
-    year: "Jan 2026",
-    title: "Started Programming Hero (Batch-13)",
+    year: "2026",
+    title: "Started with Programming Hero",
     description:
-      "Began the Complete Web Development Course With Programming Hero (Batch-13, WEB13-1485) — HTML, CSS, JavaScript, React, Next.js, Node.js, Express, and MongoDB from the ground up.",
+      "Enrolled in Programming Hero’s Complete Web Development path and learned HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, and modern full-stack workflows from the ground up.",
   },
   {
     year: "2026",
     title: "Built first full-stack apps",
     description:
-      "Shipped IdeaVault (JWT + decoupled client/server), RecipeHub (Better Auth + Framer Motion), and BookVibe (React + LocalStorage + Recharts) while progressing through the course.",
+      "Shipped IdeaVault (JWT + decoupled client/server), RecipeHub (Better Auth + Framer Motion), and BookVibe (React + LocalStorage only — no auth).",
   },
   {
     year: "2026",
@@ -471,10 +470,10 @@ const TIMELINE_DATA = [
       "Deepened Better Auth, TypeScript, and Next.js App Router skills while deploying DevCraft and other projects to Vercel.",
   },
   {
-    year: "Jul 2026",
-    title: "Completed Programming Hero with Excellence",
+    year: "2026",
+    title: "AI-powered projects",
     description:
-      "Finished the course (01 Jan – 23 Jul 2026) with Certificate of Completion with Excellence. Continued building AI-powered apps like DevAgent with Gemini and Groq.",
+      "Integrated Google Gemini and Groq into DevAgent — agentic project generation, co-pilot chat, and secure AI workspaces.",
   },
 ];
 
@@ -516,30 +515,27 @@ const PROCESS_STEPS = [
   },
 ];
 
-/** Honest Trust section — real Programming Hero certificate (Batch-13) */
+/** Trust section — proof of work only, NO certifications */
 const LEARNING_HIGHLIGHTS = [
   {
     title: "Programming Hero",
-    detail: "Batch-13 · WEB13-1485 · Jan–Jul 2026",
+    detail: "Complete Web Development path — 2026",
     description:
-      "Certificate of Completion with Excellence — Complete Web Development Course. HTML, CSS, JavaScript, React.js, Next.js, Node.js, Express.js, MongoDB, and AI-powered development practices.",
+      "Structured training in HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, authentication, and deployment. This is where I learned the full stack from scratch.",
   },
   {
     title: "5+ production projects",
     detail: "Shipped & live on Vercel",
     description:
-      "DevAgent, DevCraft, IdeaVault, RecipeHub, and BookVibe — live apps with public repos (BookVibe is frontend-only with LocalStorage; the others include auth/APIs).",
+      "DevAgent, DevCraft, IdeaVault, RecipeHub, and BookVibe — real apps with public GitHub repos and live demos (BookVibe is frontend-only, no auth).",
   },
   {
     title: "AI & modern stack",
     detail: "Gemini, Better Auth, TypeScript",
     description:
-      "Actively building with Google Gemini, Groq, Better Auth, and end-to-end TypeScript after the core MERN foundation.",
+      "Building with Google Gemini, Groq, Better Auth, and end-to-end TypeScript after the core MERN foundation.",
   },
 ];
-
-/** Certificate image — place file at public/certificate-programming-hero.png */
-const CERTIFICATE_IMAGE = "/certificate-programming-hero.png";
 
 const NAV = [
   { id: "home", label: "Home" },
@@ -747,8 +743,8 @@ function Hero() {
           </p>
           <p className="mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
             I build secure, scalable web applications with React, Next.js, TypeScript, and MongoDB.
-            I completed Programming Hero&apos;s Complete Web Development Course (Batch-13, 2026) and
-            love turning ideas into clean, production-ready products — especially ones that involve AI.
+            I learned the full stack through Programming Hero and love turning ideas into clean,
+            production-ready products — especially ones that involve AI.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -872,14 +868,13 @@ function About() {
             {
               icon: Briefcase,
               title: "Training",
-              period: "Programming Hero · Batch-13 · Jan–Jul 2026",
+              period: "Programming Hero · 2026",
               body: (
                 <>
                   Completed the{" "}
-                  <strong className="text-slate-800">Programming Hero</strong> Complete Web Development Course
-                  (Batch-13, Jan–Jul 2026) — HTML, CSS, JavaScript, React, Next.js, Node.js, Express,
-                  MongoDB, and AI-powered practices. Certified with Excellence. Every project on this
-                  site grew from that foundation.
+                  <strong className="text-slate-800">Programming Hero</strong> Complete Web
+                  Development path — HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, auth,
+                  and deployment. Every project on this site grew from that foundation.
                 </>
               ),
             },
@@ -916,10 +911,9 @@ function About() {
 
         <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
-            I&apos;m Mahmudul Hasan Nirab — a Full-Stack Developer who completed Programming Hero&apos;s
-            Complete Web Development Course (Batch-13, Jan–Jul 2026) with Excellence and loves building
-            clean, reliable software. I care deeply about code quality, performance, and experiences
-            that feel thoughtful.
+            I&apos;m Mahmudul Hasan Nirab — a Full-Stack Developer who learned web development
+            through Programming Hero and loves building clean, reliable software. I care deeply about
+            code quality, performance, and experiences that feel thoughtful.
           </p>
           <p>
             Most of my time goes into the modern JavaScript/TypeScript ecosystem: React, Next.js,
@@ -1091,73 +1085,8 @@ function Trust() {
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Social Proof" title="Learning & Proof of Work" />
         <p className="text-center text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-10 -mt-6">
-          Real certificate and shipped projects — Programming Hero Batch-13 (WEB13-1485).
+          Real training path and shipped projects — no certificate list.
         </p>
-
-        {/* Certificate showcase */}
-        <div className="mb-12 rounded-3xl border border-white/80 bg-white/90 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.12)] overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-0 items-center">
-            <div className="p-4 sm:p-6 md:p-8">
-              <a
-                href={CERTIFICATE_IMAGE}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-2xl overflow-hidden border border-violet-100 shadow-lg hover:shadow-xl transition group"
-              >
-                <img
-                  src={CERTIFICATE_IMAGE}
-                  alt="Programming Hero Certificate of Completion with Excellence — Mahmudul Hasan Nirab, Batch-13, WEB13-1485"
-                  className="w-full h-auto object-contain group-hover:scale-[1.02] transition duration-300 motion-reduce:transform-none"
-                  loading="lazy"
-                />
-              </a>
-            </div>
-            <div className="p-6 sm:p-8 md:pr-10 space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold px-3 py-1">
-                <Award className="w-3.5 h-3.5" aria-hidden />
-                Certificate of Completion with Excellence
-              </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                Complete Web Development Course
-              </h3>
-              <p className="text-sm text-violet-600 font-medium">
-                Programming Hero · Batch-13 · WEB13-1485
-              </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Conducted from <strong>01 January 2026</strong> to{" "}
-                <strong>23 July 2026</strong>. Covered HTML, CSS, JavaScript, React.js, Next.js,
-                Node.js, Express.js, MongoDB, AI-powered development practices, and professional
-                web engineering readiness.
-              </p>
-              <ul className="grid grid-cols-2 gap-2 text-xs sm:text-sm text-slate-600">
-                {[
-                  "HTML & CSS",
-                  "JavaScript",
-                  "React.js",
-                  "Next.js",
-                  "Node.js",
-                  "Express.js",
-                  "MongoDB",
-                  "AI-powered practices",
-                ].map((skill) => (
-                  <li key={skill} className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-violet-500 shrink-0" aria-hidden />
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={CERTIFICATE_IMAGE}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-violet-600 hover:text-violet-700"
-              >
-                View full certificate <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
-        </div>
-
         <div className="grid md:grid-cols-3 gap-6">
           {LEARNING_HIGHLIGHTS.map((item) => (
             <div
@@ -1177,7 +1106,7 @@ function Trust() {
           <Star className="w-8 h-8 text-violet-500 mx-auto mb-3" aria-hidden />
           <p className="text-slate-700 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             All featured projects are live on Vercel with public GitHub repositories. Open any case
-            study to see the problem, solution, stack, and source code.
+            study for the problem, solution, stack, and source code.
           </p>
         </div>
       </div>
@@ -1273,7 +1202,6 @@ function Contact() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // Demo only — replace with a real form endpoint (Formspree, Resend, etc.)
     setTimeout(() => setStatus("sent"), 1200);
   };
 
