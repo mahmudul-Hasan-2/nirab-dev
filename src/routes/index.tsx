@@ -528,7 +528,7 @@ const LEARNING_HIGHLIGHTS = [
     title: "5+ production projects",
     detail: "Shipped & live on Vercel",
     description:
-      "DevAgent, DevCraft, IdeaVault, RecipeHub, and BookVibe — each with real auth, APIs, and deployment, not just UI mockups.",
+      "DevAgent, DevCraft, IdeaVault, RecipeHub, and BookVibe — live apps with public repos (BookVibe is frontend-only with LocalStorage; the others include auth/APIs).",
   },
   {
     title: "AI & modern stack",
