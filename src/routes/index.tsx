@@ -47,7 +47,7 @@ import {
 } from "react";
 
 const RESUME_URL =
-  "https://docs.google.com/uc?export=download&id=19aYzpaY-nCdScJsANd5DFN7OMD4pmCzY";
+  "https://docs.google.com/uc?export=download&id=1zwfUJvu84opseUl9s-STZXGM_lu2m4fL";
 
 const SITE_URL = "https://nirab-dev.vercel.app";
 const SITE_NAME = "Mahmudul Hasan Nirab — Full Stack Developer & AI Enthusiast";
@@ -388,7 +388,7 @@ const ARTICLES = [
 const FAQ_ITEMS = [
   {
     q: "Are you available for remote work?",
-    a: "Yes. I work remotely from Bangladesh and am open to freelance projects, internships, and full-time remote roles.",
+    a: "Yes. I work remotely from Bangladesh and am actively looking for freelance projects, internships, and full-time remote full-stack roles worldwide.",
   },
   {
     q: "What stack do you prefer?",
@@ -729,7 +729,7 @@ function Hero() {
         <div className="order-2 md:order-1 text-center md:text-left">
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1 text-xs font-medium text-violet-700 mb-5 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Available for new opportunities
+            Open to remote roles & freelance
           </div>
           <p className="text-sm font-medium text-violet-600 mb-2">Hello, I&apos;m</p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-slate-900">
@@ -778,7 +778,7 @@ function Hero() {
                 icon: Linkedin,
                 label: "LinkedIn",
               },
-              { href: "mailto:mahmudul5790@gmail.com", icon: Mail, label: "Email" },
+              { href: "mailto:mahmudul5709@gmail.com", icon: Mail, label: "Email" },
             ].map((item) => (
               <a
                 key={item.label}
@@ -855,13 +855,14 @@ function About() {
           {[
             {
               icon: GraduationCap,
-              title: "Education",
+              title: "Education & Self-Learning",
               period: "2024 — Present",
               body: (
                 <>
-                  Currently pursuing secondary education at{" "}
-                  <strong className="text-slate-800">Talibpur Ahsania High School</strong>. Building
-                  strong fundamentals while shipping real full-stack products in parallel.
+                  Self-taught Full-Stack Developer building production apps while continuing formal
+                  studies at{" "}
+                  <strong className="text-slate-800">Talibpur Ahsania High School</strong>. Focused on
+                  shipping real products alongside strong fundamentals.
                 </>
               ),
             },
@@ -911,9 +912,9 @@ function About() {
 
         <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
-            I&apos;m Mahmudul Hasan Nirab — a Full-Stack Developer who learned web development
-            through Programming Hero and loves building clean, reliable software. I care deeply about
-            code quality, performance, and experiences that feel thoughtful.
+            I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who learned web
+            development through Programming Hero and loves building clean, reliable software. I care
+            deeply about code quality, performance, and experiences that feel thoughtful.
           </p>
           <p>
             Most of my time goes into the modern JavaScript/TypeScript ecosystem: React, Next.js,
@@ -1220,8 +1221,8 @@ function Contact() {
                 {
                   icon: Mail,
                   label: "Email",
-                  value: "mahmudul5790@gmail.com",
-                  href: "mailto:mahmudul5790@gmail.com",
+                  value: "mahmudul5709@gmail.com",
+                  href: "mailto:mahmudul5709@gmail.com",
                 },
                 {
                   icon: Linkedin,
@@ -1566,7 +1567,7 @@ function Footer() {
                 icon: Linkedin,
                 label: "LinkedIn",
               },
-              { href: "mailto:mahmudul5790@gmail.com", icon: Mail, label: "Email" },
+              { href: "mailto:mahmudul5709@gmail.com", icon: Mail, label: "Email" },
             ].map((item) => (
               <a
                 key={item.label}
