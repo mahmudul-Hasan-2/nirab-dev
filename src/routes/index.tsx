@@ -47,7 +47,7 @@ import {
 } from "react";
 
 const RESUME_URL =
-  "https://docs.google.com/uc?export=download&id=1zwfUJvu84opseUl9s-STZXGM_lu2m4fL";
+  "https://drive.google.com/uc?export=download&id=1sNTc2FPNnj3UwDmNieAEA2T1wzwcjXix";
 
 const SITE_URL = "https://nirab-dev.vercel.app";
 const SITE_NAME = "Mahmudul Hasan Nirab — Full Stack Developer & AI Enthusiast";
@@ -128,26 +128,29 @@ const PROJECTS: Project[] = [
     live: "https://frontend-sigma-tawny-82.vercel.app/",
     repos: [{ label: "Full Repository", url: "https://github.com/mahmudul-Hasan-2/DevAgent" }],
     challenges: [
-      "Orchestrating multi-step agentic flows with Gemini while keeping conversation context across sessions.",
+      "Orchestrating multi-step agentic flows with Gemini while managing context-window limits and conversation history across sessions.",
+      "Safely streaming asynchronous LLM responses (Gemini & Groq) without blocking the UI or leaking partial tokens.",
+      "Building reliable multi-model fallback pathways so a failing primary model silently switches to a secondary provider.",
       "Integrating Better Auth with a decoupled Express backend and reliable cross-origin cookie sessions.",
       "Building a clean TypeScript shared interface layer between frontend and backend.",
     ],
     improvements: [
-      "Add multi-model LLM fallback for higher reliability.",
+      "Expand multi-model LLM fallback with automatic health checks and cost-aware routing.",
       "Introduce real-time team collaboration and shared workspaces.",
-      "Add file upload + vector memory for deeper project context.",
+      "Add file upload + vector memory for deeper project context beyond token limits.",
     ],
     badge: "AI Powered",
-    keyMetric: "AI project generation + co-pilot chat in one secure workspace",
+    keyMetric: "Agentic project generation + streaming co-pilot with model fallback",
     problem:
       "Developers spend too much time switching tools when planning features and structuring new applications from scratch.",
     solution:
-      "Built an integrated agentic workspace that uses Google Gemini to generate project structure and task breakdown, with a real-time AI co-pilot chat inside Better Auth–protected workspaces.",
+      "Built an integrated agentic workspace that uses Google Gemini to generate project structure and task breakdown, with a real-time AI co-pilot chat (Gemini + Groq streaming) inside Better Auth–protected workspaces. Context is carefully truncated and summarized; failed primary calls fall back to a secondary model.",
     learnings:
-      "Hands-on experience with async AI streams, multi-step agent orchestration, Better Auth across domains, and end-to-end TypeScript architecture (Next.js frontend + Express backend).",
+      "Hands-on experience with async AI streams, context-window management, multi-step agent orchestration, token-safe fallbacks, Better Auth across domains, and end-to-end TypeScript architecture (Next.js frontend + Express backend).",
     features: [
-      "AI project blueprint generation (Gemini)",
-      "Interactive AI co-pilot chat (Gemini & Groq)",
+      "AI project blueprint generation (Gemini) with context-aware prompting",
+      "Interactive AI co-pilot chat with async streaming (Gemini & Groq)",
+      "Multi-model token fallback for higher reliability",
       "Secure workspace management with Better Auth",
       "Project create / explore / update flows",
       "TypeScript across frontend and backend",
@@ -742,9 +745,9 @@ function Hero() {
             Full-Stack Developer & AI Enthusiast
           </p>
           <p className="mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
-            I build secure, scalable web applications with React, Next.js, TypeScript, and MongoDB.
-            I learned the full stack through Programming Hero and love turning ideas into clean,
-            production-ready products — especially ones that involve AI.
+            I ship secure, scalable full-stack products (DevAgent, DevCraft, and more) with React,
+            Next.js, TypeScript, and MongoDB. Focused on production-ready apps and agentic AI
+            systems that solve real developer workflows.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -848,21 +851,20 @@ function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
 
 function About() {
   return (
-    <section id="about" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="about" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Background & Timeline" title="Education & Professional Journey" />
         <div className="grid sm:grid-cols-2 gap-6 mb-16">
           {[
             {
               icon: GraduationCap,
-              title: "Education & Self-Learning",
+              title: "Self-Taught & Shipping",
               period: "2024 — Present",
               body: (
                 <>
-                  Self-taught Full-Stack Developer building production apps while continuing formal
-                  studies at{" "}
-                  <strong className="text-slate-800">Talibpur Ahsania High School</strong>. Focused on
-                  shipping real products alongside strong fundamentals.
+                  Self-taught Full-Stack Developer focused on shipping production applications
+                  (DevAgent, DevCraft, and more). Continuously leveling up through rigorous
+                  self-study and real product milestones rather than just coursework.
                 </>
               ),
             },
@@ -912,14 +914,14 @@ function About() {
 
         <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
-            I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who learned web
-            development through Programming Hero and loves building clean, reliable software. I care
-            deeply about code quality, performance, and experiences that feel thoughtful.
+            I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who ships clean,
+            reliable software. I care deeply about code quality, performance, and experiences that
+            feel thoughtful.
           </p>
           <p>
             Most of my time goes into the modern JavaScript/TypeScript ecosystem: React, Next.js,
-            Node.js, MongoDB, Better Auth, and AI features with Gemini. Every project is a chance to
-            ship something real and level up.
+            Node.js, MongoDB, Better Auth, and agentic AI features with Gemini & Groq. Every project
+            is a chance to ship something real and level up.
           </p>
         </div>
       </div>
@@ -929,7 +931,7 @@ function About() {
 
 function Services() {
   return (
-    <section id="services" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="services" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="What I Offer" title="Services" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -953,7 +955,7 @@ function Services() {
 
 function Skills() {
   return (
-    <section id="skills" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="skills" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Technical Expertise" title="Core Skills & Proficiencies" />
         <div className="grid md:grid-cols-3 gap-6">
@@ -1007,7 +1009,7 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   const filtered = useMemo(() => PROJECTS.filter((p) => matchesFilter(p, filter)), [filter]);
 
   return (
-    <section id="projects" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="projects" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Portfolio" title="Featured Case Studies" />
         <div className="flex flex-wrap justify-center gap-2 mb-10">
@@ -1082,7 +1084,7 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
 
 function Trust() {
   return (
-    <section id="testimonials" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="testimonials" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Social Proof" title="Learning & Proof of Work" />
         <p className="text-center text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-10 -mt-6">
@@ -1117,7 +1119,7 @@ function Trust() {
 
 function Process() {
   return (
-    <section className="py-24 px-4 sm:px-6 w-full">
+    <section className="py-24 sm:py-32 px-4 sm:px-6 w-full">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Methodology" title="How I Work" />
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -1139,7 +1141,7 @@ function Process() {
 
 function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
   return (
-    <section id="articles" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="articles" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Writing" title="Articles & Notes" />
         <div className="grid md:grid-cols-3 gap-6">
@@ -1167,7 +1169,7 @@ function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void })
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="faq" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-3xl">
         <SectionHeader eyebrow="FAQ" title="Common Questions" />
         <div className="space-y-3">
@@ -1207,7 +1209,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Get in Touch" title="Let's build something" />
         <div className="grid md:grid-cols-2 gap-10">
