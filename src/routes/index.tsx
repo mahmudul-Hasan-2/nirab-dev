@@ -47,7 +47,7 @@ import {
 } from "react";
 
 const RESUME_URL =
-  "https://drive.google.com/uc?export=download&id=1ees204_QzxwYvjY6sbJLkc0FjI_Gln0J";
+  "https://drive.google.com/uc?export=download&id=1s6I1nAZkTSpeiDfDAv8ED2OYQZ3ktciC";
 
 const SITE_URL = "https://nirab-dev.vercel.app";
 const SITE_NAME = "Mahmudul Hasan Nirab — Full Stack Developer & AI Enthusiast";
