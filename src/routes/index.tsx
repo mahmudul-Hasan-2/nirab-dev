@@ -325,6 +325,12 @@ const PROJECTS: Project[] = [
   },
 ];
 
+function matchesFilter(p: Project, filter: ProjectCategory) {
+  if (filter === "All") return true;
+  if (filter === "Next.js") return p.stack.some((s) => s.toLowerCase().includes("next"));
+  return p.category === filter;
+}
+
 const SERVICES = [
   {
     icon: Layout,
@@ -566,11 +572,13 @@ function useBodyScrollLock(locked: boolean) {
 
 function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
   return (
-    <div className="text-center mb-12 sm:mb-16">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-violet-600 mb-3">
+    <div className="text-center mb-8 sm:mb-12 px-1">
+      <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-violet-600 mb-2">
         {eyebrow}
       </p>
-      <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">{title}</h2>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight break-words">
+        {title}
+      </h2>
     </div>
   );
 }
@@ -601,10 +609,22 @@ function Portfolio() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActive(null);
+        setActiveArticle(null);
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#f8f7ff] text-slate-800 selection:bg-violet-200 selection:text-violet-900">
+    <div className="min-h-screen bg-[#f8f7ff] text-slate-800 selection:bg-violet-200 selection:text-violet-900 overflow-x-hidden">
       <Navbar activeSection={activeSection} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <main>
+      <main className="w-full overflow-x-hidden">
         <Hero />
         <About />
         <Certificates />
@@ -636,20 +656,56 @@ function Navbar({
   setMenuOpen: (v: boolean) => void;
 }) {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 border-b border-white/60 bg-white/70 backdrop-blur-xl">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="#home" className="font-bold text-lg text-slate-900 tracking-tight">
+    <header className="fixed top-0 inset-x-0 z-50 border-b border-violet-100/80 bg-white/80 backdrop-blur-xl">
+      <div className="mx-auto max-w-6xl px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
+        <a href="#home" className="font-bold text-base sm:text-lg tracking-tight text-slate-900 shrink-0">
           Nirab<span className="text-violet-600">.dev</span>
         </a>
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-0.5 flex-1 justify-center min-w-0">
           {NAV.map((n) => (
             <a
               key={n.id}
               href={`#${n.id}`}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
+              className={`px-2.5 py-1.5 rounded-full text-xs font-medium transition whitespace-nowrap ${
                 activeSection === n.id
                   ? "bg-violet-100 text-violet-700"
-                  : "text-slate-600 hover:text-violet-600 hover:bg-violet-50"
+                  : "text-slate-600 hover:text-violet-600 hover:bg-violet-50/80"
+              }`}
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2 shrink-0">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-violet-600 text-white text-xs sm:text-sm font-medium px-3 sm:px-4 py-1.5 sm:py-2 hover:bg-violet-700 transition shadow-md shadow-violet-500/25"
+          >
+            <Download className="w-3.5 h-3.5" /> Resume
+          </a>
+          <button
+            type="button"
+            className="xl:hidden w-9 h-9 sm:w-10 sm:h-10 grid place-items-center rounded-full border border-violet-100 text-slate-700"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+      {menuOpen && (
+        <div className="xl:hidden border-t border-violet-100 bg-white/95 backdrop-blur-xl px-4 py-3 space-y-0.5 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              onClick={() => setMenuOpen(false)}
+              className={`block px-3 py-2.5 rounded-xl text-sm font-medium transition ${
+                activeSection === n.id
+                  ? "bg-violet-50 text-violet-700"
+                  : "text-slate-700 hover:bg-violet-50"
               }`}
             >
               {n.label}
@@ -659,37 +715,7 @@ function Navbar({
             href={RESUME_URL}
             target="_blank"
             rel="noreferrer"
-            className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold px-4 py-1.5 shadow-md shadow-violet-500/25 hover:shadow-lg transition"
-          >
-            <Download className="w-3.5 h-3.5" /> Resume
-          </a>
-        </nav>
-        <button
-          type="button"
-          className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-violet-50"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-        >
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-      {menuOpen && (
-        <div className="md:hidden border-t border-violet-100 bg-white/95 backdrop-blur-xl px-4 py-3 space-y-1">
-          {NAV.map((n) => (
-            <a
-              key={n.id}
-              href={`#${n.id}`}
-              onClick={() => setMenuOpen(false)}
-              className="block px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-violet-50"
-            >
-              {n.label}
-            </a>
-          ))}
-          <a
-            href={RESUME_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-violet-700 bg-violet-50"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-violet-700 bg-violet-50 mt-1"
           >
             <Download className="w-4 h-4" /> Download Resume
           </a>
@@ -703,7 +729,7 @@ function Hero() {
   return (
     <section
       id="home"
-      className="relative pt-28 pb-20 sm:pt-32 sm:pb-28 px-4 sm:px-6 overflow-hidden"
+      className="relative pt-20 pb-14 sm:pt-28 sm:pb-20 lg:pt-32 lg:pb-28 px-4 sm:px-6 overflow-hidden"
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -713,44 +739,52 @@ function Hero() {
             "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139,92,246,0.18), transparent), radial-gradient(ellipse 60% 40% at 90% 10%, rgba(99,102,241,0.12), transparent)",
         }}
       />
-      <div className="relative mx-auto max-w-6xl grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div className="relative mx-auto max-w-6xl grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
         <div className="order-2 md:order-1 text-center md:text-left">
           <div className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white/80 px-3 py-1 text-xs font-medium text-violet-700 mb-5 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Open to remote roles & freelance
           </div>
           <p className="text-sm font-medium text-violet-600 mb-2">Hello, I&apos;m</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight text-slate-900">
+          <h1 className="text-[1.75rem] leading-tight sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 break-words">
             Mahmudul Hasan{" "}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Nirab
             </span>
           </h1>
-          <p className="mt-3 text-lg sm:text-xl font-semibold text-slate-700">
+          <p className="mt-3 text-base sm:text-lg md:text-xl font-semibold text-slate-700">
             Full-Stack Developer & AI Enthusiast
           </p>
-          <p className="mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
+          <p className="mt-4 sm:mt-5 text-slate-600 max-w-lg mx-auto md:mx-0 text-sm sm:text-base leading-relaxed">
             I ship secure, scalable full-stack products (DevAgent, DevCraft, and more) with React,
             Next.js, TypeScript, and MongoDB. Focused on production-ready apps and agentic AI
             systems that solve real developer workflows.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3">
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center md:justify-start gap-3 w-full max-w-md mx-auto md:mx-0 md:max-w-none">
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold px-6 py-3 shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 transition duration-300 motion-reduce:transform-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold px-5 sm:px-6 py-3 text-sm sm:text-base shadow-lg shadow-violet-500/30 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 transition duration-300 motion-reduce:transform-none"
             >
-              View Projects <ArrowRight className="w-4 h-4" />
+              View Case Studies <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href={RESUME_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-violet-200 bg-white text-violet-700 font-semibold px-5 sm:px-6 py-3 text-sm sm:text-base hover:border-violet-400 hover:bg-violet-50 transition"
+            >
+              <Download className="w-4 h-4" /> Download Resume
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-white text-slate-700 font-semibold px-6 py-3 hover:bg-violet-50 transition"
+              className="inline-flex items-center justify-center gap-2 rounded-full text-slate-600 font-medium px-4 py-2.5 text-sm hover:text-violet-600 transition"
             >
-              Contact Me
+              Contact me
             </a>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center md:justify-start gap-5 text-sm text-slate-500">
+          <div className="mt-8 flex items-center justify-center md:justify-start gap-3">
             {[
               { href: "https://github.com/mahmudul-hasan-2", icon: Github, label: "GitHub" },
               {
@@ -763,30 +797,50 @@ function Hero() {
               <a
                 key={item.label}
                 href={item.href}
-                target="_blank"
+                target={item.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 hover:text-violet-600 transition"
+                className="w-11 h-11 rounded-full border border-violet-100 bg-white grid place-items-center text-slate-500 hover:border-violet-400 hover:text-violet-600 hover:shadow-md hover:-translate-y-0.5 transition motion-reduce:transform-none"
+                aria-label={item.label}
               >
-                <item.icon className="w-4 h-4" /> {item.label}
+                <item.icon className="w-[18px] h-[18px]" />
               </a>
             ))}
           </div>
-          <p className="mt-4 text-xs text-slate-400 flex items-center justify-center md:justify-start gap-1.5">
-            <MapPin className="w-3.5 h-3.5" /> Madhabpur, Bangladesh (Remote)
+          <p className="mt-5 text-sm text-slate-500 flex items-center justify-center md:justify-start gap-1.5">
+            <MapPin className="w-3.5 h-3.5" aria-hidden /> Madhabpur, Bangladesh (Remote)
           </p>
         </div>
 
-        <div className="order-1 md:order-2 flex justify-center">
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-full bg-gradient-to-br from-violet-400/30 to-indigo-500/20 blur-2xl" />
-            <img
-              src={OG_IMAGE}
-              alt="Mahmudul Hasan Nirab"
-              className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-white shadow-2xl shadow-violet-500/20"
+        <div
+          className="order-1 md:order-2 flex justify-center md:justify-end pb-8 sm:pb-6"
+          style={{ perspective: "1200px" }}
+        >
+          <div className="relative group" style={{ transformStyle: "preserve-3d" }}>
+            <div
+              className="absolute -inset-4 sm:-inset-8 rounded-[2.8rem] bg-gradient-to-br from-violet-400/40 via-indigo-300/30 to-fuchsia-300/30 blur-3xl opacity-70 group-hover:opacity-95 transition duration-700 motion-reduce:transition-none"
+              aria-hidden
             />
-            <div className="absolute -bottom-3 -right-3 sm:bottom-2 sm:right-2 rounded-2xl bg-white/95 backdrop-blur border border-violet-100 shadow-lg px-4 py-2.5">
-              <p className="text-xs font-semibold text-violet-600">5+ Projects</p>
-              <p className="text-[11px] text-slate-500">Shipped & live</p>
+            <div
+              className="relative w-52 h-52 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-[1.25rem] sm:rounded-[2rem] overflow-hidden border-4 sm:border-[5px] border-white shadow-[0_30px_60px_-15px_rgba(99,102,241,0.5)] transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transform-none"
+              style={{ transform: "rotateY(-6deg) rotateX(3deg)" }}
+            >
+              <img
+                src={OG_IMAGE}
+                alt="Mahmudul Hasan Nirab"
+                width={320}
+                height={320}
+                className="w-full h-full object-cover"
+                fetchPriority="high"
+              />
+            </div>
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 sm:-left-6 md:-left-8 rounded-2xl bg-white/95 backdrop-blur border border-white shadow-xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-2.5 sm:gap-3 max-w-[calc(100%-1rem)]">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 grid place-items-center text-white shadow-md shrink-0">
+                <Code2 className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs sm:text-sm font-bold text-slate-800">5+ Projects</p>
+                <p className="text-[11px] sm:text-xs text-slate-500">Shipped & live</p>
+              </div>
             </div>
           </div>
         </div>
@@ -797,10 +851,10 @@ function Hero() {
 
 function About() {
   return (
-    <section id="about" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="about" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Background & Timeline" title="Education & Professional Journey" />
-        <div className="grid sm:grid-cols-2 gap-6 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-12 sm:mb-16">
           {[
             {
               icon: GraduationCap,
@@ -831,35 +885,39 @@ function About() {
           ].map((card) => (
             <div
               key={card.title}
-              className="rounded-3xl p-6 sm:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.16)] hover:-translate-y-1 transition duration-300 motion-reduce:transform-none"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.16)] hover:-translate-y-1 transition duration-300 motion-reduce:transform-none min-w-0"
             >
-              <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
-                <card.icon className="w-6 h-6 text-white" aria-hidden />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl grid place-items-center mb-3 sm:mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
+                <card.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden />
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-1">{card.title}</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-slate-900 mb-1">{card.title}</h3>
               <p className="text-sm text-violet-600 font-medium mb-3">{card.period}</p>
               <p className="text-slate-600 text-sm leading-relaxed">{card.body}</p>
             </div>
           ))}
         </div>
 
-        <div className="mb-16">
-          <h3 className="text-xl font-bold mb-8 text-center flex items-center justify-center gap-2 text-slate-900">
-            <Calendar className="w-5 h-5 text-violet-600" aria-hidden /> Milestone Timeline
+        <div className="mb-12 sm:mb-16">
+          <h3 className="text-lg sm:text-xl font-bold mb-6 sm:mb-8 text-center flex items-center justify-center gap-2 text-slate-900">
+            <Calendar className="w-5 h-5 text-violet-600 shrink-0" aria-hidden /> Milestone Timeline
           </h3>
-          <div className="space-y-6 border-l-2 border-violet-200 ml-4 sm:ml-8 pl-6">
+          <div className="space-y-5 sm:space-y-6 border-l-2 border-violet-200 ml-3 sm:ml-6 pl-5 sm:pl-6">
             {TIMELINE_DATA.map((item, idx) => (
               <div key={idx} className="relative group">
-                <span className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-violet-500 border-4 border-[#f8f7ff] group-hover:scale-125 transition-transform shadow-md shadow-violet-500/40 motion-reduce:transform-none" />
-                <div className="text-xs text-violet-600 font-mono font-semibold">{item.year}</div>
-                <h4 className="text-lg font-semibold text-slate-900 mt-1">{item.title}</h4>
-                <p className="text-sm text-slate-600 mt-1">{item.description}</p>
+                <span className="absolute -left-[23px] sm:-left-[27px] top-1.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-violet-500 border-[3px] sm:border-4 border-[#f8f7ff] group-hover:scale-125 transition-transform shadow-md shadow-violet-500/40 motion-reduce:transform-none" />
+                <div className="text-[11px] sm:text-xs text-violet-600 font-mono font-semibold">
+                  {item.year}
+                </div>
+                <h4 className="text-base sm:text-lg font-semibold text-slate-900 mt-0.5 sm:mt-1">
+                  {item.title}
+                </h4>
+                <p className="text-sm text-slate-600 mt-1 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-6 sm:p-8 rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
+        <div className="space-y-4 sm:space-y-5 text-slate-600 leading-relaxed text-sm sm:text-base p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]">
           <p>
             I&apos;m Mahmudul Hasan Nirab — a self-taught Full-Stack Developer who ships clean,
             reliable software. I care deeply about code quality, performance, and experiences that
@@ -878,50 +936,53 @@ function About() {
 
 function Certificates() {
   return (
-    <section id="certificates" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="certificates" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Credentials" title="Certificates" />
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="rounded-3xl overflow-hidden border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.12)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start lg:items-center">
+          <div className="w-full min-w-0 rounded-2xl sm:rounded-3xl overflow-hidden border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.12)] p-2 sm:p-3">
             <img
               src="https://res.cloudinary.com/ki15pqkv/image/upload/v1789140009/certificate.png"
               alt="Certificate of Completion with Excellence — Programming Hero Complete Web Development Course, awarded to Mahmudul Hasan Nirab (Batch-13, WEB13-1485)"
-              className="w-full h-auto object-contain"
+              className="w-full h-auto max-h-[50vh] sm:max-h-[60vh] lg:max-h-[70vh] object-contain mx-auto rounded-xl"
               loading="lazy"
             />
           </div>
-          <div className="space-y-5">
-            <div className="inline-flex items-center gap-2 rounded-full bg-violet-100 text-violet-700 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
-              <Award className="w-3.5 h-3.5" aria-hidden />
-              Certificate of Completion with Excellence
+
+          <div className="space-y-4 sm:space-y-5 min-w-0">
+            <div className="inline-flex flex-wrap items-center gap-2 rounded-full bg-violet-100 text-violet-700 px-3 py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-wide">
+              <Award className="w-3.5 h-3.5 shrink-0" aria-hidden />
+              <span>Certificate of Completion with Excellence</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">
+            <h3 className="text-lg sm:text-2xl lg:text-3xl font-bold text-slate-900 leading-snug sm:leading-tight break-words">
               Complete Web Development Course With Programming Hero
             </h3>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
               Awarded to <strong className="text-slate-800">Mahmudul Hasan Nirab</strong> for
               successfully completing the Complete Web Development Course (Batch-13 · WEB13-1485).
               The program ran from <strong>1 January 2026</strong> to{" "}
               <strong>23 July 2026</strong>, with formal completion recognized in August 2026.
             </p>
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li className="flex items-start gap-2">
+            <ul className="space-y-2.5 text-sm text-slate-600">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" aria-hidden />
                 <span>
                   Demonstrated proficiency in HTML, CSS, JavaScript, React.js, Next.js, Node.js,
                   Express.js, and MongoDB
                 </span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" aria-hidden />
-                <span>AI-powered development practices and professional web engineering readiness</span>
+                <span>
+                  AI-powered development practices and professional web engineering readiness
+                </span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-2.5">
                 <CheckCircle2 className="w-4 h-4 text-violet-600 mt-0.5 shrink-0" aria-hidden />
                 <span>Signed by Jhankar Mahbub, CEO of Programming Hero</span>
               </li>
             </ul>
-            <p className="text-sm text-slate-500 italic">
+            <p className="text-sm text-slate-500 italic pt-1">
               “You did it, and we are proud of you!”
             </p>
           </div>
@@ -933,19 +994,19 @@ function Certificates() {
 
 function Services() {
   return (
-    <section id="services" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="services" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="What I Offer" title="Services" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {SERVICES.map((s) => (
             <div
               key={s.title}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none min-w-0"
             >
-              <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
-                <s.icon className="w-6 h-6 text-white" aria-hidden />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl grid place-items-center mb-3 sm:mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
+                <s.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">{s.title}</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-2">{s.title}</h3>
               <p className="text-sm text-slate-600 leading-relaxed">{s.description}</p>
             </div>
           ))}
@@ -957,42 +1018,52 @@ function Services() {
 
 function Skills() {
   return (
-    <section id="skills" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="skills" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Toolbox" title="Skills & Tech Stack" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {SKILLS_CATEGORIES.map((cat) => (
-            <div
-              key={cat.category}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
-            >
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl grid place-items-center bg-gradient-to-br from-violet-500 to-indigo-600 shadow-md shadow-violet-500/30">
-                  <cat.icon className="w-5 h-5 text-white" aria-hidden />
+        <SectionHeader eyebrow="Technical Expertise" title="Core Skills & Proficiencies" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {SKILLS_CATEGORIES.map((group) => {
+            const GroupIcon = group.icon;
+            return (
+              <div
+                key={group.category}
+                className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_25px_50px_rgba(99,102,241,0.18)] hover:-translate-y-2 transition-all duration-300 group motion-reduce:transform-none min-w-0"
+              >
+                <div className="flex items-center gap-3 sm:gap-4 mb-5 sm:mb-6">
+                  <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl grid place-items-center shrink-0 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30 group-hover:scale-110 transition-transform motion-reduce:transform-none">
+                    <GroupIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-slate-900 break-words">
+                    {group.category}
+                  </h3>
                 </div>
-                <h3 className="font-semibold text-slate-900">{cat.category}</h3>
+                <ul className="space-y-4">
+                  {group.skills.map((skill) => {
+                    const SkillIcon = skill.icon;
+                    return (
+                      <li key={skill.name} className="space-y-1.5">
+                        <div className="flex items-center justify-between text-sm gap-2">
+                          <div className="flex items-center gap-2 font-medium text-slate-700 min-w-0">
+                            <SkillIcon className="w-4 h-4 text-violet-500 shrink-0" aria-hidden />
+                            <span className="truncate">{skill.name}</span>
+                          </div>
+                          <span className="text-xs text-slate-500 font-mono shrink-0">
+                            {skill.level}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-violet-100 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-700"
+                            style={{ width: `${skill.level}%` }}
+                          />
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-              <ul className="space-y-3">
-                {cat.skills.map((skill) => (
-                  <li key={skill.name}>
-                    <div className="flex items-center justify-between text-sm mb-1">
-                      <span className="flex items-center gap-2 text-slate-700">
-                        <skill.icon className="w-3.5 h-3.5 text-violet-500" aria-hidden />
-                        {skill.name}
-                      </span>
-                      <span className="text-xs text-slate-400 font-mono">{skill.level}%</span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500"
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -1001,55 +1072,56 @@ function Skills() {
 
 function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
   const [filter, setFilter] = useState<ProjectCategory>("All");
-  const categories: ProjectCategory[] = ["All", "AI", "Full Stack", "Frontend"];
-  const filtered =
-    filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+  const filters: ProjectCategory[] = ["All", "AI", "Full Stack", "Next.js", "Frontend"];
+  const filtered = useMemo(() => PROJECTS.filter((p) => matchesFilter(p, filter)), [filter]);
 
   return (
-    <section id="projects" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="projects" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Selected Work" title="Featured Projects" />
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((c) => (
+        <SectionHeader eyebrow="Portfolio" title="Featured Case Studies" />
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10">
+          {filters.map((f) => (
             <button
-              key={c}
+              key={f}
               type="button"
-              onClick={() => setFilter(c)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${
-                filter === c
+              onClick={() => setFilter(f)}
+              className={`rounded-full px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium transition whitespace-nowrap ${
+                filter === f
                   ? "bg-violet-600 text-white shadow-md shadow-violet-500/30"
-                  : "bg-white text-slate-600 border border-slate-200 hover:border-violet-300 hover:text-violet-600"
+                  : "bg-white border border-violet-100 text-slate-600 hover:border-violet-300"
               }`}
             >
-              {c}
+              {f}
             </button>
           ))}
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filtered.map((project) => (
             <article
               key={project.name}
+              className="group rounded-2xl sm:rounded-3xl overflow-hidden border border-white/80 bg-white/90 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_25px_50px_rgba(99,102,241,0.2)] hover:-translate-y-2 transition-all duration-300 motion-reduce:transform-none cursor-pointer min-w-0"
               onClick={() => onSelect(project)}
-              className="group cursor-pointer rounded-3xl overflow-hidden border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.18)] hover:-translate-y-1.5 transition duration-300 motion-reduce:transform-none"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+              <div className="relative aspect-[16/10] overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500 motion-reduce:transform-none"
                   loading="lazy"
                 />
-                <span className="absolute top-3 left-3 rounded-full bg-white/90 backdrop-blur text-xs font-semibold text-violet-700 px-2.5 py-1 shadow-sm">
-                  {project.badge}
-                </span>
+                <div className="absolute top-3 left-3">
+                  <span className="text-[10px] font-bold uppercase tracking-wider rounded-full bg-violet-600 text-white px-2.5 py-1 shadow">
+                    {project.badge}
+                  </span>
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition flex items-end p-4">
                   <span className="text-white text-sm font-semibold flex items-center gap-1">
                     View Case Study <ArrowRight className="w-4 h-4" />
                   </span>
                 </div>
               </div>
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-slate-900 group-hover:text-violet-700 transition">
+              <div className="p-4 sm:p-5">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-violet-700 transition">
                   {project.name}
                 </h3>
                 <p className="mt-1.5 text-sm text-slate-600 line-clamp-2">{project.tagline}</p>
@@ -1079,29 +1151,29 @@ function Projects({ onSelect }: { onSelect: (p: Project) => void }) {
 
 function Trust() {
   return (
-    <section id="testimonials" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="testimonials" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Social Proof" title="Learning & Proof of Work" />
-        <p className="text-center text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-10 -mt-6">
+        <p className="text-center text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-8 sm:mb-10 -mt-4 sm:-mt-6 px-1">
           Real training path, certificate of excellence, and shipped production projects.
         </p>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {LEARNING_HIGHLIGHTS.map((item) => (
             <div
               key={item.title}
-              className="rounded-3xl p-6 sm:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)]"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] min-w-0"
             >
-              <div className="w-12 h-12 rounded-2xl grid place-items-center mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
-                <Award className="w-6 h-6 text-white" aria-hidden />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl grid place-items-center mb-3 sm:mb-4 bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/30">
+                <Award className="w-5 h-5 sm:w-6 sm:h-6 text-white" aria-hidden />
               </div>
-              <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-slate-900">{item.title}</h3>
               <p className="text-sm text-violet-600 font-medium mt-1 mb-3">{item.detail}</p>
               <p className="text-sm text-slate-600 leading-relaxed">{item.description}</p>
             </div>
           ))}
         </div>
-        <div className="mt-10 rounded-3xl border border-violet-100 bg-violet-50/50 p-6 sm:p-8 text-center">
-          <Star className="w-8 h-8 text-violet-500 mx-auto mb-3" aria-hidden />
+        <div className="mt-8 sm:mt-10 rounded-2xl sm:rounded-3xl border border-violet-100 bg-violet-50/50 p-5 sm:p-6 md:p-8 text-center">
+          <Star className="w-7 h-7 sm:w-8 sm:h-8 text-violet-500 mx-auto mb-3" aria-hidden />
           <p className="text-slate-700 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             All featured projects are live on Vercel with public GitHub repositories. Open any case
             study for the problem, solution, stack, and source code.
@@ -1114,17 +1186,19 @@ function Trust() {
 
 function Process() {
   return (
-    <section className="py-24 sm:py-32 px-4 sm:px-6 w-full">
+    <section className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Methodology" title="How I Work" />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {PROCESS_STEPS.map((step) => (
             <div
               key={step.number}
-              className="rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.08)]"
+              className="rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.08)] min-w-0"
             >
-              <span className="text-3xl font-bold text-violet-200 font-mono">{step.number}</span>
-              <h3 className="mt-2 text-lg font-semibold text-slate-900">{step.title}</h3>
+              <span className="text-2xl sm:text-3xl font-bold text-violet-200 font-mono">
+                {step.number}
+              </span>
+              <h3 className="mt-2 text-base sm:text-lg font-semibold text-slate-900">{step.title}</h3>
               <p className="mt-2 text-sm text-slate-600 leading-relaxed">{step.description}</p>
             </div>
           ))}
@@ -1136,22 +1210,24 @@ function Process() {
 
 function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void }) {
   return (
-    <section id="articles" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="articles" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Writing" title="Articles & Notes" />
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {ARTICLES.map((article) => (
             <button
               key={article.id}
               type="button"
               onClick={() => onSelect(article)}
-              className="text-left rounded-3xl p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.16)] hover:-translate-y-1 transition duration-300 motion-reduce:transform-none"
+              className="text-left rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-white/80 bg-white/80 backdrop-blur-sm shadow-[0_10px_40px_rgba(99,102,241,0.1)] hover:shadow-[0_20px_50px_rgba(99,102,241,0.16)] hover:-translate-y-1 transition duration-300 motion-reduce:transform-none min-w-0"
             >
-              <div className="flex items-center gap-2 text-xs text-violet-600 font-medium mb-3">
-                <Newspaper className="w-3.5 h-3.5" />
+              <div className="flex items-center gap-2 text-xs text-violet-600 font-medium mb-3 flex-wrap">
+                <Newspaper className="w-3.5 h-3.5 shrink-0" />
                 {article.tag} · {article.date} · {article.readTime}
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">{article.title}</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-2 break-words">
+                {article.title}
+              </h3>
               <p className="text-sm text-slate-600 leading-relaxed line-clamp-3">{article.summary}</p>
             </button>
           ))}
@@ -1164,7 +1240,7 @@ function Articles({ onSelect }: { onSelect: (a: (typeof ARTICLES)[0]) => void })
 function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
   return (
-    <section id="faq" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="faq" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-3xl">
         <SectionHeader eyebrow="Questions" title="FAQ" />
         <div className="space-y-3">
@@ -1176,15 +1252,17 @@ function FAQ() {
               <button
                 type="button"
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+                className="w-full flex items-center justify-between gap-3 sm:gap-4 px-4 sm:px-5 py-3.5 sm:py-4 text-left"
               >
-                <span className="font-medium text-slate-900 text-sm sm:text-base">{item.q}</span>
+                <span className="font-medium text-slate-900 text-sm sm:text-base pr-2">
+                  {item.q}
+                </span>
                 <HelpCircle
                   className={`w-5 h-5 text-violet-500 shrink-0 transition ${open === i ? "rotate-180" : ""}`}
                 />
               </button>
               {open === i && (
-                <div className="px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-violet-50 pt-3">
+                <div className="px-4 sm:px-5 pb-4 text-sm text-slate-600 leading-relaxed border-t border-violet-50 pt-3">
                   {item.a}
                 </div>
               )}
@@ -1197,25 +1275,23 @@ function FAQ() {
 }
 
 function Contact() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setStatus("sending");
-    // Replace with your form endpoint if needed
-    await new Promise((r) => setTimeout(r, 800));
-    setStatus("sent");
-  }
+    setTimeout(() => setStatus("sent"), 1200);
+  };
 
   return (
-    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-6 w-full scroll-mt-24">
+    <section id="contact" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 w-full scroll-mt-24">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Get in Touch" title="Let’s Work Together" />
-        <div className="grid lg:grid-cols-2 gap-10">
-          <div className="space-y-6">
-            <p className="text-slate-600 leading-relaxed">
-              Open to remote full-stack / frontend roles, freelance projects, and collaborations.
-              Prefer email or LinkedIn for the fastest response.
+        <SectionHeader eyebrow="Get in Touch" title="Let's build something" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+          <div className="space-y-6 min-w-0">
+            <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
+              I&apos;m always open to interesting conversations — freelance work, collaboration, or
+              just talking about TypeScript and AI.
             </p>
             <div className="space-y-4">
               {[
@@ -1244,50 +1320,49 @@ function Contact() {
                   href: undefined,
                 },
               ].map((item) => (
-                <div key={item.label} className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl grid place-items-center bg-violet-100 text-violet-600 shrink-0">
-                    <item.icon className="w-5 h-5" />
+                <div key={item.label} className="flex items-start gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-violet-100 grid place-items-center shrink-0">
+                    <item.icon className="w-4 h-4 text-violet-600" />
                   </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-slate-400 font-medium">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       {item.label}
                     </p>
                     {item.href ? (
                       <a
                         href={item.href}
-                        target="_blank"
+                        target={item.href.startsWith("http") ? "_blank" : undefined}
                         rel="noreferrer"
-                        className="text-slate-800 font-medium hover:text-violet-600 transition"
+                        className="text-sm font-medium text-slate-800 hover:text-violet-600 break-all"
                       >
                         {item.value}
                       </a>
                     ) : (
-                      <p className="text-slate-800 font-medium">{item.value}</p>
+                      <p className="text-sm font-medium text-slate-800 break-words">{item.value}</p>
                     )}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-
           <form
             onSubmit={handleSubmit}
-            className="rounded-3xl border border-white/80 bg-white/80 backdrop-blur-sm p-6 sm:p-8 shadow-[0_10px_40px_rgba(99,102,241,0.1)] space-y-4"
+            className="rounded-2xl sm:rounded-3xl border border-white/80 bg-white/90 p-5 sm:p-8 shadow-[0_10px_40px_rgba(99,102,241,0.1)] space-y-4 min-w-0"
           >
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
                 Name
               </label>
               <input
                 id="name"
                 name="name"
                 required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-400"
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
                 Email
               </label>
               <input
@@ -1295,12 +1370,12 @@ function Contact() {
                 name="email"
                 type="email"
                 required
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-400"
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
                 placeholder="you@example.com"
               />
             </div>
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5">
+              <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
                 Message
               </label>
               <textarea
@@ -1308,20 +1383,18 @@ function Contact() {
                 name="message"
                 required
                 rows={4}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/40 focus:border-violet-400 resize-none"
-                placeholder="Tell me about the project or role..."
+                className="w-full rounded-xl border border-violet-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 resize-none"
+                placeholder="Tell me about your project..."
               />
             </div>
             <button
               type="submit"
-              disabled={status === "sending" || status === "sent"}
-              className="w-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold py-3 shadow-lg shadow-violet-500/30 hover:shadow-xl transition disabled:opacity-70"
+              disabled={status !== "idle"}
+              className="w-full rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold py-3 shadow-lg shadow-violet-500/30 hover:shadow-xl disabled:opacity-70 transition"
             >
-              {status === "sending"
-                ? "Sending..."
-                : status === "sent"
-                  ? "Message sent — thanks!"
-                  : "Send Message"}
+              {status === "idle" && "Send Message"}
+              {status === "sending" && "Sending..."}
+              {status === "sent" && "Message Sent ✓"}
             </button>
           </form>
         </div>
@@ -1331,60 +1404,114 @@ function Contact() {
 }
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+    panelRef.current?.focus();
+  }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6">
+    <div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-modal-title"
+    >
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-100 bg-white/95 backdrop-blur">
-          <div>
-            <h3 className="text-lg font-bold text-slate-900">{project.name}</h3>
-            <p className="text-xs text-violet-600 font-medium">{project.badge}</p>
-          </div>
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        className="relative w-full max-w-3xl max-h-[min(92vh,100dvh)] overflow-y-auto overscroll-contain rounded-t-2xl sm:rounded-3xl bg-white shadow-2xl outline-none"
+      >
+        <div className="relative aspect-[16/10] sm:aspect-[2/1]">
+          <img src={project.image} alt="" className="w-full h-full object-cover" />
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl hover:bg-slate-100 text-slate-500"
-            aria-label="Close"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur grid place-items-center text-slate-600 hover:text-violet-600 transition border border-white shadow-md"
+            aria-label="Close project details"
           >
             <X className="w-5 h-5" />
           </button>
+          <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider rounded-full bg-violet-600 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 shadow-md">
+              {project.badge}
+            </span>
+          </div>
         </div>
-        <div className="p-5 sm:p-6 space-y-6">
-          <img
-            src={project.image}
-            alt={project.name}
-            className="w-full rounded-2xl border border-slate-100 object-cover aspect-video"
-          />
-          <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{project.description}</p>
+
+        <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
           <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Problem</h4>
-            <p className="text-sm text-slate-600">{project.problem}</p>
+            <h3
+              id="project-modal-title"
+              className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 break-words"
+            >
+              {project.name}
+            </h3>
+            <p className="mt-2 sm:mt-3 text-slate-600 leading-relaxed text-sm sm:text-base">
+              {project.description}
+            </p>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Solution</h4>
-            <p className="text-sm text-slate-600">{project.solution}</p>
+
+          <div className="rounded-2xl bg-gradient-to-r from-violet-50 to-indigo-50 border border-violet-100 p-4 flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-600 grid place-items-center shrink-0">
+              <Trophy className="w-5 h-5 text-white" aria-hidden />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wider text-violet-600 mb-1">
+                Key Metric / Win
+              </p>
+              <p className="text-slate-800 font-medium text-sm sm:text-base">{project.keyMetric}</p>
+            </div>
           </div>
+
+          <div className="grid gap-4 sm:gap-5">
+            {[
+              { icon: Target, color: "text-rose-500", title: "The Problem", text: project.problem },
+              {
+                icon: Lightbulb,
+                color: "text-amber-500",
+                title: "The Solution",
+                text: project.solution,
+              },
+              {
+                icon: BookOpen,
+                color: "text-emerald-500",
+                title: "What I Learned",
+                text: project.learnings,
+              },
+            ].map((block) => (
+              <div
+                key={block.title}
+                className="rounded-2xl border border-slate-100 bg-slate-50/70 p-4 sm:p-5"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <block.icon className={`w-4 h-4 ${block.color}`} aria-hidden />
+                  <h4 className="text-sm font-semibold text-slate-900">{block.title}</h4>
+                </div>
+                <p className="text-sm text-slate-600 leading-relaxed">{block.text}</p>
+              </div>
+            ))}
+          </div>
+
           <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Key features</h4>
+            <h4 className="text-xs uppercase tracking-widest text-violet-600 mb-3 font-semibold">
+              Key Features
+            </h4>
             <ul className="grid sm:grid-cols-2 gap-2">
               {project.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-slate-600">
-                  <CheckCircle2 className="w-4 h-4 text-violet-500 mt-0.5 shrink-0" />
-                  {f}
+                  <CheckCircle2 className="w-4 h-4 text-violet-500 mt-0.5 shrink-0" aria-hidden />
+                  <span>{f}</span>
                 </li>
               ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Stack</h4>
+            <h4 className="text-xs uppercase tracking-widest text-violet-600 mb-3 font-semibold">
+              Stack
+            </h4>
             <div className="flex flex-wrap gap-2">
               {project.stack.map((s) => (
                 <span
@@ -1396,7 +1523,8 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               ))}
             </div>
           </div>
-          <div className="flex flex-wrap gap-3 pt-2">
+
+          <div className="flex flex-wrap gap-3 pt-1">
             <a
               href={project.live}
               target="_blank"
@@ -1430,37 +1558,29 @@ function ArticleModal({
   article: (typeof ARTICLES)[0];
   onClose: () => void;
 }) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6">
+    <div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl bg-white shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-100 bg-white/95 backdrop-blur">
-          <div>
-            <p className="text-xs text-violet-600 font-medium">
-              {article.tag} · {article.date} · {article.readTime}
-            </p>
-            <h3 className="text-lg font-bold text-slate-900">{article.title}</h3>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-2 rounded-xl hover:bg-slate-100 text-slate-500"
-            aria-label="Close"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-        <div className="p-5 sm:p-6">
-          <p className="text-slate-600 leading-relaxed">{article.content}</p>
-        </div>
+      <div className="relative w-full max-w-xl max-h-[min(90vh,100dvh)] overflow-y-auto overscroll-contain rounded-t-2xl sm:rounded-3xl bg-white p-5 sm:p-6 md:p-8 shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 w-9 h-9 rounded-full bg-slate-100 grid place-items-center text-slate-500 hover:text-violet-600"
+          aria-label="Close"
+        >
+          <X className="w-4 h-4" />
+        </button>
+        <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-violet-600 mb-2 pr-10">
+          {article.tag} · {article.date} · {article.readTime}
+        </p>
+        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3 sm:mb-4 pr-8 break-words">
+          {article.title}
+        </h3>
+        <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{article.content}</p>
       </div>
     </div>
   );
@@ -1468,13 +1588,13 @@ function ArticleModal({
 
 function Footer() {
   return (
-    <footer className="border-t border-violet-100 bg-white/60 pt-14 pb-8 px-4 sm:px-6">
-      <div className="mx-auto max-w-6xl grid md:grid-cols-3 gap-10 text-center md:text-left">
+    <footer className="border-t border-violet-100 bg-white/60 pt-12 sm:pt-14 pb-8 px-4 sm:px-6">
+      <div className="mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 text-center md:text-left">
         <div className="space-y-3 mx-auto md:mx-0">
           <p className="font-bold text-lg text-slate-900">
             Nirab<span className="text-violet-600">.dev</span>
           </p>
-          <p className="text-sm text-slate-500 max-w-xs">
+          <p className="text-sm text-slate-500 max-w-xs mx-auto md:mx-0">
             Full-Stack Developer focused on clean TypeScript architecture and AI-powered products.
             Completed Programming Hero Complete Web Development Course (Jan–Aug 2026) with Excellence.
           </p>
@@ -1495,39 +1615,41 @@ function Footer() {
           <h4 className="text-xs uppercase tracking-widest text-violet-600 font-semibold">
             Connect with Me
           </h4>
-          <div className="flex gap-3">
-            <a
-              href="https://github.com/mahmudul-hasan-2"
-              target="_blank"
-              rel="noreferrer"
-              className="w-10 h-10 rounded-xl grid place-items-center bg-slate-100 text-slate-600 hover:bg-violet-100 hover:text-violet-600 transition"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="https://linkedin.com/in/mahmudul-hasan-dev"
-              target="_blank"
-              rel="noreferrer"
-              className="w-10 h-10 rounded-xl grid place-items-center bg-slate-100 text-slate-600 hover:bg-violet-100 hover:text-violet-600 transition"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href="mailto:mahmudul5709@gmail.com"
-              className="w-10 h-10 rounded-xl grid place-items-center bg-slate-100 text-slate-600 hover:bg-violet-100 hover:text-violet-600 transition"
-              aria-label="Email"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
+          <div className="flex items-center justify-center md:justify-start gap-3">
+            {[
+              { href: "https://github.com/mahmudul-hasan-2", icon: Github, label: "GitHub" },
+              {
+                href: "https://linkedin.com/in/mahmudul-hasan-dev",
+                icon: Linkedin,
+                label: "LinkedIn",
+              },
+              { href: "mailto:mahmudul5709@gmail.com", icon: Mail, label: "Email" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                aria-label={item.label}
+                className="w-10 h-10 rounded-full border border-violet-100 grid place-items-center hover:border-violet-400 hover:text-violet-600 transition bg-white text-slate-500"
+              >
+                <item.icon className="w-4 h-4" />
+              </a>
+            ))}
+          </div>
+          <div className="inline-flex items-center gap-2 text-xs text-slate-500 mt-1">
+            <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse shrink-0" aria-hidden />
+            Open for remote opportunities
           </div>
         </div>
       </div>
-      <p className="mt-10 text-center text-xs text-slate-400">
-        © {new Date().getFullYear()} Mahmudul Hasan Nirab. Built with TanStack Start, React &
-        Tailwind CSS.
-      </p>
+      <div className="mx-auto max-w-6xl border-t border-violet-100 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center">
+        <p>© {new Date().getFullYear()} Mahmudul Hasan Nirab. All rights reserved.</p>
+        <p className="flex items-center justify-center gap-1">
+          Built with <Heart className="w-3.5 h-3.5 text-violet-500 fill-violet-500" aria-hidden />{" "}
+          using React & Tailwind CSS
+        </p>
+      </div>
     </footer>
   );
 }
